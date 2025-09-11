@@ -103,16 +103,6 @@ cat > "$POLICY_FILE" << EOF
 path "sys/storage/raft/snapshot" {
   capabilities = ["read"]
 }
-
-# Grant permissions for forcing snapshots
-path "sys/storage/raft/snapshot-force" {
-  capabilities = ["read"]
-}
-
-# Additional paths that might be needed for full snapshot functionality
-path "sys/storage/raft/*" {
-  capabilities = ["read", "list"]
-}
 EOF
 
 # Write policy to Vault
