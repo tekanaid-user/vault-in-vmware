@@ -93,7 +93,7 @@ fi
 # ----------------------------------------------------------------------------
 # Configure Vault server address if not already set in environment
 if [ -z "$VAULT_ADDR" ]; then
-    DEFAULT_VAULT_ADDR="http://127.0.0.1:8200"
+    DEFAULT_VAULT_ADDR="http://vault-address:8200" # Default Vault server address or load balancer address
     read -p "Enter Vault server address [$DEFAULT_VAULT_ADDR]: " input_addr
     VAULT_ADDR=${input_addr:-$DEFAULT_VAULT_ADDR}
 fi

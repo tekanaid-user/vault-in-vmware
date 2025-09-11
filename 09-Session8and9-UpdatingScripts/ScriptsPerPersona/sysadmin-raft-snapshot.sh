@@ -25,8 +25,8 @@
 ##############################################################################
 
 # Configuration variables - modify these as appropriate for your environment
-VAULT_ADDR=${VAULT_ADDR:-"http://127.0.0.1:8200"}  # Default Vault server address
-SNAPSHOT_DIR="/opt/vault/snapshots"                # Where snapshots will be stored
+VAULT_ADDR=${VAULT_ADDR:-"http://vault-address:8200"}  # Default Vault server address or load balancer address
+SNAPSHOT_DIR="/opt/vault/snapshots"                # Where snapshots will be stored on a NFS server or other shared location
 RETENTION_DAYS=14                                  # How many days to keep snapshots
 LOG_FILE="/var/log/vault-snapshots.log"            # Where to log script activity
 VAULT_TOKEN_FILE="/etc/vault/vault-token"          # File containing Vault token
