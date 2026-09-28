@@ -1,0 +1,14 @@
+# Merge these settings into /etc/datadog-agent/datadog.yaml on each Vault VM.
+# Supply the real API key through the approved secrets process; never commit it.
+api_key: CHANGE_ME_FROM_SECRET_MANAGER
+site: CHANGE_ME_DATADOG_SITE
+
+use_dogstatsd: true
+dogstatsd_port: 8125
+dogstatsd_non_local_traffic: false
+logs_enabled: false
+
+tags:
+  - env:CHANGE_ME
+  - service:vault
+  - cluster:CHANGE_ME

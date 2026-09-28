@@ -1,0 +1,14 @@
+# Merge this fragment into the existing Vault server configuration.
+# Run a Datadog Agent on the same host and verify its local DogStatsD listener.
+# Replace the environment and cluster values for each Vault server.
+# This telemetry stanza contains no credentials.
+
+telemetry {
+  dogstatsd_addr = "127.0.0.1:8125"
+  dogstatsd_tags = [
+    "env:CHANGE_ME",
+    "service:vault",
+    "cluster:CHANGE_ME",
+  ]
+  disable_hostname = true
+}
