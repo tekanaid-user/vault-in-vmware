@@ -86,4 +86,11 @@ jobs:
           git commit -m 'Request reviewed Vault admin configuration change'
           git push origin "$BRANCH"
           python3 -c 'import os,pathlib; pathlib.Path("/tmp/vault-request-body.md").write_text("Ticket: " + os.environ["TICKET"] + "\n\nGenerated from the Security Actions form. Review configuration and environment selection before merging. No Vault writes or credentials issued.\n")'
-          gh pr create --base main --head "$BRANCH" --title 'Vault admin configuration request' --body-file /tmp/vault-request-body.md >> "$GITHUB_STEP_SUMMARY"
+          export REQUEST_BRANCH="$BRANCH"
+          python3 - <<'PYREQUEST' >> "$GITHUB_STEP_SUMMARY"
+          import json, os, pathlib, urllib.request
+          payload = {'base': 'main', 'head': os.environ['REQUEST_BRANCH'], 'title': 'Vault admin configuration request', 'body': pathlib.Path('/tmp/vault-request-body.md').read_text()}
+          request = urllib.request.Request('https://api.github.com/repos/' + os.environ['GITHUB_REPOSITORY'] + '/pulls', data=json.dumps(payload).encode(), headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Content-Type': 'application/json'}, method='POST')
+          with urllib.request.urlopen(request, timeout=30) as response:
+              print(json.load(response)['html_url'])
+          PYREQUEST
