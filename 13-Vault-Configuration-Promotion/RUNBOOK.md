@@ -21,7 +21,7 @@ Create three roles per environment using `bootstrap/github-role.json.example`. B
 | `github-ENV-deploy` | `ENV` | `demo-deploy` | `.github/workflows/vault-promote.yml@refs/heads/main` |
 | `github-ENV-drift` | `ENV-drift` | `demo-drift` | `.github/workflows/vault-drift.yml@refs/heads/main` |
 
-`ENV` is `dev`, `uat` or `prod`. Full subject example: `repo:tekanaid-user/vault-in-vmware:environment:dev-drift`. Full workflow reference starts `tekanaid-user/vault-in-vmware/`. Verify issued claims and installed Vault support during the pilot. Do not broaden to wildcard repositories or PR refs to solve an authentication error.
+`ENV` is `dev`, `uat` or `prod`. Full subject example: `repo:tekanaid-user@37753095/vault-in-vmware@1406319724:environment:dev-drift`. Full workflow reference starts `tekanaid-user/vault-in-vmware/`. This repository uses immutable subjects with owner/repository IDs. For another repository, query `gh api repos/ORG/REPO/actions/oidc/customization/sub` and update the exact subject plus repository/owner ID bindings. Verify issued claims and installed Vault support during the pilot. Do not broaden to wildcard repositories or PR refs to solve an authentication error.
 
 ## Daily Security operation
 

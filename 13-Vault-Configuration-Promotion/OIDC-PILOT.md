@@ -7,7 +7,7 @@ This creates three disposable Vault dev servers on one Ubuntu runner (GitHub-hos
 | Stage | What is exercised |
 | --- | --- |
 | Bootstrap | Generate synthetic values in memory; configure policies/AppRole and JWT auth on each Vault. The temporary root token is used only for setup and controlled test changes, never for collection or Terraform. |
-| OIDC | GitHub issues a signed JWT using `id-token: write`. Vault validates issuer/signature/audience and exact repository, main ref, workflow, event and `vault-pilot` environment subject. No GitHub OIDC server needs to be installed. |
+| OIDC | GitHub issues a signed JWT using `id-token: write`. Vault validates issuer/signature/audience and exact repository, main ref, workflow, event and `vault-pilot` environment subject. The subject includes this repository’s immutable owner/repository IDs. No GitHub OIDC server needs to be installed. |
 | Negative access | Reject an intentionally mismatched repository binding. Reporting identity can read subkeys but receives 403 for data reads. |
 | Terraform Community CLI | Use distinct plan/deploy policies with OIDC tokens. Import the example resources into disposable local state, create a saved plan, apply with a fresh identity, then check no remaining changes. Application values are absent from state. |
 | Workstream 2 | Compare three matching baselines despite different synthetic values. Introduce a UAT field difference and overdue rotation date; confirm both are detected. |

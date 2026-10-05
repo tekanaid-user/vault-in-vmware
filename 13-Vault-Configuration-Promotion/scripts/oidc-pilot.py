@@ -131,7 +131,7 @@ def run(local=False, output=Path('pilot-report.json')):
                     api(cfg, root, 'POST', 'auth/github/config', {'oidc_discovery_url': 'https://token.actions.githubusercontent.com', 'bound_issuer': 'https://token.actions.githubusercontent.com'})
                     role = json.loads((BASE / 'bootstrap/github-role.json.example').read_text())
                     role['token_policies'] = ['demo-drift']
-                    role['bound_claims'].update(sub='repo:tekanaid-user/vault-in-vmware:environment:vault-pilot', workflow_ref='tekanaid-user/vault-in-vmware/.github/workflows/vault-oidc-pilot.yml@refs/heads/main', event_name='workflow_dispatch')
+                    role['bound_claims'].update(sub='repo:tekanaid-user@37753095/vault-in-vmware@1406319724:environment:vault-pilot', workflow_ref='tekanaid-user/vault-in-vmware/.github/workflows/vault-oidc-pilot.yml@refs/heads/main', event_name='workflow_dispatch')
                     for kind in ('drift', 'plan', 'deploy'):
                         role['token_policies'] = ['demo-' + kind]
                         api(cfg, root, 'POST', f"auth/github/role/{cfg[kind + '_role']}", role)

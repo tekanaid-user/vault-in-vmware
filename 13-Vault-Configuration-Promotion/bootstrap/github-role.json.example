@@ -5,8 +5,10 @@
   "bound_claims_type": "string",
   "bound_claims": {
     "repository": "tekanaid-user/vault-in-vmware",
+    "repository_id": "1406319724",
+    "repository_owner_id": "37753095",
     "ref": "refs/heads/main",
-    "sub": "repo:tekanaid-user/vault-in-vmware:environment:dev",
+    "sub": "repo:tekanaid-user@37753095/vault-in-vmware@1406319724:environment:dev",
     "workflow_ref": "tekanaid-user/vault-in-vmware/.github/workflows/vault-promote.yml@refs/heads/main"
   },
   "token_policies": ["demo-deploy"],
