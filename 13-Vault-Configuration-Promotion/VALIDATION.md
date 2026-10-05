@@ -33,7 +33,7 @@ Target is Vault Community Edition with no namespaces; nonempty namespace configu
 
 | Current conversion evidence | Result |
 | --- | --- |
-| [25-test validation](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/37384624959) | Passed at `284d79a`, including actual admin helper, scoped identities, portable saved plan, integrity and Community namespace rejection. |
+| [26-test validation](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/37385293464) | Passed at `f93db19`, including actual admin helper, scoped identities, portable saved plan, integrity and Community namespace rejection. |
 | [Security parameter form](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/37384643968) | Passed at `284d79a`: dispatched configure/both for one synthetic app and created a catalog PR using the job's GitHub token. Test PR was closed without merge; no Vault writes. |
 
 

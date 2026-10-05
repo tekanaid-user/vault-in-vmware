@@ -2,7 +2,7 @@
 
 Security operates **GitHub Actions**, supplying non-secret parameters. Actions runs Terraform Community CLI; Security does not run scripts or learn Terraform. **Vault Community Edition, with no namespaces.** Git holds configuration and expected structure. Vault holds environment-specific values, with UI access retained.
 
-**Status:** [25-test Actions validation](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/37384624959) and [actual parameter-form PR creation](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/37384643968) passed. Customer DEV/UAT/PROD endpoints, state, runners and acceptance remain pending. Live deployment/reporting is disabled until setup is complete. [Test evidence and limits](VALIDATION.md).
+**Status:** [26-test Actions validation](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/37385293464) and [actual parameter-form PR creation](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/37384643968) passed. Customer DEV/UAT/PROD endpoints, state, runners and acceptance remain pending. Live deployment/reporting is disabled until setup is complete. [Test evidence and limits](VALIDATION.md).
 
 ## Actions and daily workflow
 
@@ -37,7 +37,7 @@ Every implementation commitment has a location and an explicit remaining checkpo
 
 | Commitment | Owner | Repo location | Status / remaining checkpoint |
 | --- | --- | --- | --- |
-| Full drift inventory and rotation report | Sam | [Inventory](scripts/inventory.py); [Drift](scripts/drift.py); [Rotation](scripts/rotation-report.py) | Built/tested; 25-test Actions validation and earlier real OIDC pilot passed. Review first customer report. |
+| Full drift inventory and rotation report | Sam | [Inventory](scripts/inventory.py); [Drift](scripts/drift.py); [Rotation](scripts/rotation-report.py) | Built/tested; 26-test Actions validation and earlier real OIDC pilot passed. Review first customer report. |
 | Security onboarding parameters | Sam + DevOps | [Request Action](../.github/workflows/vault-admin-request.yml); [Form helper](scripts/admin-request.py) | Built; actual GitHub form created a synthetic catalog PR. Configure/promote form uses non-secret names/settings and reviewed Git changes. |
 | Verify complete Security pipeline | Sam + DevOps | [Deploy Action](../.github/workflows/vault-admin-deploy.yml); [Helper](scripts/admin-pipeline.py); [Tests](tests/test_admin.py); [Evidence](VALIDATION.md) | Helper tests passed: scoped imports/plan, restored saved-plan apply, integrity and preserved values. Full GitHub approval/artifact deployment and customer remote backend remain open. |
 | Configure customer access and report review | DevOps + Security, with Sam | [Setup runbook](RUNBOOK.md); [Environment settings](environments/); [Policy examples](bootstrap/) | Vault Community Edition, no namespaces. Confirm endpoints/CA, mount/policy scope, runner, OIDC, protected main/reviewers, report access, cadence and exceptions. |

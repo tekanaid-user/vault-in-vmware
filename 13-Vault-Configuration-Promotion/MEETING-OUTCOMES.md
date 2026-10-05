@@ -22,7 +22,7 @@ The team agreed to Git as the source of truth for configuration and secret struc
 
 | Action | Owner | Status / next checkpoint | Repo location |
 | --- | --- | --- | --- |
-| Full drift inventory and rotation report | Sam | Built/tested; 25-test Actions validation and earlier real OIDC pilot passed. Review first customer report. | [Inventory](scripts/inventory.py); [Drift](scripts/drift.py); [Rotation](scripts/rotation-report.py) |
+| Full drift inventory and rotation report | Sam | Built/tested; 26-test Actions validation and earlier real OIDC pilot passed. Review first customer report. | [Inventory](scripts/inventory.py); [Drift](scripts/drift.py); [Rotation](scripts/rotation-report.py) |
 | Security onboarding parameters | Sam + DevOps | Built; actual GitHub form created a synthetic catalog PR. Configure/promote form uses non-secret names/settings and reviewed Git changes. | [Request Action](../.github/workflows/vault-admin-request.yml); [Form helper](scripts/admin-request.py) |
 | Verify complete Security pipeline | Sam + DevOps | Helper tests passed: scoped imports/plan, restored saved-plan apply, integrity and preserved values. Full GitHub approval/artifact deployment and customer remote backend remain open. | [Deploy Action](../.github/workflows/vault-admin-deploy.yml); [Helper](scripts/admin-pipeline.py); [Tests](tests/test_admin.py); [Evidence](VALIDATION.md) |
 | Configure customer access and report review | DevOps + Security, with Sam | Vault Community Edition, no namespaces. Confirm endpoints/CA, mount/policy scope, runner, OIDC, protected main/reviewers, report access, cadence and exceptions. | [Setup runbook](RUNBOOK.md); [Environment settings](environments/); [Policy examples](bootstrap/) |
