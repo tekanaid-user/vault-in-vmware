@@ -35,7 +35,7 @@ jobs:
           set -euo pipefail
           TASK_DIR=13-Vault-Configuration-Promotion
           rm -rf -- "$TASK_DIR/.runs"
-          python3 "$TASK_DIR/scripts/runner.py" plan --env "$TARGET_ENV" --operation configuration
+          python3 "$TASK_DIR/scripts/pipeline.py" plan --env "$TARGET_ENV" --operation configuration
           RUN_DIRECTORY=$(find "$TASK_DIR/.runs/$TARGET_ENV" -mindepth 1 -maxdepth 1 -type d | head -n 1)
           echo "run_directory=$RUN_DIRECTORY" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
@@ -72,7 +72,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 13-Vault-Configuration-Promotion/scripts/runner.py apply --env "$TARGET_ENV" --run "$RUN_DIRECTORY" --approve-environment "$TARGET_ENV"
+          python3 13-Vault-Configuration-Promotion/scripts/pipeline.py apply --env "$TARGET_ENV" --run "$RUN_DIRECTORY" --approve-environment "$TARGET_ENV"
       - name: Remove runner-local plan/cache
         if: always()
         run: rm -rf -- 13-Vault-Configuration-Promotion/.runs

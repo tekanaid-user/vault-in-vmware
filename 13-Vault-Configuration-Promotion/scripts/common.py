@@ -48,13 +48,15 @@ def app_definition(sha=None):
         raise ValueError('Expected fields must be non-empty and unique')
     return app
 
-def api(cfg, token, method, path, payload=None):
+def api(cfg, token, method, path, payload=None, query=None):
     body = json.dumps(payload).encode() if payload is not None else None
     headers = {'X-Vault-Token': token, 'Content-Type': 'application/json'}
     if cfg.get('namespace'):
         headers['X-Vault-Namespace'] = cfg['namespace']
     context = ssl.create_default_context(cafile=os.environ.get('VAULT_CACERT'))
-    url = cfg['vault_addr'].rstrip('/') + '/v1/' + urllib.parse.quote(path, safe='/?=&')
+    url = cfg['vault_addr'].rstrip('/') + '/v1/' + urllib.parse.quote(path, safe='/')
+    if query:
+        url += '?' + urllib.parse.urlencode(query)
     try:
         with urllib.request.urlopen(urllib.request.Request(url, data=body, headers=headers, method=method), context=context, timeout=30) as response:
             raw = response.read()

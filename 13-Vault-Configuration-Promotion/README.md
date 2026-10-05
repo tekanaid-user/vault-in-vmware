@@ -19,7 +19,7 @@ This example shows Terraform-backed policy/configuration promotion and daily DEV
 │   ├── release.yaml              # Full configuration commit SHA
 │   ├── settings.json             # Addresses, roles, overrides; no credentials
 │   └── *.backend.hcl             # Remote state locations
-├── scripts/                      # Security-facing wrappers and drift collector
+├── scripts/                      # Guided writer, inventory/rotation, internal pipeline helper
 ├── bootstrap/                    # Example Vault policies and OIDC role
 ├── tests/                        # Unit and local Vault integration tests
 └── workflow-examples/            # Reference copies; active workflows in root .github/workflows
@@ -61,13 +61,13 @@ The repository is hosted on [GitHub](https://github.com/tekanaid-user/vault-in-v
 | Target Vault | Existing KV v2 `secret` mount and `approle` auth; configure real HTTPS addresses/CA. Staging mount is only needed for the optional advanced route. |
 | Existing resources | Inventory before applying. Import existing managed policy/AppRole resources into the appropriate state before adopting them. Do not run the demo against an application without owner approval. |
 | Remote state | Replace S3 backend placeholders with approved storage; S3 is an example, not a backend decision. Use encryption, versioning and locking, and separate state keys/credentials per environment/root. Backend credentials come from runner identity or on-prem credential delivery, never GitHub secrets or HCL. |
-| Git release reference | Put the full reviewed configuration commit SHA in DEV `release.yaml`; the wrappers require committed configuration, not a moving branch reference. |
+| Git release reference | Put the full reviewed configuration commit SHA in DEV `release.yaml`; Actions requires committed configuration, not a moving branch reference. |
 | GitHub OIDC | Configure Vault JWT discovery for `https://token.actions.githubusercontent.com`. Create plan/deploy/drift roles per environment from `bootstrap/github-role.json.example`, with exact repository, main ref, workflow and environment claim bindings. Verify claims against your organization’s tokens. |
 | Vault permissions | Plan role reads configuration/structure; deploy role writes only policy/AppRole configuration; drift role reads metadata/subkeys/policy. None needs secret-data read access in the default route. Examples are provided; no superuser/root token is used by CI. |
 | Runner | Restricted self-hosted `vault-demo` runner with Vault/backend reachability, CA trust, Python 3.10+ and Terraform. No untrusted PR execution on deployment runners. |
 | Actions environments | Create dev/uat/prod, plus dev-plan/uat-plan/prod-plan and dev-drift/uat-drift/prod-drift. Required reviewers on apply environments, especially prod; prevent self-review if available on your organization’s GitHub plan. No environment secrets. |
 | Workflow enablement | Workflow files are installed. Configure OIDC bindings to their exact root paths, the self-hosted `vault-demo` runner and GitHub environments; then set repository variable `VAULT_AUTOMATION_ENABLED=true`. No secrets are stored in GitHub. |
-| Drift baseline | Set the approved `drift_prefix`, metadata field/date format and age threshold. Review `expected_approle` / `expected_kv_config` against live defaults and intentional overrides. Defaults are examples, not the live settings. |
+| Drift baseline | Review all discovered mounts, adapter permissions, explicit exceptions, metadata field/date format and age threshold. Review `expected_approle` / `expected_kv_config` against live defaults and intentional overrides. Defaults are examples, not the live settings. |
 
 For the regular workflows in this example, bind `workflow_ref`; `job_workflow_ref` is specific to reusable workflow calls. Plan/deploy/drift subjects differ because their GitHub environments differ. For this repository, DEV planning uses `repo:tekanaid-user@37753095/vault-in-vmware@1406319724:environment:dev-plan`; DEV apply ends in `:environment:dev`. The owner/repository IDs are part of its immutable subject. Query the repository OIDC settings before configuring a different repository.
 
@@ -75,17 +75,15 @@ Initial promotion gates use reviewed release PRs plus GitHub deployment approval
 
 ## Security's daily commands
 
-The initial writer supplies each environment’s own values directly to Vault; subsequent reads/value edits use the UI. Existing populated locations do not need to be recreated. Then run the promotion workflow with that environment selected, or use the local wrapper after your existing Vault CLI login:
+The initial writer supplies each environment's own values directly to Vault; subsequent reads/value edits use the UI. Existing populated locations do not need to be recreated.
 
-```bash
-./scripts/create-secret.sh --env dev --approve-environment dev
-./scripts/vault-change.sh plan --env dev --operation configuration
-./scripts/vault-change.sh apply --env dev --run <saved-run-path> --approve-environment dev
-```
+| Security action | GitHub Actions handles |
+| --- | --- |
+| Actions → Vault promotion → choose DEV, UAT or PROD | Reads the pinned release and target settings; authenticates using OIDC; checks keys through subkeys; runs Terraform plan |
+| Review plan; approve the protected environment | Fresh OIDC login; verifies saved plan/source/settings; applies that exact plan |
+| Advance the next environment's release pointer by PR | Repeats with that environment's own plan and state; no value copying |
 
-The wrapper selects Vault from environment settings, checks Git-defined structure through subkeys, then plans/applies policy and AppRole configuration only. After DEV validation, update UAT's release pointer by reviewed PR and repeat; then PROD with explicit approval. The workflow's apply job uses a fresh OIDC token and the exact saved plan after reviewer approval. It rejects changed settings/source/plan or mismatched structure.
-
-Local `--approve-environment` records operator intent; it is not independent authorization. Use Actions protected environments or your organization’s change process for PROD. DevOps performs one-time imports into the correct state; the default resource addresses are `vault_policy.application` and `vault_approle_auth_backend_role.application`. The wrapper rejects destructive plans; decommissioning is separate.
+**GitHub Actions is the Terraform interface.** Security needs no Terraform shell wrapper or CLI training. `scripts/pipeline.py` is an internal workflow helper; `vault-change.sh` has been removed. DevOps performs one-time imports and backend setup. Destructive plans are rejected; decommissioning remains a separate approved operation.
 
 ## Daily drift report
 
@@ -99,22 +97,22 @@ Local `--approve-environment` records operator intent; it is not independent aut
 ./scripts/vault-drift.sh --compare dev.json uat.json prod.json
 ```
 
-The pilot scans the configurable `drift_prefix` (`demo/` initially) in the selected KV v2 mount. It checks the selected application's Git schema/policy, selected AppRole fields and KV engine settings. Other paths in the prefix are review candidates, not confirmed orphans. Rotation status uses only the configured custom-metadata date; raw custom metadata and unexpected policy/configuration content are never written to reports.
+The collector discovers every enabled auth/engine mount, inventories all ACL/password policies, and scans **every KV v2 mount from its metadata root**, including paths outside the demo application. It compares DEV/UAT/PROD inventories and checks the selected application's approved Git baseline. See [exact adapter coverage and exclusions](INVENTORY.md).
 
-| Report evidence | Meaning |
+| Evidence | Meaning |
 | --- | --- |
-| Fields / paths | Missing or extra fields, extra/deleted paths, nested field names; no value comparison. |
-| Configuration | Selected policy equality and selected AppRole/KV config fields against approved Git settings. Intentional CIDR differences belong in each environment's baseline. |
-| Rotation | Configurable metadata field, ISO `YYYY-MM-DD`; default `password_cycle_date` and 90 days require agreement. Missing/invalid/future dates are explicit. Last updated is not a rotation guarantee. |
-| Incomplete scan | HTTP/TLS/network failures are unknown. Missing environment reports or unknown paths make parity `null`; they cannot pass as identical. |
-| Pending promotion | Release differences are reported separately; compare each environment to its own selected baseline before calling differences drift. |
-| Security review | Promote, adopt a UI structure change into Git, record an exception or correct an error. No automated writes/deletions. No last-access or unused-secret claim. |
+| Policies, auth, engines | Missing resources and changed allowlisted configuration fields; fingerprints instead of raw content |
+| KV paths/keys | Missing/extra/deleted paths and nested key differences through metadata/subkeys; no KV data requests |
+| Rotation | Every scanned path: current/overdue/missing/invalid/future date, using the configured metadata field/threshold |
+| Incomplete evidence | Denied/failed endpoints remain unknown; missing reports cannot pass parity |
+| Approved differences | Exact resource aliases and field exceptions in reviewed settings; environment JWT subjects still checked against Git |
+| Review | Adopt intended changes, promote or correct mistakes; report never writes/deletes or declares paths unused |
 
-Coverage is one application baseline and one KV prefix/mount per configured environment. Full-estate application inventories, LDAP/group configuration, all policy/AppRole inventories, approved exception files and audit-based unused-path analysis remain follow-up work. This is ready for a scoped pilot, not a complete estate inventory.
+`python3 scripts/rotation-report.py dev.json uat.json prod.json > rotation-report.json` produces a dedicated age report from existing scan artifacts. Actions saves it alongside `comparison.json`; no additional Vault access. The metadata date is operator maintained, not independent proof of rotation.
 
 Collection exits 0 when a report is produced. Use `--fail-on-findings` for exit 2 on findings, 3 on incomplete evidence (1 on fatal setup failure). The Actions report job saves artifacts first, then fails visibly for findings/incomplete evidence. Reports are in Actions artifacts and the workflow summary; Security owns review. A failed collector cannot silently produce a green comparison.
 
-For cron, run the same wrapper under a restricted service identity with credentials delivered locally, separately per Vault. Store reports in a protected directory (`umask 077`); schedule collection then `--compare --fail-on-findings`. Never use a root token or put a token on the cron command line. GitHub scheduling uses scoped short-lived OIDC identities instead.
+For cron, run the same collector under a restricted service identity with credentials delivered locally, separately per Vault. Store reports in a protected directory (`umask 077`); schedule collection then `--compare --fail-on-findings`. Never use a root token or put a token on the cron command line. GitHub scheduling uses scoped short-lived OIDC identities instead.
 
 Reports and plan artifacts contain names/configuration and still deserve restricted access. Plan artifacts exclude provider caches, last one day, and contain no application values; review CI logs/artifacts in the DEV pilot before production adoption. Staging cleanup requirements apply only to the optional advanced route.
 
@@ -128,7 +126,7 @@ Run from repository root:
 python3 -m unittest discover -s 13-Vault-Configuration-Promotion/tests -v
 ```
 
-Tests launch three isolated loopback Vault dev servers with synthetic values and restricted identities, then stop them and delete temporary logs. They cover differing values with identical structure; missing/extra/nested fields; stale/deleted paths; policy/AppRole/KV differences; rotation dates; incomplete evidence; denied data reads; and create-only writes. A temporary local-state Terraform fixture imports existing policy/AppRole resources, plans/applies, checks idempotence and verifies application values are absent from state. The validation workflow repeats these tests and Terraform syntax/provider validation on hosted runners without live access.
+Tests launch three isolated loopback Vault dev servers with synthetic values and restricted identities, then stop them and delete temporary logs. They cover differing values with identical structure; missing/extra/nested fields; stale/deleted paths; policy/AppRole/KV differences; rotation dates; incomplete evidence; denied data reads; and create-only writes. A temporary local-state Terraform fixture imports existing policy/AppRole resources, plans/applies, checks idempotence and verifies application values are absent from state. The validation workflow repeats these tests and Terraform syntax/provider validation on hosted or isolated runners without customer access.
 
 Use `bootstrap/developer-keys-policy.hcl` to trial [Read Secret Subkeys](https://developer.hashicorp.com/vault/api-docs/secret/kv/kv-v2#read-secret-subkeys). Example after authenticating with that policy:
 

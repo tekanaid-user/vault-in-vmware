@@ -1,5 +1,4 @@
-# Reference copy; active workflow is at repository-root .github/workflows.
-name: Daily Vault structure drift
+name: Daily Vault inventory and rotation
 on:
   schedule:
     - cron: '0 11 * * *' # UTC; confirm the desired local schedule
@@ -54,10 +53,14 @@ jobs:
           report_files=(reports/*.json)
           python3 13-Vault-Configuration-Promotion/scripts/drift.py --compare "${report_files[@]}" > comparison.json
           echo 'Review comparison.json; this job never changes Vault.' >> "$GITHUB_STEP_SUMMARY"
+      - name: Extract rotation ages without another Vault connection
+        run: python3 13-Vault-Configuration-Promotion/scripts/rotation-report.py comparison.json > rotation-report.json
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: vault-drift-comparison
-          path: comparison.json
+          path: |
+            comparison.json
+            rotation-report.json
           retention-days: 7
       - name: Flag findings after saving the report
         run: |
@@ -66,7 +69,11 @@ jobs:
           report = json.load(open('comparison.json'))
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as output:
               output.write(f"\nComplete: {report['complete']}; findings: {report['has_findings']}\n")
+              output.write(f"Inventory differences: {len(report['inventory_differences'])}\n")
               for env in report['environments']:
-                  output.write(f"- {env['environment']}: {len(env['findings'])} findings\n")
+                  inv = env['inventory']
+                  output.write(f"- {env['environment']}: {len(inv['policies'])} policies, {len(inv['auth_methods'])} auth mounts, {len(inv['secrets_engines'])} engines, {len(inv['kv_paths'])} KV paths; {len(env['findings'])} findings; {len(inv['coverage']['unsupported_details'])} detail exclusions\n")
+              rotation = json.load(open('rotation-report.json'))
+              output.write(f"Rotation ages: {rotation['counts']}\n")
           sys.exit(3 if not report['complete'] else 2 if report['has_findings'] else 0)
           PYTHON

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Security-facing prepare/stage/plan/apply wrapper; Terraform stays behind it."""
+"""Internal GitHub Actions plan/apply helper. Security operates the workflow."""
 import argparse
 import datetime
 import getpass
@@ -65,7 +65,7 @@ def staged_request(cfg, token, app, request_id, sha, env):
         raise ValueError('Staged request expired; stage a fresh request')
     if current_version(cfg, token, app) != int(attributes['expected_version']):
         raise ValueError('Destination changed since staging; review UI edits and restage')
-    structure = api(cfg, token, 'GET', f"{cfg['staging_mount']}/subkeys/{app['application']}/{request_id}?version=1")['data']['subkeys']
+    structure = api(cfg, token, 'GET', f"{cfg['staging_mount']}/subkeys/{app['application']}/{request_id}", query={'version': 1})['data']['subkeys']
     if set(structure) != set(app['fields']) or any(v is not None for v in structure.values()):
         raise ValueError('Staged field structure does not match the approved flat schema')
     return attributes

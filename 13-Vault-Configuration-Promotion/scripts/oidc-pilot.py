@@ -104,6 +104,7 @@ def run(local=False, output=Path('pilot-report.json')):
                     processes.append(subprocess.Popen(['vault', 'server', '-dev', '-dev-tls', '-dev-no-store-token', f'-dev-tls-cert-dir={folder}', f'-dev-root-token-id={root}', f'-dev-listen-address=127.0.0.1:{port}'], stdout=log, stderr=log))
                 cfg = settings(env, live=False)
                 cfg.update(vault_addr=f'https://127.0.0.1:{port}', drift_role=f'github-{env}-drift', plan_role=f'github-{env}-plan', deploy_role=f'github-{env}-deploy')
+                cfg['inventory_expected_fields'] = ({path: {'bound_claims/sub': 'repo:tekanaid-user@37753095/vault-in-vmware@1406319724:environment:vault-pilot'} for path in cfg['inventory_expected_fields']} if github else {})
                 os.environ['VAULT_CACERT'] = str(folder / 'vault-ca.pem')
                 os.environ.pop('VAULT_NAMESPACE', None)
                 for _ in range(150):
@@ -181,7 +182,7 @@ def run(local=False, output=Path('pilot-report.json')):
                     changed.append(healthy[-1])
             baseline = compare_reports(healthy)
             drift = compare_reports(changed)
-            require(baseline['complete'] and baseline['same_observed_structure'] and not baseline['has_findings'], 'Baseline did not pass')
+            require(baseline['complete'] and baseline['same_observed_structure'] and baseline['same_supported_inventory'] and not baseline['has_findings'], 'Baseline did not pass')
             require(drift['complete'] and not drift['same_observed_structure'] and drift['has_findings'], 'Drift did not fail parity')
             document = {'mode': 'real GitHub OIDC' if github else 'local scoped tokens (OIDC not tested)', 'checks': checks, 'baseline': baseline, 'introduced_drift': drift, 'disposable': True}
             encoded = json.dumps(document, indent=2)

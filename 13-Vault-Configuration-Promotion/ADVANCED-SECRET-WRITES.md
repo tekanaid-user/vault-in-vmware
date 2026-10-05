@@ -18,8 +18,8 @@ This pilot uses one application with flat string fields. Nested structures, mult
 
 ```bash
 ./scripts/stage-secret.sh --env dev --write-version 1
-./scripts/vault-change.sh plan --env dev --operation secret-write --request-id <printed-id>
-./scripts/vault-change.sh apply --env dev --run <saved-run-path> --approve-environment dev
+python3 scripts/pipeline.py plan --env dev --operation secret-write --request-id <printed-id>
+python3 scripts/pipeline.py apply --env dev --run <saved-run-path> --approve-environment dev
 ```
 
 Requires a restricted KV v2 `promotion-inputs` mount, a Security staging identity, and dedicated plan/deploy roles granting the extra staged-input/target-write capabilities. Add those capabilities only for this route. The existing secret-write Terraform root and staging wrapper are retained as an example; regular policy promotion does not call them. Supply a fresh per-environment payload and increasing write-version for every intentional write. Maintain cleanup for expired/failed requests; soft deletion does not permanently remove data.
