@@ -6,6 +6,7 @@ import json
 import re
 import sys
 from pathlib import Path
+import inventory
 from common import ApiError, api, app_definition, authenticate, close_token, read_revision, revision, settings
 
 
@@ -65,43 +66,14 @@ def collect(env, cfg=None, sha=None, app=None, policy=None, today=None):
     def read(path):
         return api(cfg, token, 'GET', path)['data']
     try:
-        def paths(prefix):
-            try:
-                items = api(cfg, token, 'LIST', f"{app['kv_mount']}/metadata/{prefix}")['data']['keys']
-            except (ApiError, RuntimeError) as error:
-                unknown('listing_unknown', prefix, error)
-                return []
-            found = []
-            for item in items:
-                if not isinstance(item, str) or '..' in item or '/' in item.rstrip('/'):
-                    raise ValueError('Unexpected path listing')
-                child = prefix + item
-                found.extend(paths(child) if item.endswith('/') else [child])
-            return found
-        scope = cfg.get('drift_prefix', app['secret_path'].rsplit('/', 1)[0] + '/')
-        if not scope.endswith('/') or not re.fullmatch(r'[a-zA-Z0-9_/-]+', scope) or '..' in scope:
-            raise ValueError('Configure a safe drift_prefix ending in /')
-        if not app['secret_path'].startswith(scope):
-            raise ValueError('Drift scope must contain the selected application')
-        for path in paths(scope):
-            entry = {'status': 'unknown'}
-            metadata = None
-            try:
-                metadata = read(f"{app['kv_mount']}/metadata/{path}")
-                latest = metadata['versions'][str(metadata['current_version'])]
-                deleted = bool(latest['destroyed'] or latest['deletion_time'])
-                entry['rotation'] = rotation_status(metadata, cfg.get('rotation_metadata_field', 'password_cycle_date'), cfg.get('rotation_max_age_days', 90), today)
-                if entry['rotation']['status'] != 'current':
-                    report['findings'].append({'kind': 'rotation_' + entry['rotation']['status'], 'path': path})
-                if deleted:
-                    entry['status'] = 'deleted'
-                    report['findings'].append({'kind': 'deleted_path', 'path': path})
-                else:
-                    structure = read(f"{app['kv_mount']}/subkeys/{path}")['subkeys']
-                    entry.update(status='present', fields=leaf_fields(structure))
-            except (ApiError, RuntimeError, KeyError) as error:
-                unknown('path_unknown', path, error)
-            report['paths'][path] = entry
+        snapshot = inventory.scan(cfg, lambda method, path, payload=None: api(cfg, token, method, path, payload),
+                                  normalized_policy, leaf_fields, rotation_status, today)
+        report['inventory'] = snapshot
+        report['complete'] = snapshot['complete']
+        report['findings'].extend(snapshot['findings'])
+        mount_prefix = app['kv_mount'].rstrip('/') + '/'
+        report['paths'] = {path[len(mount_prefix):]: entry for path, entry in snapshot['kv_paths'].items()
+                           if path.startswith(mount_prefix)}
         actual = report['paths'].get(app['secret_path'])
         if actual is None:
             report['findings'].append({'kind': 'not_observed', 'path': app['secret_path'], 'note': 'Check listing failures before declaring missing'})
@@ -111,9 +83,6 @@ def collect(env, cfg=None, sha=None, app=None, policy=None, today=None):
             extra = sorted(set(actual['fields']) - expected_fields)
             if missing or extra:
                 report['findings'].append({'kind': 'field_difference', 'path': app['secret_path'], 'missing': missing, 'extra': extra})
-        for path in report['paths']:
-            if path != app['secret_path']:
-                report['findings'].append({'kind': 'extra_path', 'path': path, 'note': 'Outside selected Git application; review before classifying as orphan'})
         try:
             actual_policy = read(f"sys/policies/acl/{app['policy_name']}")['policy']
             # Store equality, not the raw policy: unexpected policies could contain sensitive text.
@@ -150,11 +119,16 @@ def compare_reports(reports):
     missing = sorted({'dev', 'uat', 'prod'} - names)
     complete = not missing and all(r.get('complete', False) for r in reports)
     structures = [{p: {k: v for k, v in entry.items() if k != 'rotation'} for p, entry in r['paths'].items()} for r in reports]
+    inventories = {r['environment']: r['inventory'] for r in reports if 'inventory' in r}
+    differences, ignored = inventory.compare(inventories) if len(inventories) == len(reports) and inventories else ([], [])
+    inventory_complete = complete and len(inventories) == 3
     return {'missing_environment_reports': missing, 'complete': complete, 'environments': reports,
             'same_selected_release': len({r['configuration_ref'] for r in reports}) == 1 if not missing else None,
             'same_observed_structure': len({json.dumps(s, sort_keys=True) for s in structures}) == 1 if complete else None,
             'all_policies_match_selected_git': all(r.get('policy_matches_git', False) for r in reports) if complete else None,
-            'has_findings': bool(missing) or any(r['findings'] for r in reports),
+            'inventory_differences': differences, 'approved_comparison_exceptions': ignored,
+            'same_supported_inventory': not differences if inventory_complete else None,
+            'has_findings': bool(missing) or bool(differences) or any(r['findings'] for r in reports),
             'note': 'Different releases may mean pending promotion. Null parity means incomplete evidence. Values were not read; no corrections or deletions were made.'}
 
 

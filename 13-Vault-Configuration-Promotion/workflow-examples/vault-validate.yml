@@ -1,0 +1,60 @@
+name: Validate Vault promotion and drift
+on:
+  pull_request:
+    paths: ['13-Vault-Configuration-Promotion/**', '.github/workflows/vault-*.yml']
+  push:
+    branches: [main]
+    paths: ['13-Vault-Configuration-Promotion/**', '.github/workflows/vault-*.yml']
+  workflow_dispatch:
+    inputs:
+      runner:
+        type: choice
+        options: [hosted, isolated]
+        default: hosted
+        description: Hosted Ubuntu or explicitly registered ephemeral pilot container
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ${{ inputs.runner == 'isolated' && fromJSON('["self-hosted", "vault-pilot"]') || 'ubuntu-latest' }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Install pinned Vault and Terraform from official releases
+        shell: bash
+        run: |
+          set -euo pipefail
+          INSTALL_DIR=$(mktemp -d)
+          cd "$INSTALL_DIR"
+          for SPEC in vault:2.1.0 terraform:1.16.1; do
+            TOOL=${SPEC%%:*}
+            VERSION=${SPEC##*:}
+            ARCHIVE="${TOOL}_${VERSION}_linux_amd64.zip"
+            curl --fail --silent --show-error --location --output "$ARCHIVE" "https://releases.hashicorp.com/$TOOL/$VERSION/$ARCHIVE"
+            curl --fail --silent --show-error --location --output sums "https://releases.hashicorp.com/$TOOL/$VERSION/${TOOL}_${VERSION}_SHA256SUMS"
+            awk -v file="$ARCHIVE" '$2 == file {print}' sums > selected-sum
+            test -s selected-sum
+            sha256sum --check selected-sum
+            unzip -q -o "$ARCHIVE" "$TOOL"
+            chmod +x "$TOOL"
+          done
+          echo "$INSTALL_DIR" >> "$GITHUB_PATH"
+      - name: Run tests with isolated local Vault servers
+        run: python3 -m unittest discover -s 13-Vault-Configuration-Promotion/tests -v
+      - name: Validate Terraform roots (no remote backend or live deployment)
+        shell: bash
+        run: |
+          set -euo pipefail
+          for ROOT in configuration secret-write; do
+            TARGET="13-Vault-Configuration-Promotion/configuration/$ROOT"
+            terraform -chdir="$TARGET" fmt -check
+            terraform -chdir="$TARGET" init -backend=false -input=false -lockfile=readonly
+            terraform -chdir="$TARGET" validate
+          done
+      - name: Check shell syntax and Python CLI entry points
+        run: |
+          for SCRIPT in 13-Vault-Configuration-Promotion/scripts/*.sh; do bash -n "$SCRIPT"; done
+          python3 13-Vault-Configuration-Promotion/scripts/drift.py --help
+          python3 13-Vault-Configuration-Promotion/scripts/create-secret.py --help
+          python3 13-Vault-Configuration-Promotion/scripts/rotation-report.py --help
+          python3 13-Vault-Configuration-Promotion/scripts/pipeline.py --help

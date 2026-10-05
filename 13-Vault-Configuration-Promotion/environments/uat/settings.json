@@ -7,7 +7,6 @@
   "drift_role": "github-uat-drift",
   "token_bound_cidrs": [],
   "plan_role": "github-uat-plan",
-  "drift_prefix": "demo/",
   "rotation_metadata_field": "password_cycle_date",
   "rotation_max_age_days": 90,
   "expected_approle": {
@@ -24,5 +23,43 @@
     "cas_required": false,
     "max_versions": 0,
     "delete_version_after": "0s"
+  },
+  "inventory_resource_aliases": {
+    "configurations": {
+      "auth/github/role/github-uat-drift": "auth/github/role/github-ENV-drift",
+      "auth/github/role/github-uat-plan": "auth/github/role/github-ENV-plan",
+      "auth/github/role/github-uat-deploy": "auth/github/role/github-ENV-deploy"
+    }
+  },
+  "inventory_comparison_exceptions": [
+    {
+      "category": "configurations",
+      "resource": "auth/github/role/github-ENV-drift",
+      "field": "bound_claims/sub",
+      "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+    },
+    {
+      "category": "configurations",
+      "resource": "auth/github/role/github-ENV-plan",
+      "field": "bound_claims/sub",
+      "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+    },
+    {
+      "category": "configurations",
+      "resource": "auth/github/role/github-ENV-deploy",
+      "field": "bound_claims/sub",
+      "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+    }
+  ],
+  "inventory_expected_fields": {
+    "auth/github/role/github-uat-drift": {
+      "bound_claims/sub": "repo:tekanaid-user@37753095/vault-in-vmware@1406319724:environment:uat-drift"
+    },
+    "auth/github/role/github-uat-plan": {
+      "bound_claims/sub": "repo:tekanaid-user@37753095/vault-in-vmware@1406319724:environment:uat-plan"
+    },
+    "auth/github/role/github-uat-deploy": {
+      "bound_claims/sub": "repo:tekanaid-user@37753095/vault-in-vmware@1406319724:environment:uat"
+    }
   }
 }

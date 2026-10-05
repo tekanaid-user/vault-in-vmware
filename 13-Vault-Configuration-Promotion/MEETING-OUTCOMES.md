@@ -4,8 +4,8 @@ The team agreed to Git as the source of truth for configuration and secret struc
 
 | Workstream | Agreed direction | Implementation in this folder |
 | --- | --- | --- |
-| 1: Entry and promotion | Guided initial entry; UI reads/value edits; Terraform Community CLI hidden behind wrappers; reviewed Git releases DEV → UAT → PROD | Create-only hidden-prompt writer, configuration plan/apply wrapper, manual promotion Actions workflow. Requires live setup/imports and pilot validation. |
-| 2: Drift and rotation | Daily read-only comparison against Git and across environments; Security reviews results | Metadata/subkeys collector, selected policy/AppRole/KV settings checks, rotation-age findings and scheduled Actions workflow. No value reads or corrections. |
+| 1: Entry and promotion | Guided initial entry; UI reads/value edits; Terraform Community CLI operated through GitHub Actions; reviewed Git releases DEV → UAT → PROD | Create-only hidden-prompt writer, internal plan/apply helper, manual promotion Actions workflow. Requires live setup/imports and pilot validation. |
+| 2: Drift and rotation | Daily read-only comparison against Git and across environments; Security reviews results | Metadata/subkeys collector, all ACL/password policies, auth/engine inventory, supported configuration adapters, rotation-age findings and scheduled Actions workflow. No value reads or corrections. |
 
 ## Current workflow learned
 
@@ -22,11 +22,11 @@ The team agreed to Git as the source of truth for configuration and secret struc
 
 | Item | Status here | Remaining evidence / dependency |
 | --- | --- | --- |
-| Share a first drift script/report | Implemented and tested locally | Disposable TLS/OIDC pilot passed in GitHub Actions with an isolated ephemeral runner; configure live scopes/releases and review a real-environment report with Security. |
+| Share full drift inventory/report | Implemented: all auth/engine mounts, ACL/password policies, accessible KV v2 paths/keys and supported configs | Disposable TLS/OIDC pilot passed in GitHub Actions with an isolated ephemeral runner; configure live scopes/releases and review a real-environment report with Security. |
 | Keys-only developer access | API and `vault read secret/subkeys/...` tested with data-read denied | Validate installed Vault version and UI behavior. API/CLI support does not prove UI support. |
-| Rotation-age report | Implemented: current/overdue/missing/invalid/future-date findings | Confirm exact metadata key, ISO date format and agreed age threshold; 90 days is a placeholder. |
+| Rotation-age report | Implemented/tested: integrated scan plus dedicated `rotation-report.py`; daily Actions artifact | Confirm exact metadata key, ISO date format and agreed age threshold; 90 days is a placeholder. |
 | Guided initial writer | Implemented: Git fields, hidden prompts, direct Vault write, CAS=0 | Pilot Security's named identity and terminal workflow. No overwrite, Terraform state or GitHub value entry. |
-| Terraform wrapper / promotion pilot | Existing wrapper retained; Actions installed | GitHub environments/review gates configured; disposable pilot added. Choose customer application, import scope, remote backend and a reachable self-hosted runner. Confirm live TTL/use settings before adopting example defaults. |
+| GitHub Actions promotion interface / pilot | Implemented; Security-facing Terraform shell wrapper removed | GitHub environments/review gates configured; disposable pilot added. Choose customer application, import scope, remote backend and a reachable self-hosted runner. Confirm live TTL/use settings before adopting example defaults. |
 | Unused-path evidence | No automatic deletion | Investigate available audit access history and retention; verify candidates with application owners. KV metadata has no standard last-access field. |
 | Separate credential regeneration | Design follow-up | Obtain/review the current operational script. This example creates no SecretIDs or application tokens. |
 

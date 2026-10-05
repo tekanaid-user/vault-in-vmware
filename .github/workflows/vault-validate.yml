@@ -56,3 +56,5 @@ jobs:
           for SCRIPT in 13-Vault-Configuration-Promotion/scripts/*.sh; do bash -n "$SCRIPT"; done
           python3 13-Vault-Configuration-Promotion/scripts/drift.py --help
           python3 13-Vault-Configuration-Promotion/scripts/create-secret.py --help
+          python3 13-Vault-Configuration-Promotion/scripts/rotation-report.py --help
+          python3 13-Vault-Configuration-Promotion/scripts/pipeline.py --help

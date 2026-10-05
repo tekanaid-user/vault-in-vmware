@@ -9,7 +9,7 @@ terraform {
   backend "s3" {}
 }
 
-# VAULT_ADDR and a short-lived VAULT_TOKEN are provided by the wrapper.
+# VAULT_ADDR and a short-lived VAULT_TOKEN are provided by the GitHub Actions pipeline helper.
 provider "vault" {
   skip_child_token = true
 }

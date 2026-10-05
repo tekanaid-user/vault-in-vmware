@@ -71,6 +71,7 @@ class LiveTests(unittest.TestCase):
                 log.close()
                 cls.processes.append(process)
                 cfg = json.loads((BASE / 'environments' / env / 'settings.json').read_text())
+                cfg['inventory_expected_fields'] = {}
                 cfg['vault_addr'] = f'http://127.0.0.1:{port}'
                 for _ in range(100):
                     try:
@@ -116,7 +117,7 @@ class LiveTests(unittest.TestCase):
             return common.api(cfg, token, method, path, payload)
         with patch.object(drift, 'authenticate', return_value=(self.tokens[index], False)), patch.object(drift, 'api', side_effect=observed_api):
             result = drift.collect(('dev', 'uat', 'prod')[index], cfg=self.configs[index], sha='a' * 40, app=self.app, policy=self.policy)
-        self.assertTrue(all(method in ('GET', 'LIST') and '/data/' not in path for method, path in calls))
+        self.assertTrue(all((method in ('GET', 'LIST') or (method == 'POST' and path == 'sys/capabilities-self')) and '/data/' not in path for method, path in calls))
         encoded = json.dumps(result)
         for value in [*self.synthetic, self.root, *self.tokens]:
             self.assertNotIn(value, encoded)
@@ -157,7 +158,7 @@ class LiveTests(unittest.TestCase):
         common.api(cfg, self.root, 'POST', 'secret/config', {'cas_required': True})
         report = self.collect(1)
         kinds = {f['kind'] for f in report['findings']}
-        self.assertTrue({'field_difference', 'extra_path', 'rotation_overdue', 'rotation_missing', 'policy_difference_from_git', 'approle_difference_from_git', 'kv_config_difference_from_git'} <= kinds)
+        self.assertTrue({'field_difference', 'rotation_overdue', 'rotation_missing', 'policy_difference_from_git', 'approle_difference_from_git', 'kv_config_difference_from_git'} <= kinds)
         self.assertFalse(drift.compare_reports([self.collect(i) for i in range(3)])['same_observed_structure'])
 
     def test_04_deleted_and_permissions_unknown(self):
@@ -169,7 +170,7 @@ class LiveTests(unittest.TestCase):
         with patch.object(drift, 'authenticate', return_value=(token, False)):
             report = drift.collect('prod', cfg=cfg, sha='a'*40, app=self.app, policy=self.policy)
         self.assertFalse(report['complete'])
-        self.assertIn('listing_unknown', {f['kind'] for f in report['findings']})
+        self.assertIn('inventory_unknown', {f['kind'] for f in report['findings']})
 
     def test_05_create_is_safe_and_does_not_overwrite(self):
         cfg = self.configs[0]
