@@ -69,7 +69,7 @@ The repository is hosted on [GitHub](https://github.com/tekanaid-user/vault-in-v
 | Workflow enablement | Workflow files are installed. Configure OIDC bindings to their exact root paths, the self-hosted `vault-demo` runner and GitHub environments; then set repository variable `VAULT_AUTOMATION_ENABLED=true`. No secrets are stored in GitHub. |
 | Drift baseline | Set the approved `drift_prefix`, metadata field/date format and age threshold. Review `expected_approle` / `expected_kv_config` against live defaults and intentional overrides. Defaults are examples, not the live settings. |
 
-For the regular workflows in this example, bind `workflow_ref`; `job_workflow_ref` is specific to reusable workflow calls. Plan/deploy/drift subjects differ because their GitHub environments differ. Example: `repo:ORG/REPO:environment:dev-plan` for DEV planning, `...:environment:dev` for DEV apply.
+For the regular workflows in this example, bind `workflow_ref`; `job_workflow_ref` is specific to reusable workflow calls. Plan/deploy/drift subjects differ because their GitHub environments differ. For this repository, DEV planning uses `repo:tekanaid-user@37753095/vault-in-vmware@1406319724:environment:dev-plan`; DEV apply ends in `:environment:dev`. The owner/repository IDs are part of its immutable subject. Query the repository OIDC settings before configuring a different repository.
 
 Initial promotion gates use reviewed release PRs plus GitHub deployment approval. The templates do **not** automatically prove a prior environment's successful rollout: reviewers must check that evidence. Automating predecessor-success checks and merge-triggered dispatch is a subsequent enhancement; this pilot deliberately deploys through manual dispatch.
 
@@ -138,6 +138,6 @@ vault read -format=json secret/subkeys/demo/app
 
 Leaf values must be `null`. Tests also prove `secret/data/demo/app` returns 403 for the keys-only identity. Vault policies are additive: do not attach a policy granting data read to that developer identity. UI behavior remains unverified; API/CLI support does not imply the UI presents keys-only secrets.
 
-Local validation uses Vault dev mode, not customer DEV/UAT/PROD. On-prem OIDC, self-hosted connectivity, protected state, existing-resource imports, actual PROD approvals and a live promotion remain setup/pilot gates. No live secrets or deployments are part of these tests.
+Local validation uses Vault dev mode, not customer DEV/UAT/PROD. Real GitHub OIDC and scoped Terraform plan/apply were verified in the disposable TLS pilot. On-prem connectivity, protected remote state, customer resource imports, actual PROD approvals and customer promotion remain setup/pilot gates. No live secrets or deployments are part of these tests.
 
 References: [Vault subkeys API](https://developer.hashicorp.com/vault/api-docs/secret/kv/kv-v2#read-secret-subkeys) · [Vault write-only guidance](https://registry.terraform.io/providers/hashicorp/vault/5.8.0/docs/guides/using_write_only_attributes) · [GitHub/Vault OIDC](https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-hashicorp-vault) · [GitHub environments](https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments).

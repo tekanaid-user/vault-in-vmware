@@ -44,8 +44,10 @@ This label is for the disposable pilot only. The actual on-prem deployment workf
 python3 13-Vault-Configuration-Promotion/scripts/oidc-pilot.py --local --output /tmp/pilot-report.json
 ```
 
-Run from repository root with Vault and Terraform installed. Local mode checks TLS, scoped tokens, Terraform and reporting; it **does not test GitHub OIDC**. Only a successful hosted pilot establishes federation evidence.
+Run from repository root with Vault and Terraform installed. Local mode checks TLS, scoped tokens, Terraform and reporting; it **does not test GitHub OIDC**. Only a successful GitHub Actions pilot establishes federation evidence. [Verified run](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/37371373304) used an isolated ephemeral runner.
 
 ## External deployment remains separate
 
 For real DEV/UAT/PROD, provision a restricted self-hosted runner in a network that reaches those Vaults and state storage, configure actual HTTPS addresses and trust the real workflow/environment claims in each Vault. Do not point a customer environment at a transient localhost address or treat disposable local state as a remote production backend. Follow [runbook](RUNBOOK.md).
+
+Reference: [GitHub OIDC claims and immutable subjects](https://docs.github.com/en/actions/reference/security/oidc#immutable-subject-claims).
