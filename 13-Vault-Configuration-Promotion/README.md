@@ -51,7 +51,7 @@ Folders contain references and differences, not copied policies. Later main comm
 
 [Advanced secret-write alternative](ADVANCED-SECRET-WRITES.md) retains the earlier ephemeral/write-only example for a future requirement to have Terraform write values. It is not the recommended daily route.
 
-The repository is hosted on [GitHub](https://github.com/tekanaid-user/vault-in-vmware/tree/main/13-Vault-Configuration-Promotion). Active workflow files are installed at root `.github/workflows`; this folder retains reference copies. Live jobs require repository variable `VAULT_AUTOMATION_ENABLED=true` after setup. Validation runs without live credentials. See [meeting decisions and Sam’s tracker](MEETING-OUTCOMES.md) and the [pilot runbook](RUNBOOK.md).
+The repository is hosted on [GitHub](https://github.com/tekanaid-user/vault-in-vmware/tree/main/13-Vault-Configuration-Promotion). Active workflow files are installed at root `.github/workflows`; this folder retains reference copies. Live jobs require repository variable `VAULT_AUTOMATION_ENABLED=true` after setup. Validation runs without live credentials. Run the [disposable development OIDC pilot](OIDC-PILOT.md) to verify federation on GitHub-hosted runners. See [meeting decisions and Sam’s tracker](MEETING-OUTCOMES.md) and the [pilot runbook](RUNBOOK.md).
 
 ## One-time setup : DevOps and Security
 

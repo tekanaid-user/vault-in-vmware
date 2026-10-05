@@ -191,7 +191,10 @@ class LiveTests(unittest.TestCase):
         root = fixture / 'configuration'
         main = root / 'main.tf'
         main.write_text(main.read_text().replace('backend "s3" {}', 'backend "local" {}'))
-        env = {**os.environ, 'VAULT_ADDR': self.configs[0]['vault_addr'], 'VAULT_TOKEN': self.root,
+        cfg = self.configs[0]
+        common.api(cfg, self.root, 'PUT', 'sys/policies/acl/deploy-test', {'policy': (BASE / 'bootstrap/deploy-policy.hcl').read_text()})
+        deploy_token = common.api(cfg, self.root, 'POST', 'auth/token/create', {'policies': ['deploy-test'], 'no_default_policy': True})['auth']['client_token']
+        env = {**os.environ, 'VAULT_ADDR': cfg['vault_addr'], 'VAULT_TOKEN': deploy_token,
                'TF_VAR_token_bound_cidrs': '[]', 'TF_IN_AUTOMATION': 'true', 'CHECKPOINT_DISABLE': '1'}
         for key in ('VAULT_NAMESPACE', 'TF_LOG', 'TF_LOG_PATH', 'TF_LOG_PROVIDER', 'TF_LOG_CORE'):
             env.pop(key, None)
@@ -207,6 +210,7 @@ class LiveTests(unittest.TestCase):
                 safe_error = safe_error.replace(value, '[REDACTED]')
             self.assertEqual(result.returncode, 0, f'Terraform {arguments[0]} failed: {safe_error}')
         state = (root / 'terraform.tfstate').read_text()
+        self.assertNotIn(deploy_token, state)
         for value in [*self.synthetic, self.root, *self.tokens]:
             self.assertNotIn(value, state)
         self.assertNotIn('vault_kv_secret', state)

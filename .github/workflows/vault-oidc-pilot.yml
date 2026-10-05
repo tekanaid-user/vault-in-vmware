@@ -1,0 +1,50 @@
+name: Vault development OIDC pilot
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: vault-development-oidc-pilot
+  cancel-in-progress: false
+jobs:
+  pilot:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: vault-pilot
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+      - name: Install pinned Vault and Terraform from official releases
+        shell: bash
+        run: |
+          set -euo pipefail
+          INSTALL_DIR=$(mktemp -d)
+          cd "$INSTALL_DIR"
+          for SPEC in vault:2.1.0 terraform:1.16.1; do
+            TOOL=${SPEC%%:*}
+            VERSION=${SPEC##*:}
+            ARCHIVE="${TOOL}_${VERSION}_linux_amd64.zip"
+            curl --fail --silent --show-error --location --output "$ARCHIVE" "https://releases.hashicorp.com/$TOOL/$VERSION/$ARCHIVE"
+            curl --fail --silent --show-error --location --output sums "https://releases.hashicorp.com/$TOOL/$VERSION/${TOOL}_${VERSION}_SHA256SUMS"
+            awk -v file="$ARCHIVE" '$2 == file {print}' sums > selected-sum
+            test -s selected-sum
+            sha256sum --check selected-sum
+            unzip -q -o "$ARCHIVE" "$TOOL"
+            chmod +x "$TOOL"
+          done
+          echo "$INSTALL_DIR" >> "$GITHUB_PATH"
+      - name: Create isolated TLS Vaults and verify real OIDC
+        run: |
+          umask 077
+          python3 13-Vault-Configuration-Promotion/scripts/oidc-pilot.py --output pilot-report.json
+          echo 'Real GitHub OIDC tested against disposable TLS Vault dev servers. Review artifact for baseline and introduced drift.' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: vault-development-oidc-pilot
+          path: pilot-report.json
+          retention-days: 7
