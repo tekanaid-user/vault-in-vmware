@@ -1,5 +1,9 @@
 # vault-in-vmware
 
+## Vault configuration promotion example
+
+[Session 13: Terraform Community promotion and daily drift reporting](13-Vault-Configuration-Promotion/README.md) demonstrates Security-facing wrappers, DEV/UAT/PROD release references, and GitHub Actions with Vault OIDC. Application values stay in Vault; workflows are examples and remain inactive until configured.
+
 ## Vault Upgrades
 
 Based on HashiCorp's current guidance and security landscape, I recommend a security-driven approach rather than rigid monthly patching.

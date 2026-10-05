@@ -1,0 +1,58 @@
+# Copy to REPO_ROOT/.github/workflows only after completing README setup.
+name: Daily Vault structure drift example
+on:
+  schedule:
+    - cron: '0 11 * * *' # UTC; confirm the desired local schedule
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  collect:
+    if: github.ref == 'refs/heads/main'
+    strategy:
+      fail-fast: false
+      matrix:
+        environment: [dev, uat, prod]
+    runs-on: [self-hosted, opers-vault]
+    environment: ${{ matrix.environment }}-drift
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+      - name: Collect structure using a read-only OIDC role
+        env:
+          TARGET_ENV: ${{ matrix.environment }}
+        run: |
+          python3 13-Vault-Configuration-Promotion/scripts/drift.py --env "$TARGET_ENV" > "$TARGET_ENV.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: vault-drift-${{ matrix.environment }}
+          path: ${{ matrix.environment }}.json
+          retention-days: 7
+  report:
+    needs: collect
+    if: always() && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: vault-drift-*
+          path: reports
+          merge-multiple: true
+      - name: Compare available reports (missing reports remain visible)
+        shell: bash
+        run: |
+          shopt -s nullglob
+          report_files=(reports/*.json)
+          if (( ${#report_files[@]} == 0 )); then echo 'No environment reports available'; exit 1; fi
+          python3 13-Vault-Configuration-Promotion/scripts/drift.py --compare "${report_files[@]}" > comparison.json
+          echo 'Review comparison.json; this job never changes Vault.' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: vault-drift-comparison
+          path: comparison.json
+          retention-days: 7
