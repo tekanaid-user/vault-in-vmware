@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         environment: [dev, uat, prod]
-    runs-on: [self-hosted, demo-vault]
+    runs-on: [self-hosted, vault-demo]
     environment: ${{ matrix.environment }}-drift
     permissions:
       contents: read

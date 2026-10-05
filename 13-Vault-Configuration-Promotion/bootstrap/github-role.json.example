@@ -1,7 +1,7 @@
 {
   "role_type": "jwt",
   "user_claim": "sub",
-  "bound_audiences": ["demo-vault"],
+  "bound_audiences": ["vault-demo"],
   "bound_claims_type": "string",
   "bound_claims": {
     "repository": "REPLACE_ORG/REPLACE_REPO",
@@ -9,7 +9,7 @@
     "sub": "repo:REPLACE_ORG/REPLACE_REPO:environment:dev",
     "workflow_ref": "REPLACE_ORG/REPLACE_REPO/.github/workflows/vault-promote.yml@refs/heads/main"
   },
-  "token_policies": ["demo-demo-deploy"],
+  "token_policies": ["demo-deploy"],
   "token_ttl": 1800,
   "token_explicit_max_ttl": 1800
 }

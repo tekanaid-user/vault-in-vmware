@@ -1,6 +1,6 @@
 # Optional alternative: Terraform writes the values
 
-The recommended workflow is direct Vault UI writes plus Terraform policy/configuration promotion. This alternative is only relevant if demo later requires Terraform to perform secret writes. It adds staging and requires additional permissions; do not enable it for the default workflow.
+The recommended workflow is direct Vault UI writes plus Terraform policy/configuration promotion. This alternative is only relevant if the organization later requires Terraform to perform secret writes. It adds staging and requires additional permissions; do not enable it for the default workflow.
 
 ## How different values reach each environment
 

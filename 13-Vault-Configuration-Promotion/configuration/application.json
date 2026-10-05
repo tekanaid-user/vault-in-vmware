@@ -1,9 +1,9 @@
 {
-  "application": "dbit-demo",
+  "application": "demo-app",
   "kv_mount": "secret",
-  "secret_path": "demo-demo/dbit",
-  "policy_name": "demo-demo-dbit",
-  "approle_name": "demo-demo-dbit",
+  "secret_path": "demo/app",
+  "policy_name": "demo-app",
+  "approle_name": "demo-app",
   "fields": [
     "username",
     "password"

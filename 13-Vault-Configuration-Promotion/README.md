@@ -50,7 +50,7 @@ Folders contain references and differences, not copied policies. Later main comm
 
 [Advanced secret-write alternative](ADVANCED-SECRET-WRITES.md) retains the earlier ephemeral/write-only example for a future requirement to have Terraform write values. It is not the recommended daily route.
 
-The repository is currently hosted on GitLab. These inactive GitHub Actions templates are intended for installation in demo’s GitHub repository; pushing this example to GitLab does not activate them.
+The repository is currently hosted on GitLab. These inactive GitHub Actions templates are intended for installation in your organization’s GitHub repository; pushing this example to GitLab does not activate them.
 
 ## One-time setup : DevOps and Security
 
@@ -59,12 +59,12 @@ The repository is currently hosted on GitLab. These inactive GitHub Actions temp
 | Terraform and provider | Terraform >=1.11; this example pins Vault provider 5.8.0 and includes generated lock files. Pin a tested Terraform CLI version on runners. |
 | Target Vault | Existing KV v2 `secret` mount and `approle` auth; configure real HTTPS addresses/CA. Staging mount is only needed for the optional advanced route. |
 | Existing resources | Inventory before applying. Import existing policy/AppRole/KV resources into the appropriate state before adopting them. Do not run the demo against an application without owner approval. |
-| Remote state | Replace S3 backend placeholders with approved storage; S3 is an example, not an demo backend decision. Use encryption, versioning and locking, and separate state keys/credentials per environment/root. Backend credentials come from runner identity or on-prem credential delivery, never GitHub secrets or HCL. |
+| Remote state | Replace S3 backend placeholders with approved storage; S3 is an example, not an the organization backend decision. Use encryption, versioning and locking, and separate state keys/credentials per environment/root. Backend credentials come from runner identity or on-prem credential delivery, never GitHub secrets or HCL. |
 | Git release reference | Put the full reviewed configuration commit SHA in DEV `release.yaml`; the wrappers require committed configuration, not a moving branch reference. |
-| GitHub OIDC | Configure Vault JWT discovery for `https://token.actions.githubusercontent.com`. Create plan/deploy/drift roles per environment from `bootstrap/github-role.json.example`, with exact repository, main ref, workflow and environment claim bindings. Verify claims against demo's tokens. |
+| GitHub OIDC | Configure Vault JWT discovery for `https://token.actions.githubusercontent.com`. Create plan/deploy/drift roles per environment from `bootstrap/github-role.json.example`, with exact repository, main ref, workflow and environment claim bindings. Verify claims against your organization’s tokens. |
 | Vault permissions | Plan role reads configuration/structure; deploy role writes only policy/AppRole configuration; drift role reads metadata/subkeys/policy. None needs secret-data read access in the default route. Examples are provided; no superuser/root token is used by CI. |
-| Runner | Restricted self-hosted `demo-vault` runner with Vault/backend reachability, CA trust, Python 3.10+ and Terraform. No untrusted PR execution on deployment runners. |
-| Actions environments | Create dev/uat/prod, plus dev-plan/uat-plan/prod-plan and dev-drift/uat-drift/prod-drift. Required reviewers on apply environments, especially prod; prevent self-review if available on demo's GitHub plan. No environment secrets. |
+| Runner | Restricted self-hosted `vault-demo` runner with Vault/backend reachability, CA trust, Python 3.10+ and Terraform. No untrusted PR execution on deployment runners. |
+| Actions environments | Create dev/uat/prod, plus dev-plan/uat-plan/prod-plan and dev-drift/uat-drift/prod-drift. Required reviewers on apply environments, especially prod; prevent self-review if available on your organization’s GitHub plan. No environment secrets. |
 | Workflow installation | Review then copy templates to repository-root `.github/workflows/vault-promote.yml` and `vault-drift.yml`. Change OIDC workflow bindings to these exact paths. Templates are deliberately inactive in this folder. |
 
 For the regular workflows in this example, bind `workflow_ref`; `job_workflow_ref` is specific to reusable workflow calls. Plan/deploy/drift subjects differ because their GitHub environments differ. Example: `repo:ORG/REPO:environment:dev-plan` for DEV planning, `...:environment:dev` for DEV apply.
@@ -82,7 +82,7 @@ The proposed initial writer supplies each environment’s own values directly to
 
 The wrapper selects Vault from environment settings, checks Git-defined structure through subkeys, then plans/applies policy and AppRole configuration only. After DEV validation, update UAT's release pointer by reviewed PR and repeat; then PROD with explicit approval. The workflow's apply job uses a fresh OIDC token and the exact saved plan after reviewer approval. It rejects changed settings/source/plan or mismatched structure.
 
-Local `--approve-environment` records operator intent; it is not independent authorization. Use Actions protected environments or demo's change process for PROD. DevOps performs one-time imports into the correct state; the default resource addresses are `vault_policy.application` and `vault_approle_auth_backend_role.application`. The wrapper rejects destructive plans; decommissioning is separate.
+Local `--approve-environment` records operator intent; it is not independent authorization. Use Actions protected environments or your organization’s change process for PROD. DevOps performs one-time imports into the correct state; the default resource addresses are `vault_policy.application` and `vault_approle_auth_backend_role.application`. The wrapper rejects destructive plans; decommissioning is separate.
 
 ## Daily drift report
 
@@ -96,7 +96,7 @@ Local `--approve-environment` records operator intent; it is not independent aut
 ./scripts/vault-drift.sh --compare dev.json uat.json prod.json
 ```
 
-The pilot scans the `demo-demo/` prefix and selected application policy. Reports include field differences, extra paths, deleted/unknown paths, policy differences and differing release references. Access/network failures remain unknown; equal unknown results are not proof of parity. Differing releases may indicate pending promotion. Security reviews the report and chooses to promote, adopt a UI change into Git, record an exception or correct a mistake. No automatic corrections; value-only edits cannot be detected. AppRole/mount comparison and machine-readable approved exceptions are future additions, not implemented here.
+The pilot scans the `demo/` prefix and selected application policy. Reports include field differences, extra paths, deleted/unknown paths, policy differences and differing release references. Access/network failures remain unknown; equal unknown results are not proof of parity. Differing releases may indicate pending promotion. Security reviews the report and chooses to promote, adopt a UI change into Git, record an exception or correct a mistake. No automatic corrections; value-only edits cannot be detected. AppRole/mount comparison and machine-readable approved exceptions are future additions, not implemented here.
 
 Reports and plan artifacts contain names/configuration and still deserve restricted access. Plan artifacts exclude provider caches, last one day, and contain no application values; review CI logs/artifacts in the DEV pilot before production adoption. Staging cleanup requirements apply only to the optional advanced route.
 
