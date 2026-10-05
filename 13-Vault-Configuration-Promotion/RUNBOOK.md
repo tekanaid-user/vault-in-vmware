@@ -27,14 +27,14 @@ Create three roles per environment using `bootstrap/github-role.json.example`. B
 
 | Task | Command / action |
 | --- | --- |
-| First secret entry | From this folder: `./scripts/create-secret.sh --env dev --approve-environment dev`, after local Vault CLI authentication to the correct target with a named identity. Hidden prompts use the approved Git fields; existing locations are refused. Repeat with each environment’s own values. |
+| New application/secret | Use GitHub Actions with non-secret parameters for configuration. Current pilot selects environment and reads the application/schema/release from Git. Create environment-specific values in Vault UI at the approved path. Security runs no local scripts. |
 | Existing values | Read/edit through Vault UI; retain second-person checks for client IDs/secrets and coordinate rotations with application owners. Update `password_cycle_date` (or agreed field) as ISO date only after real rotation. |
 | Structure change | Review Git first; check the target structure before promoting. A UI change can still occur; adopt it into Git or correct it after review. |
 | Configuration promotion (no Terraform CLI training) | Actions → Vault promotion → select environment. Review plan job before approving apply. Verify predecessor deployment evidence; no automatic DEV/UAT-success enforcement is implemented. |
 | Drift review | Actions → Daily Vault inventory and rotation → summary and `vault-drift-comparison` artifact (`comparison.json` and `rotation-report.json`). Scheduled daily at 11:00 UTC; manual runs also available. Red job can mean findings or incomplete evidence; examine the report. |
 | Resolve finding | Complete promotion, adopt intended structure into Git, document an exception or correct a mistake. Never delete a path solely because it is extra or apparently unused. |
 
-For local or cron collection, authenticate separately to each Vault through a restricted service identity, then run `vault-drift.sh --env ENV`. Protect output directories and credentials with OS permissions. Combine reports with `vault-drift.sh --compare dev.json uat.json prod.json --fail-on-findings`. No token on the command line or in the crontab.
+For DevOps-managed local or cron collection (not Security's daily workflow), authenticate separately to each Vault through a restricted service identity, then run `vault-drift.sh --env ENV`. Protect output directories and credentials with OS permissions. Combine reports with `vault-drift.sh --compare dev.json uat.json prod.json --fail-on-findings`. No token on the command line or in the crontab.
 
 ## Pilot acceptance
 
@@ -43,7 +43,7 @@ For local or cron collection, authenticate separately to each Vault through a re
 | No value exposure | Restricted report/developer identity gets subkeys but 403 on data. Reports omit raw metadata and policy/config content; inspect CI logs/artifacts. |
 | Drift visible | Introduce a test-only field/path/policy difference; report identifies it. Remove a permission or collector report; comparison becomes incomplete, not equal. |
 | Rotation visible | Test recent, overdue, missing, invalid and future dates. Confirm date reflects real rotation, not merely a KV update. |
-| Safe creation | Guided writer creates once and refuses a second write or an existing soft-deleted path. |
+| Secret entry | Security uses Vault UI at approved paths; pipeline checks field structure without values. Historical create-only helper tests do not establish UI create-only behavior. |
 | Promotion safe | Import existing resources, review actual per-environment plans, approve apply, verify access and state contains no application values. UI value edits remain usable. |
 | Cleanup evidence | Application owners approve candidates using audit-history coverage and retention. No standard KV last-access timestamp is assumed. |
 
