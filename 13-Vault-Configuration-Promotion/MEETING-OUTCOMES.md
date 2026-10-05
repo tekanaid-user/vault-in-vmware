@@ -22,7 +22,7 @@ The team agreed to Git as the source of truth for configuration and secret struc
 
 | Item | Status here | Remaining evidence / dependency |
 | --- | --- | --- |
-| Share a first drift script/report | Implemented and tested locally | Disposable TLS/OIDC pilot added on GitHub-hosted runners; configure live scopes/releases and review a real-environment report with Security. |
+| Share a first drift script/report | Implemented and tested locally | Disposable TLS/OIDC pilot passed in GitHub Actions with an isolated ephemeral runner; configure live scopes/releases and review a real-environment report with Security. |
 | Keys-only developer access | API and `vault read secret/subkeys/...` tested with data-read denied | Validate installed Vault version and UI behavior. API/CLI support does not prove UI support. |
 | Rotation-age report | Implemented: current/overdue/missing/invalid/future-date findings | Confirm exact metadata key, ISO date format and agreed age threshold; 90 days is a placeholder. |
 | Guided initial writer | Implemented: Git fields, hidden prompts, direct Vault write, CAS=0 | Pilot Security's named identity and terminal workflow. No overwrite, Terraform state or GitHub value entry. |
