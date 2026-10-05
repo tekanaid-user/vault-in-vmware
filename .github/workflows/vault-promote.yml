@@ -1,0 +1,78 @@
+name: Vault promotion
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options: [dev, uat, prod]
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: vault-${{ inputs.environment }}
+  cancel-in-progress: false
+jobs:
+  plan:
+    if: github.ref == 'refs/heads/main' && vars.VAULT_AUTOMATION_ENABLED == 'true'
+    runs-on: [self-hosted, vault-demo]
+    environment: ${{ inputs.environment }}-plan
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      run_directory: ${{ steps.plan.outputs.run_directory }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+      - name: Create reviewed plan (Terraform is installed on the runner)
+        id: plan
+        env:
+          TARGET_ENV: ${{ inputs.environment }}
+          # No application secrets or Vault credentials come from GitHub.
+        shell: bash
+        run: |
+          set -euo pipefail
+          TASK_DIR=13-Vault-Configuration-Promotion
+          rm -rf -- "$TASK_DIR/.runs"
+          python3 "$TASK_DIR/scripts/runner.py" plan --env "$TARGET_ENV" --operation configuration
+          RUN_DIRECTORY=$(find "$TASK_DIR/.runs/$TARGET_ENV" -mindepth 1 -maxdepth 1 -type d | head -n 1)
+          echo "run_directory=$RUN_DIRECTORY" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: vault-plan-${{ github.run_id }}
+          path: |
+            13-Vault-Configuration-Promotion/.runs/
+            !13-Vault-Configuration-Promotion/.runs/**/.terraform/**
+          include-hidden-files: true
+          retention-days: 1
+      - name: Remove runner-local plan/cache
+        if: always()
+        run: rm -rf -- 13-Vault-Configuration-Promotion/.runs
+  apply:
+    needs: plan
+    runs-on: [self-hosted, vault-demo]
+    # Configure required reviewers here, particularly on prod. Reviewer sees plan job first.
+    environment: ${{ inputs.environment }}
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: vault-plan-${{ github.run_id }}
+          path: 13-Vault-Configuration-Promotion/.runs/
+      - name: Apply the reviewed plan using a fresh Vault OIDC login
+        env:
+          TARGET_ENV: ${{ inputs.environment }}
+          RUN_DIRECTORY: ${{ needs.plan.outputs.run_directory }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 13-Vault-Configuration-Promotion/scripts/runner.py apply --env "$TARGET_ENV" --run "$RUN_DIRECTORY" --approve-environment "$TARGET_ENV"
+      - name: Remove runner-local plan/cache
+        if: always()
+        run: rm -rf -- 13-Vault-Configuration-Promotion/.runs

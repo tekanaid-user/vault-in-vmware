@@ -15,3 +15,11 @@ path "auth/token/revoke-self" {
   capabilities = ["update"]
 }
 # Deliberately no secret/data capability.
+
+# Read selected non-secret configuration only.
+path "auth/approle/role/demo-app" {
+  capabilities = ["read"]
+}
+path "secret/config" {
+  capabilities = ["read"]
+}

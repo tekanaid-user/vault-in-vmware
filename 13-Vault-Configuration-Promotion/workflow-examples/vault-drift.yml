@@ -1,14 +1,17 @@
-# Copy to REPO_ROOT/.github/workflows only after completing README setup.
-name: Daily Vault structure drift example
+# Reference copy; active workflow is at repository-root .github/workflows.
+name: Daily Vault structure drift
 on:
   schedule:
     - cron: '0 11 * * *' # UTC; confirm the desired local schedule
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: vault-drift
+  cancel-in-progress: false
 jobs:
   collect:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && vars.VAULT_AUTOMATION_ENABLED == 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -26,6 +29,7 @@ jobs:
         env:
           TARGET_ENV: ${{ matrix.environment }}
         run: |
+          umask 077
           python3 13-Vault-Configuration-Promotion/scripts/drift.py --env "$TARGET_ENV" > "$TARGET_ENV.json"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
@@ -34,7 +38,7 @@ jobs:
           retention-days: 7
   report:
     needs: collect
-    if: always() && github.ref == 'refs/heads/main'
+    if: always() && github.ref == 'refs/heads/main' && vars.VAULT_AUTOMATION_ENABLED == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -48,7 +52,6 @@ jobs:
         run: |
           shopt -s nullglob
           report_files=(reports/*.json)
-          if (( ${#report_files[@]} == 0 )); then echo 'No environment reports available'; exit 1; fi
           python3 13-Vault-Configuration-Promotion/scripts/drift.py --compare "${report_files[@]}" > comparison.json
           echo 'Review comparison.json; this job never changes Vault.' >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -56,3 +59,14 @@ jobs:
           name: vault-drift-comparison
           path: comparison.json
           retention-days: 7
+      - name: Flag findings after saving the report
+        run: |
+          python3 - <<'PYTHON'
+          import json, os, sys
+          report = json.load(open('comparison.json'))
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as output:
+              output.write(f"\nComplete: {report['complete']}; findings: {report['has_findings']}\n")
+              for env in report['environments']:
+                  output.write(f"- {env['environment']}: {len(env['findings'])} findings\n")
+          sys.exit(3 if not report['complete'] else 2 if report['has_findings'] else 0)
+          PYTHON
