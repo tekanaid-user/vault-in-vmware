@@ -2,7 +2,7 @@
 
 | Check | Result |
 | --- | --- |
-| Python unit/integration suite | 20 tests passed locally; isolated Vault dev fixtures with restricted identities and synthetic values. |
+| Python unit/integration suite | 21 tests passed locally; isolated Vault dev fixtures with restricted identities and synthetic values. |
 | Vault / Terraform versions | Vault 2.1.0; Terraform CLI 1.16.1; Vault provider 5.8.0. |
 | Keys-only access | Restricted identity reads `subkeys` via API and Vault CLI; data read returns 403. UI rendering was not tested. |
 | Drift / rotation | All ACL/password policies; multiple/empty/nested KV v2 mounts; LDAP config/group/user mappings; Kubernetes/token/AppRole roles; userpass; transit/PKI; cross-environment changes in every inventory category; deleted paths and denied/hidden listings passed. Database/Sentinel adapters tested with API fixtures. |
@@ -26,4 +26,4 @@
 
 The initial hosted jobs were queued and cancelled; successful runs used isolated disposable Docker runners registered to GitHub. These are real GitHub workflow/OIDC results against synthetic Vaults, not customer DEV/UAT/PROD evidence. Remote state storage, on-prem connectivity and customer deployments remain untested. Live workflows require actual endpoints/state/runner setup and `VAULT_AUTOMATION_ENABLED=true`; see [runbook](RUNBOOK.md).
 
-The expanded inventory passed the 20-test local suite and disposable local TLS pilot on October 5. The GitHub runs above predate this expansion; fresh GitHub evidence will be recorded after execution. Unsupported plugin details and excluded server/credential settings are documented in [INVENTORY.md](INVENTORY.md).
+The expanded inventory passed the 21-test local suite and disposable local TLS pilot on October 5. Expanded inventory GitHub execution at `fa46374`: [20-test validation](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/37376070118) and [real OIDC pilot](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/37376073200) both passed. Downloaded artifact confirms complete supported-inventory parity at baseline and UAT drift detection. The additional legacy-report guard passed locally; updated GitHub evidence follows below. Unsupported plugin details and excluded server/credential settings are documented in [INVENTORY.md](INVENTORY.md).

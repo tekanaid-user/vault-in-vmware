@@ -54,7 +54,7 @@ def collect(env, cfg=None, sha=None, app=None, policy=None, today=None):
     expected_policy = policy if policy is not None else read_revision(sha, 'policy.hcl.tftpl').decode().replace('${kv_mount}', app['kv_mount']).replace('${secret_path}', app['secret_path'])
     today = today or dt.datetime.now(dt.timezone.utc).date()
     token, owned = authenticate(cfg, 'drift')
-    report = {'environment': env, 'configuration_ref': sha, 'expected': app,
+    report = {'schema_version': 2, 'environment': env, 'configuration_ref': sha, 'expected': app,
               'collected_at': dt.datetime.now(dt.timezone.utc).isoformat(),
               'paths': {}, 'findings': [], 'complete': True}
     def unknown(kind, path, error):
@@ -117,18 +117,19 @@ def compare_reports(reports):
     if len(names) != len(reports) or not names <= {'dev', 'uat', 'prod'}:
         raise ValueError('Duplicate or invalid environment reports')
     missing = sorted({'dev', 'uat', 'prod'} - names)
-    complete = not missing and all(r.get('complete', False) for r in reports)
-    structures = [{p: {k: v for k, v in entry.items() if k != 'rotation'} for p, entry in r['paths'].items()} for r in reports]
+    missing_inventory = sorted(r['environment'] for r in reports if 'inventory' not in r)
+    complete = not missing and not missing_inventory and all(r.get('complete', False) for r in reports)
+    structures = [{p: {k: v for k, v in entry.items() if k != 'rotation'} for p, entry in r.get('inventory', {}).get('kv_paths', r['paths']).items()} for r in reports]
     inventories = {r['environment']: r['inventory'] for r in reports if 'inventory' in r}
     differences, ignored = inventory.compare(inventories) if len(inventories) == len(reports) and inventories else ([], [])
     inventory_complete = complete and len(inventories) == 3
-    return {'missing_environment_reports': missing, 'complete': complete, 'environments': reports,
+    return {'missing_environment_reports': missing, 'missing_inventory_reports': missing_inventory, 'complete': complete, 'environments': reports,
             'same_selected_release': len({r['configuration_ref'] for r in reports}) == 1 if not missing else None,
             'same_observed_structure': len({json.dumps(s, sort_keys=True) for s in structures}) == 1 if complete else None,
             'all_policies_match_selected_git': all(r.get('policy_matches_git', False) for r in reports) if complete else None,
             'inventory_differences': differences, 'approved_comparison_exceptions': ignored,
             'same_supported_inventory': not differences if inventory_complete else None,
-            'has_findings': bool(missing) or bool(differences) or any(r['findings'] for r in reports),
+            'has_findings': bool(missing) or bool(missing_inventory) or bool(differences) or any(r['findings'] for r in reports),
             'note': 'Different releases may mean pending promotion. Null parity means incomplete evidence. Values were not read; no corrections or deletions were made.'}
 
 
