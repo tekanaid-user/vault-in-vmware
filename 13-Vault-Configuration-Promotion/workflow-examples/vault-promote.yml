@@ -15,7 +15,7 @@ concurrency:
 jobs:
   plan:
     if: github.ref == 'refs/heads/main'
-    runs-on: [self-hosted, opers-vault]
+    runs-on: [self-hosted, vault-demo]
     environment: ${{ inputs.environment }}-plan
     permissions:
       contents: read
@@ -52,7 +52,7 @@ jobs:
         run: rm -rf -- 13-Vault-Configuration-Promotion/.runs
   apply:
     needs: plan
-    runs-on: [self-hosted, opers-vault]
+    runs-on: [self-hosted, vault-demo]
     # Configure required reviewers here, particularly on prod. Reviewer sees plan job first.
     environment: ${{ inputs.environment }}
     permissions:

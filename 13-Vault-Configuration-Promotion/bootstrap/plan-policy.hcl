@@ -1,14 +1,14 @@
 # Default plan identity: reads configuration/structure only; no secret-data access.
-path "sys/policies/acl/opers-demo-dbit" {
+path "sys/policies/acl/demo-app" {
   capabilities = ["read"]
 }
-path "auth/approle/role/opers-demo-dbit" {
+path "auth/approle/role/demo-app" {
   capabilities = ["read"]
 }
-path "secret/metadata/opers-demo/dbit" {
+path "secret/metadata/demo/app" {
   capabilities = ["read"]
 }
-path "secret/subkeys/opers-demo/dbit" {
+path "secret/subkeys/demo/app" {
   capabilities = ["read"]
 }
 path "auth/token/revoke-self" {

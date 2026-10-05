@@ -1,14 +1,14 @@
 # Default deploy identity: changes policy/AppRole only; reads structure, never values.
-path "sys/policies/acl/opers-demo-dbit" {
+path "sys/policies/acl/demo-app" {
   capabilities = ["read", "create", "update"]
 }
-path "auth/approle/role/opers-demo-dbit" {
+path "auth/approle/role/demo-app" {
   capabilities = ["read", "create", "update"]
 }
-path "secret/metadata/opers-demo/dbit" {
+path "secret/metadata/demo/app" {
   capabilities = ["read"]
 }
-path "secret/subkeys/opers-demo/dbit" {
+path "secret/subkeys/demo/app" {
   capabilities = ["read"]
 }
 path "auth/token/revoke-self" {
