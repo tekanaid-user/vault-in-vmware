@@ -75,12 +75,12 @@ def fingerprints(data, allowed):
 
 
 def scan(cfg, call, policy_normalizer, leaf_fields, rotation_status, today):
-    """Inventory configured namespace, including every enabled mount and KV v2 root."""
+    """Inventory a Vault Community instance, including every enabled mount and KV v2 root."""
     result = {key: {} for key in ('policies', 'auth_methods', 'secrets_engines', 'configurations', 'kv_paths')}
-    result.update(complete=True, findings=[], coverage={'namespace_scope': 'configured namespace only',
+    result.update(complete=True, findings=[], coverage={'vault_scope': 'Vault Community instance; no namespaces',
         'unsupported_details': [], 'policy_families': cfg.get('policy_families', ['acl', 'password']),
         'excluded': ['KV v1 values', 'credentials and secret values', 'server storage/seal/TLS configuration',
-                     'identity entities/groups', 'child namespaces', 'secret issuance/export endpoints']})
+                     'identity entities/groups', 'secret issuance/export endpoints']})
 
     def unknown(path, error, category='configurations'):
         result['complete'] = False

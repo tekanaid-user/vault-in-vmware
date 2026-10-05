@@ -1,6 +1,5 @@
 {
   "vault_addr": "https://vault-dev.CHANGE_ME:8200",
-  "staging_mount": "promotion-inputs",
   "jwt_auth_path": "github",
   "oidc_audience": "vault-demo",
   "deploy_role": "github-dev-deploy",
@@ -28,7 +27,10 @@
     "configurations": {
       "auth/github/role/github-dev-drift": "auth/github/role/github-ENV-drift",
       "auth/github/role/github-dev-plan": "auth/github/role/github-ENV-plan",
-      "auth/github/role/github-dev-deploy": "auth/github/role/github-ENV-deploy"
+      "auth/github/role/github-dev-deploy": "auth/github/role/github-ENV-deploy",
+      "auth/github/role/github-dev-admin-plan": "auth/github/role/github-ENV-admin-plan",
+      "auth/github/role/github-dev-admin-deploy": "auth/github/role/github-ENV-admin-deploy",
+      "auth/github/role/github-dev-credentials": "auth/github/role/github-ENV-credentials"
     }
   },
   "inventory_comparison_exceptions": [
@@ -49,6 +51,24 @@
       "resource": "auth/github/role/github-ENV-deploy",
       "field": "bound_claims/sub",
       "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+    },
+    {
+      "category": "configurations",
+      "resource": "auth/github/role/github-ENV-admin-plan",
+      "field": "bound_claims/sub",
+      "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+    },
+    {
+      "category": "configurations",
+      "resource": "auth/github/role/github-ENV-admin-deploy",
+      "field": "bound_claims/sub",
+      "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+    },
+    {
+      "category": "configurations",
+      "resource": "auth/github/role/github-ENV-credentials",
+      "field": "bound_claims/sub",
+      "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
     }
   ],
   "inventory_expected_fields": {
@@ -60,6 +80,21 @@
     },
     "auth/github/role/github-dev-deploy": {
       "bound_claims/sub": "repo:tekanaid-user@37753095/vault-in-vmware@1406319724:environment:dev"
+    },
+    "auth/github/role/github-dev-admin-plan": {
+      "bound_claims/sub": "repo:tekanaid-user@37753095/vault-in-vmware@1406319724:environment:dev-plan"
+    },
+    "auth/github/role/github-dev-admin-deploy": {
+      "bound_claims/sub": "repo:tekanaid-user@37753095/vault-in-vmware@1406319724:environment:dev"
+    },
+    "auth/github/role/github-dev-credentials": {
+      "bound_claims/sub": "repo:tekanaid-user@37753095/vault-in-vmware@1406319724:environment:dev-credentials"
     }
-  }
+  },
+  "admin_plan_role": "github-dev-admin-plan",
+  "admin_deploy_role": "github-dev-admin-deploy",
+  "credential_role": "github-dev-credentials",
+  "credential_delivery_mount": "automation-delivery",
+  "credential_delivery_path": "restart/credentials",
+  "admin_application_overrides": {}
 }

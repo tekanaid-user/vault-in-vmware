@@ -1,10 +1,10 @@
 # October 5, 2026: decisions and delivery tracker
 
-The team agreed to Git as the source of truth for configuration and secret structure, with two workstreams. Security retains UI access and each environment keeps its own values. Start with read-only reporting, then pilot promotion for one application. This public summary contains no customer or attendee details beyond the implementation owner.
+The team agreed to Git as the source of truth for configuration and secret structure, with two workstreams. The target is Vault Community Edition, with no namespaces. Security retains UI access and each environment keeps its own values. Start with read-only reporting, then pilot promotion for one application. This public summary contains no customer or attendee details beyond the implementation owner.
 
 | Workstream | Agreed direction | Implementation in this folder |
 | --- | --- | --- |
-| 1: Entry and promotion | Security uses parameter-driven GitHub Actions; values entered/read/edited in Vault UI; Terraform Community CLI operated through GitHub Actions; reviewed Git releases DEV → UAT → PROD | Internal plan/apply helper and manual promotion Actions workflow; current input is environment, with approved application/configuration in Git. General onboarding inputs remain to be added. Requires live setup/imports and pilot validation. |
+| 1: Entry and promotion | Security uses parameter-driven GitHub Actions; values entered/read/edited in Vault UI; Terraform Community CLI operated through GitHub Actions; reviewed Git releases DEV → UAT → PROD | Parameter form creates reviewed catalog/release PRs; admin deployment uses Terraform for multiple apps and restart configuration. Requires live setup and pilot acceptance. |
 | 2: Drift and rotation | Daily read-only comparison against Git and across environments; Security reviews results | Metadata/subkeys collector, all ACL/password policies, auth/engine inventory, supported configuration adapters, rotation-age findings and scheduled Actions workflow. No value reads or corrections. |
 
 ## Current workflow learned
@@ -25,10 +25,11 @@ The team agreed to Git as the source of truth for configuration and secret struc
 | Share full drift inventory/report | Implemented: all auth/engine mounts, ACL/password policies, accessible KV v2 paths/keys and supported configs | Disposable TLS/OIDC pilot passed in GitHub Actions with an isolated ephemeral runner; configure live scopes/releases and review a real-environment report with Security. |
 | Keys-only developer access | API and `vault read secret/subkeys/...` tested with data-read denied | Validate installed Vault version and UI behavior. API/CLI support does not prove UI support. |
 | Rotation-age report | Implemented/tested: integrated scan plus dedicated `rotation-report.py`; daily Actions artifact | Confirm exact metadata key, ISO date format and agreed age threshold; 90 days is a placeholder. |
-| Security pipeline interface | Current promotion takes environment and reads approved definitions from Git; no Security-run scripts | Extend application/configuration onboarding parameters and reviewed Git-change creation; pilot Security's Actions and Vault UI workflow. Historical initial-writer utility is outside this operating model. |
-| GitHub Actions promotion interface / pilot | Implemented; Security-facing Terraform shell wrapper removed | Example environment/review gates configured; main branch protection and customer reviewer assignments remain; disposable pilot passed. Choose customer application, import scope, remote backend and a reachable self-hosted runner. Confirm live TTL/use settings before adopting example defaults. |
+| Security pipeline interface | Admin request form creates catalog/release PRs; separate admin deploy Action; no Security-run scripts | Validate customer use of the implemented parameter form and Vault UI; see README for direct Actions links. |
+| GitHub Actions promotion interface / pilot | Workflow template implemented; components tested; full approval/artifact flow unverified | Example environment/review gates configured; main branch protection and customer reviewer assignments remain; disposable pilot passed. Choose customer application, import scope, remote backend and a reachable self-hosted runner. Confirm live TTL/use settings before adopting example defaults. |
+| Complete Security workflow verification | Helper tests implemented | Actual admin plan/import and portable saved-plan apply, input validation, scoped identities and integrity checks tested locally. Full GitHub cross-job/reviewer flow and customer backend remain acceptance items. |
 | Unused-path evidence | No automatic deletion | Investigate available audit access history and retention; verify candidates with application owners. KV metadata has no standard last-access field. |
-| Separate credential regeneration | Design follow-up | Obtain/review the current operational script. This example creates no SecretIDs or application tokens. |
+| Separate credential regeneration | Separate issuance Action implemented/tested | Current script reviewed. Configuration creates no credentials; deliberate issuance delivers restart credentials directly to restricted Vault KV. Customer approves readers, TTLs and revocation. |
 
 ## Team dependencies and next session
 
@@ -43,3 +44,5 @@ The team agreed to Git as the source of truth for configuration and secret struc
 Customer handoff: [built/tested summary, customer prerequisites and remaining implementation follow-ups](README.md).
 
 Source: the two supplied October 5 meeting transcript segments. Detailed internal meeting notes stay outside this public repository.
+
+Direct mapping of every implementation commitment to code, Actions and remaining checkpoints: [README delivery table](README.md#sams-commitments-direct-repo-mapping).

@@ -1,0 +1,89 @@
+name: Vault admin change request
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        type: choice
+        options: [configure, promote]
+        required: true
+      environment:
+        type: choice
+        options: [dev, uat, prod]
+        required: true
+      setup_mode:
+        type: choice
+        options: [applications, restart, both]
+        default: applications
+        required: true
+      applications:
+        description: Space-separated application names (no values)
+        required: true
+        type: string
+      keys:
+        description: Space-separated expected key names only
+        default: api-key db-password
+        type: string
+      application_settings:
+        description: Non-secret AppRole settings JSON; see README
+        default: '{}'
+        type: string
+      restart_settings:
+        description: Non-secret restart role settings JSON
+        default: '{}'
+        type: string
+      configuration_ref:
+        description: Promote only; full reviewed main commit SHA
+        type: string
+      ticket:
+        description: Non-secret change ticket reference
+        required: true
+        type: string
+      runner:
+        type: choice
+        options: [hosted, isolated]
+        default: hosted
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: vault-admin-requests
+  cancel-in-progress: false
+jobs:
+  request:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ${{ inputs.runner == 'isolated' && fromJSON('["self-hosted", "vault-pilot"]') || 'ubuntu-latest' }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+      - name: Generate reviewed configuration or release change
+        env:
+          OPERATION: ${{ inputs.operation }}
+          TARGET_ENV: ${{ inputs.environment }}
+          MODE: ${{ inputs.setup_mode }}
+          APPS: ${{ inputs.applications }}
+          KEYS: ${{ inputs.keys }}
+          APP_SETTINGS: ${{ inputs.application_settings }}
+          RESTART_SETTINGS: ${{ inputs.restart_settings }}
+          CONFIG_REF: ${{ inputs.configuration_ref }}
+          TICKET: ${{ inputs.ticket }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 13-Vault-Configuration-Promotion/scripts/admin-request.py \
+            --operation "$OPERATION" --environment "$TARGET_ENV" --setup-mode "$MODE" \
+            --applications "$APPS" --keys "$KEYS" --application-settings "$APP_SETTINGS" \
+            --restart-settings "$RESTART_SETTINGS" --configuration-ref "$CONFIG_REF" --ticket "$TICKET"
+          if git diff --quiet; then
+            echo 'No configuration change requested.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          BRANCH="vault-admin/request-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git switch -c "$BRANCH"
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add 13-Vault-Configuration-Promotion/configuration/admin-catalog.json 13-Vault-Configuration-Promotion/environments/*/admin-release.json
+          git commit -m 'Request reviewed Vault admin configuration change'
+          git push origin "$BRANCH"
+          python3 -c 'import os,pathlib; pathlib.Path("/tmp/vault-request-body.md").write_text("Ticket: " + os.environ["TICKET"] + "\n\nGenerated from the Security Actions form. Review configuration and environment selection before merging. No Vault writes or credentials issued.\n")'
+          gh pr create --base main --head "$BRANCH" --title 'Vault admin configuration request' --body-file /tmp/vault-request-body.md >> "$GITHUB_STEP_SUMMARY"

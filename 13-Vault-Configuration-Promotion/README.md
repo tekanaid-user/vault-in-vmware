@@ -1,102 +1,73 @@
-# Vault configuration promotion, drift and rotation reporting
+# Vault configuration, drift and rotation
 
-**Status: built and tested with disposable Vaults; ready for a customer pilot. Customer DEV/UAT/PROD have not been configured or deployed.**
+Security operates **GitHub Actions**, supplying non-secret parameters. Actions runs Terraform Community CLI; Security does not run scripts or learn Terraform. **Vault Community Edition, with no namespaces.** Git holds configuration and expected structure. Vault holds environment-specific values, with UI access retained.
 
-Git holds intended configuration and secret structure. Vault holds each environment's own secret values. Security keeps UI access and uses **GitHub Actions to run Terraform Community CLI** for configuration promotion. Security launches pipelines and supplies non-secret parameters; scripts and Terraform run only behind the pipelines.
+**Status:** implementation and disposable-Vault tests are available. Customer DEV/UAT/PROD endpoints, state, runners and acceptance remain pending. Live deployment/reporting is disabled until setup is complete. [Test evidence and limits](VALIDATION.md).
 
-## What has been delivered
+## Actions and daily workflow
 
-| Deliverable | Built behavior |
+| Step | Security does | Pipeline result |
+| --- | --- | --- |
+| 1. Define/change application | [Vault admin change request](https://github.com/tekanaid-user/vault-in-vmware/actions/workflows/vault-admin-request.yml): select `configure`; enter application names, key names, mode and ticket. Optional JSON sets AppRole TTLs/use limits/CIDRs. | Creates a PR for `configuration/admin-catalog.json`. No Vault writes. Review and merge. |
+| 2. Select release | Same Action: select `promote`, DEV, applications and the full reviewed configuration commit SHA. | Creates a PR for DEV `admin-release.json`. Review and merge. Existing managed applications are retained. |
+| 3. Deploy configuration | [Vault admin deploy](https://github.com/tekanaid-user/vault-in-vmware/actions/workflows/vault-admin-deploy.yml): select DEV. Review plan; approve apply when required. | Scoped OIDC, import existing configuration, Terraform saved plan, separate approved apply. Deletes/replacements are blocked. |
+| 4. Supply/read/edit values | Vault UI, under `secret/<application>/<entry>`, for example `secret/webapp/config`. Enter each environment's own JSON values. | No application values in GitHub inputs/secrets, Git or Terraform state. No sample secrets are seeded. |
+| 5. Promote | Repeat steps 2 and 3 for UAT, then PROD, with the **same configuration SHA**. Check prior environment evidence. | Separate state and plans per environment; values are never copied. Prior-environment success is checked by reviewers, not automatically enforced. Reviewed `admin_application_overrides` in environment settings allow different CIDRs/role settings while sharing a release SHA. |
+| 6. Review reports | [Daily Vault inventory and rotation](https://github.com/tekanaid-user/vault-in-vmware/actions/workflows/vault-drift.yml), daily at 11:00 UTC or on demand. | Read-only DEV/UAT/PROD comparison and rotation-age artifacts. No automatic corrections/deletions. |
+| Separate deliberate operation | [Vault restart credential issuance](https://github.com/tekanaid-user/vault-in-vmware/actions/workflows/vault-restart-credentials.yml): select environment and current delivery version. | Approved job writes new restart RoleID/SecretID directly into restricted Vault KV. Never prints or stores them in artifacts/state. Retrieve through Vault UI. Old credentials are not automatically revoked. |
+
+### Mapping from the existing admin script
+
+Source: [Session 8/9 admin script](../09-Session8and9-UpdatingScripts/ScriptsPerPersona/vault-admin-setup.sh).
+
+| Original operation | New behavior |
 | --- | --- |
-| Workstream 1: configuration promotion | Reviewed Git release references; per-environment Terraform plan; protected-environment approval before applying the saved plan. Current Terraform scope is one application's ACL policy and AppRole. |
-| Secret values | Security creates, reads and edits environment-specific values in Vault UI. Pipelines use the approved Git path/key definition and verify keys through subkeys; no value entry in GitHub. |
-| Workstream 2: inventory and drift | Inventory ACL/password policies, all enabled auth/engine mounts and supported configurations, including LDAP mappings. Compare DEV/UAT/PROD and the selected application's Git baseline. |
-| KV v2 structure | Discover all accessible KV v2 mounts and recursively scan metadata paths and nested keys through [Read Secret Subkeys](https://developer.hashicorp.com/vault/api-docs/secret/kv/kv-v2#read-secret-subkeys), without reading KV values. |
-| Rotation ages | Dedicated `rotation-report.py` reports current, overdue, missing, invalid and future dates from operator-maintained metadata. It does not rotate credentials. |
-| GitHub automation | Validation, disposable OIDC pilot, manual promotion, and daily/on-demand inventory workflows. Daily reporting saves `comparison.json` and `rotation-report.json`. |
+| Multiple application names | Space-separated `applications` form input, validated; no silent default applications. |
+| Application policies, AppRoles, KV v2 mount, AppRole auth | Terraform `configuration/admin-setup`; existing resources imported before plan. Policy adds metadata listing for application paths. |
+| Restart / applications / both | `setup_mode` input; reviewed release retains the previously managed set. Restart policy is limited to selected applications, replacing the original wildcard. |
+| Hardcoded TTLs/use counts/CIDRs | Defaults preserve application TTLs/counts: SecretID 24h/150 uses, token 5h/24h maximum/100 uses. CIDRs default empty; original loopback demo CIDRs must be replaced with reviewed customer ranges. Restart retains original unlimited defaults until reviewed. |
+| Token/LDAP prompt | GitHub OIDC machine identity; human LDAP access remains. No routine root token. |
+| Optional secret seeding | Vault UI, after configuration deployment; no values accepted by Actions. |
+| Restart SecretID generated during setup | Separate protected issuance Action with compare-and-set delivery. Provisioning never generates credentials. |
+| Printed/saved credentials | Vault delivery path `automation-delivery/restart/credentials`; reader access controlled separately. |
 
-Application values never enter Git, GitHub secrets or the default Terraform plan/state. Reads and value edits remain in the Vault UI. Reports make no corrections or deletions. Unsupported plugin details and denied/failed reads are explicit; incomplete evidence cannot pass as equal. See [exact coverage and exclusions](INVENTORY.md).
+## Sam's commitments: direct repo mapping
 
-## What has been tested
+Every implementation commitment has a location and an explicit remaining checkpoint. [Detailed customer setup](RUNBOOK.md).
 
-| Evidence | Verified result |
-| --- | --- |
-| [Validation workflow: 21 tests passed](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/37376406133) | Multiple/empty/nested KV mounts, policies, supported adapters, drift in every inventory category, rotation dates, permission failures and historical create-only helper safeguards. Terraform imports, saved-plan apply, subsequent no-change plan, and absence of synthetic application values/tokens from state. |
-| [Real GitHub OIDC pilot: passed](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/37376409400) | Three disposable TLS Vaults; actual GitHub-issued JWTs; scoped identities; rejected untrusted repository binding; complete baseline parity and detected UAT drift. |
-| Keys-only access | API and Vault CLI expose keys through subkeys; restricted identities receive HTTP 403 when attempting to read KV values. UI behavior remains unverified. |
-| Tool/workflow validation | Vault 2.1.0, Terraform CLI 1.16.1, Vault provider 5.8.0. Both Terraform roots validated; workflow, shell and CLI checks passed. Database/Sentinel adapters used API fixtures rather than live Enterprise/database infrastructure. |
-
-These results cover synthetic Vaults, not customer infrastructure, remote state or customer deployments. Security's pipeline operation and Vault UI entry remain customer pilot checks. [Full evidence and limits](VALIDATION.md).
-
-## Customer setup and acceptance
-
-Start with **read-only inventory**, then promote **one agreed application**. Drift reporting does not require Terraform state.
-
-| Step | Owner | Needed before live use |
+| Commitment | Location | Status / remaining checkpoint |
 | --- | --- | --- |
-| 1. Scope and baseline | Security + implementation lead | Confirm Vault versions, namespaces/mounts, pilot application, policy/AppRole settings and intended environment differences. Review supported adapter coverage and exact permissions for nested mounts. |
-| 2. GitHub controls | Customer repository administrator | Use an approved repository/report access model, protect `main`, set reviewers and restrict deployment environments. This public repository is a generic example; customer addresses and inventory belong in approved locations. |
-| 3. Connectivity and runner | DevOps | Supply HTTPS endpoints/CA trust and a restricted self-hosted runner labelled `vault-demo`, with Python 3.10+, tested Terraform CLI and Vault/backend reachability. |
-| 4. Vault OIDC and access | Vault administrator + implementation lead | Install separate plan/deploy/drift policies and JWT roles in each Vault. Bind exact repository IDs, workflow, main ref and environment subjects; adapt Git settings/expectations to those bindings. No stored Vault credentials or application values in GitHub. |
-| 5. First inventory report | Security + implementation lead | Set reviewed release references; run the report; resolve permission gaps and approve intentional differences. Agree report recipients/access, schedule and rotation metadata key/date format/age threshold. `password_cycle_date` and 90 days are examples. |
-| 6. Promotion state and imports | DevOps + implementation lead | Choose a protected remote backend with separate state per environment, encryption, locking and recovery. Replace backend placeholders and import existing managed policy/AppRole resources. S3 is an example, not a required backend. |
-| 7. Pilot acceptance | Security + application owner | Check parameter-driven pipeline operation, Vault UI entry, application access and actual per-environment plans. Promote DEV → UAT → PROD with evidence and approval at each stage. Confirm recovery before production adoption. |
+| Full policies/auth/engines/configuration drift | [inventory.py](scripts/inventory.py), [drift.py](scripts/drift.py), [coverage](INVENTORY.md), [report Action](../.github/workflows/vault-drift.yml) | Built/tested; all mounts and supported adapters, explicit gaps. Review first customer report. |
+| All KV v2 paths and keys without values | [inventory.py](scripts/inventory.py), [keys-only policy](bootstrap/developer-keys-policy.hcl) | API/CLI and denied value reads tested. Customer UI behavior still to verify. [HashiCorp subkeys API](https://developer.hashicorp.com/vault/api-docs/secret/kv/kv-v2#read-secret-subkeys). |
+| Rotation-age reporting | [rotation-report.py](scripts/rotation-report.py), [report Action](../.github/workflows/vault-drift.yml), [details](INVENTORY.md) | Built/tested; confirm metadata field, ISO date format and age threshold with Security. Reports do not rotate secrets. |
+| Transform current script into Security Actions | [request Action](../.github/workflows/vault-admin-request.yml), [deploy Action](../.github/workflows/vault-admin-deploy.yml), [form helper](scripts/admin-request.py), [Terraform](configuration/admin-setup/main.tf) | Built: parameter form, reviewed catalog/release PRs and multiple applications. Validate customer operating process. |
+| Verify configuration pipeline | [admin-pipeline.py](scripts/admin-pipeline.py), [test_admin.py](tests/test_admin.py), [validation](VALIDATION.md) | Disposable tests exercise imports, actual plan helper, portable saved-plan apply, idempotence, preserved values, integrity rejection and scoped access. Full GitHub reviewer/artifact flow and customer remote state remain acceptance items. |
+| Separate credential regeneration | [issuance Action](../.github/workflows/vault-restart-credentials.yml), [restart-credentials.py](scripts/restart-credentials.py), [issuer policy](bootstrap/restart-credential-policy.hcl) | Built/tested delivery and stale-version rejection; customer approves delivery readers, expiry and revocation procedure. |
+| Customer OIDC/runner/state and one-app pilot | [runbook](RUNBOOK.md), [bootstrap](bootstrap/), [environment settings](environments/), [OIDC pilot](OIDC-PILOT.md) | Joint work: customer endpoints/CA, scopes, runner, backend, protected main/reviewers, selected app and DEV → UAT → PROD acceptance. |
+| Unused-path investigation | [cleanup evidence checklist](RUNBOOK.md#unused-path-evidence) | Still open: audit history/retention and application-owner confirmation. No last-access collector or deletion automation implemented. |
 
-**Current example setup:** ten GitHub environments exist, with main-only deployment restrictions and UAT/PROD reviewer gates preventing self-review. The example's `main` branch is not protected, and no permanent deployment runner is registered. `VAULT_AUTOMATION_ENABLED=false` keeps customer workflows disabled; enable only after the relevant prerequisites are complete. [Detailed setup runbook](RUNBOOK.md).
+## What is scanned
 
-## Security's daily workflow
+All accessible KV v2 mounts and paths in each Vault Community instance, nested keys via subkeys, ACL/password policies, auth/engine mounts, and supported configuration adapters including LDAP mappings. Unsupported plugin details and failed/denied reads are explicit; incomplete scans cannot report equality. [Exact coverage](INVENTORY.md).
 
-| Activity | Security does | Automation does |
-| --- | --- | --- |
-| New application/secret | Use GitHub Actions for configuration onboarding/promotion and provide required non-secret parameters. Enter actual values in each environment's Vault UI at the approved path. | Reads approved definitions from Git, validates keys through subkeys and manages policy/AppRole configuration. |
-| Read/edit values | Use Vault UI; update rotation metadata after actual credential rotation. | Value-only edits require no Git change; field/path changes require Git review. |
-| Promote configuration | Actions → **Vault promotion** → provide target environment; review plan and approve apply. | OIDC authentication, structure check, Terraform plan/apply using that environment's state. |
-| Review drift/rotation | Actions → **Daily Vault inventory and rotation** → summary/artifact. | Scheduled at 11:00 UTC or on demand; compares inventories and reports rotation ages. |
-| Resolve findings | Promote, adopt an intended change into Git, record an approved exception or correct an error. | No automatic deletion, unused-secret claim or value comparison. |
+Cross-environment comparison covers the full supported inventory. The current Git-baseline collector covers the original selected application's definition and configured expected fields; it does not yet reconcile every admin catalog entry against Git. Treat catalog-wide Git compliance as a remaining extension. Rotation uses operator-maintained custom metadata, not last-updated or inferred last-access dates.
 
-**Current pilot inputs:** `Vault promotion` accepts the target environment. Application, path, keys, policy and release are read from approved Git definitions. A general onboarding form accepting additional application/configuration parameters is a remaining extension, not an implemented capability. Those parameters must produce reviewed Git changes before deployment; secret values remain in Vault. Security does not run local scripts.
-
-## Git promotion and file layout
-
-Use protected `main`, short-lived change branches and reviewed PRs. Environment folders contain release references and non-secret overrides, not copied policies.
-
-| Step | Git action | Deployment |
-| --- | --- | --- |
-| Define | Change branch → reviewed PR → main | Select an immutable configuration commit SHA |
-| DEV | PR sets DEV `release.yaml` to that SHA | Plan/apply DEV; record application validation |
-| UAT | PR advances UAT to the same SHA | Review DEV evidence; create/apply a UAT plan |
-| PROD | PR advances PROD to the same SHA | Review UAT evidence; approve/apply a PROD plan |
-
-Promotion is manually dispatched. Reviewers must check predecessor deployment evidence; automatic enforcement of DEV/UAT success and merge-triggered dispatch are future enhancements. Each environment keeps its own values and state; a DEV plan is never reused in UAT/PROD.
+## Layout and cleanup
 
 ```text
+.github/workflows/vault-*.yml         # Active Actions, one canonical copy
 13-Vault-Configuration-Promotion/
-├── configuration/
-│   ├── application.json          # Expected path and keys
-│   ├── policy.hcl.tftpl
-│   └── configuration/            # Terraform policy/AppRole pilot
+├── configuration/admin-catalog.json # Shared non-secret definitions
+├── configuration/admin-setup/       # Current admin Terraform root
 ├── environments/{dev,uat,prod}/
-│   ├── release.yaml              # Reviewed configuration commit SHA
-│   ├── settings.json             # Non-secret target settings/expectations
-│   └── *.backend.hcl             # Protected remote state locations
-├── scripts/                      # Internal pipeline helpers and inventory/rotation
-├── bootstrap/                    # Example Vault policies/OIDC role
-├── tests/                        # Unit and disposable Vault tests
-└── workflow-examples/            # Copies; active workflows at root .github/workflows
+│   ├── admin-release.json           # Full reviewed SHA and managed apps/mode
+│   ├── admin-setup.backend.hcl       # Environment-specific remote state
+│   └── settings.json               # Endpoint, OIDC and report settings
+├── scripts/                        # Internal Actions helpers, inventory/rotation
+├── bootstrap/                      # Scoped Vault policy/OIDC examples
+└── tests/                          # Synthetic tests and historical regression fixtures
 ```
 
-## Remaining implementation-lead follow-ups
+Superseded local-entry/staging wrappers, optional staged Terraform secret-write root, old promotion helper/workflow and duplicate workflow copies were removed. The earlier single-app definition/Terraform root remains for reporting-baseline and OIDC regression tests, not as a second Security workflow. Historical create-only code lives under `tests/fixtures` only.
 
-| Follow-up | Status / dependency |
-| --- | --- |
-| Parameter-driven onboarding | Extend the single-application pilot with the agreed non-secret application/configuration inputs and reviewed Git-change creation. Current dispatch accepts environment only. |
-| Adapt and validate the customer pilot | Joint setup above; requires customer endpoints, access, application choice and state decisions. |
-| Developer keys-only UI | API/CLI proven; validate the customer version/UI and select a supported access route. |
-| Unused-path analysis | Requires audit access-history coverage/retention and application-owner confirmation. No standard KV last-access field or automatic deletion is assumed. |
-| Separate credential regeneration | Obtain and review the existing operational script before changing this workflow. Current example generates no application tokens or SecretIDs. |
-
-These follow-ups remain open. The implementation and synthetic test results can be shared with the parameter-driven onboarding extension identified explicitly.
-
-Further reading: [meeting decisions and delivery tracker](MEETING-OUTCOMES.md), [OIDC pilot](OIDC-PILOT.md), [inventory/rotation details](INVENTORY.md). The earlier [advanced Terraform secret-write alternative](ADVANCED-SECRET-WRITES.md) is retained separately; it is not part of the recommended daily workflow and has only syntax/provider validation.
-
-Historical `create-secret.*` and staging helpers remain as tested reference utilities; Security's operating workflow is GitHub Actions and Vault UI.
+Customer prerequisites: approved private repository/report access, protected main, reviewer gates, reachable restricted runner, HTTPS/CA trust, exact OIDC bindings and protected per-environment backend. The example uses S3; another protected Terraform backend may be chosen. See [meeting outcomes](MEETING-OUTCOMES.md), [runbook](RUNBOOK.md) and [validation](VALIDATION.md).

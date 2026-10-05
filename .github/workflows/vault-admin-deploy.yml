@@ -1,0 +1,67 @@
+name: Vault admin deploy
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options: [dev, uat, prod]
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: vault-${{ inputs.environment }}
+  cancel-in-progress: false
+jobs:
+  plan:
+    if: github.ref == 'refs/heads/main' && vars.VAULT_AUTOMATION_ENABLED == 'true'
+    runs-on: [self-hosted, vault-demo]
+    environment: ${{ inputs.environment }}-plan
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      digest: ${{ steps.plan.outputs.manifest_digest }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+      - name: Import existing configuration and create plan
+        id: plan
+        env:
+          TARGET_ENV: ${{ inputs.environment }}
+        run: python3 13-Vault-Configuration-Promotion/scripts/admin-pipeline.py plan --env "$TARGET_ENV"
+      - name: Publish resource action summary
+        run: cat 13-Vault-Configuration-Promotion/.admin-run/summary.json >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: vault-admin-plan-${{ github.run_id }}
+          path: |
+            13-Vault-Configuration-Promotion/.admin-run/
+            !13-Vault-Configuration-Promotion/.admin-run/.terraform/**
+          include-hidden-files: true
+          retention-days: 1
+      - if: always()
+        run: rm -rf -- 13-Vault-Configuration-Promotion/.admin-run
+  apply:
+    needs: plan
+    runs-on: [self-hosted, vault-demo]
+    environment: ${{ inputs.environment }}
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: vault-admin-plan-${{ github.run_id }}
+          path: 13-Vault-Configuration-Promotion/.admin-run/
+      - name: Apply approved plan with fresh OIDC identity
+        env:
+          TARGET_ENV: ${{ inputs.environment }}
+          MANIFEST_DIGEST: ${{ needs.plan.outputs.digest }}
+        run: python3 13-Vault-Configuration-Promotion/scripts/admin-pipeline.py apply --env "$TARGET_ENV" --digest "$MANIFEST_DIGEST"
+      - if: always()
+        run: rm -rf -- 13-Vault-Configuration-Promotion/.admin-run
