@@ -104,7 +104,7 @@ def run(local=False, output=Path('pilot-report.json')):
                     processes.append(subprocess.Popen(['vault', 'server', '-dev', '-dev-tls', '-dev-no-store-token', f'-dev-tls-cert-dir={folder}', f'-dev-root-token-id={root}', f'-dev-listen-address=127.0.0.1:{port}'], stdout=log, stderr=log))
                 cfg = settings(env, live=False)
                 cfg.update(vault_addr=f'https://127.0.0.1:{port}', drift_role=f'github-{env}-drift', plan_role=f'github-{env}-plan', deploy_role=f'github-{env}-deploy')
-                cfg['inventory_expected_fields'] = ({path: {'bound_claims/sub': 'repo:tekanaid-user@37753095/vault-in-vmware@1406319724:environment:vault-pilot'} for path in cfg['inventory_expected_fields']} if github else {})
+                cfg['inventory_expected_fields'] = ({path: {'bound_claims/sub': 'repo:tekanaid-user@37753095/vault-in-vmware@1406319724:environment:vault-pilot'} for path in cfg['inventory_expected_fields'] if path.rsplit('/', 1)[-1] in [cfg[kind + '_role'] for kind in ('drift', 'plan', 'deploy')]} if github else {})
                 os.environ['VAULT_CACERT'] = str(folder / 'vault-ca.pem')
                 os.environ.pop('VAULT_NAMESPACE', None)
                 for _ in range(150):

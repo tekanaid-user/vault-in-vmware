@@ -2,7 +2,7 @@
 
 | Check | Result |
 | --- | --- |
-| Python unit/integration suite | 25 tests passed locally; isolated Vault dev fixtures with restricted identities and synthetic values. |
+| Python unit/integration suite | 26 tests passed locally; isolated Vault dev fixtures with restricted identities and synthetic values. |
 | Vault / Terraform versions | Vault 2.1.0; Terraform CLI 1.16.1; Vault provider 5.8.0. |
 | Keys-only access | Restricted identity reads `subkeys` via API and Vault CLI; data read returns 403. UI rendering was not tested. |
 | Drift / rotation | All ACL/password policies; multiple/empty/nested KV v2 mounts; LDAP config/group/user mappings; Kubernetes/token/AppRole roles; userpass; transit/PKI; cross-environment changes in every inventory category; deleted paths and denied/hidden listings passed. Database adapters tested with API fixtures; historical Sentinel fixture is not customer Community scope. |
@@ -21,15 +21,22 @@ Target is Vault Community Edition with no namespaces; nonempty namespace configu
 
 | Check | Verified locally against disposable Vault |
 | --- | --- |
-| Parameter validation | Multiple names accepted; reserved/traversal/shell names, unknown settings, invalid CIDRs and boolean TTLs rejected. |
+| Parameter validation | Multiple names accepted; reserved/traversal/shell names, unknown settings, invalid CIDRs and boolean TTLs rejected. Configure → reviewed-release generation and retention of managed apps/restart tested in an isolated Git fixture. |
 | Terraform helper | Actual `admin-pipeline.plan()` imports existing KV/auth/policy/AppRole resources using a scoped plan identity. Scoped deploy applies the saved plan restored into a different directory. Multiple apps and restart setup created; second plan is unchanged. |
 | Safety | Existing synthetic UI-equivalent values preserved, tokens/values absent from state and summaries; deletion plans rejected; provisioning generates no restart SecretIDs. Restricted plan/deploy identities cannot read application values. |
 | Integrity | Saved-plan/manifest tampering and wrong target rejected by the actual artifact verifier. |
-| Deliberate issuance | Scoped identity delivers restart credentials to Vault KV, cannot read application/delivery values, and stale delivery version prevents another issuance. |
+| Deliberate issuance | Scoped identity delivers restart credentials to Vault KV, cannot read application/delivery values, and stale delivery version prevents another issuance. Failed delivery cleanup/revocation also verified locally. |
 
 **Verification boundary:** local tests exercise the actual helpers and a restored saved plan. They do not establish real GitHub cross-job upload/download, reviewer approval, customer remote state, customer UI behavior or customer deployments. The earlier real OIDC pilot remains evidence for authentication/reporting and the original one-app Terraform fixture, not the new admin deploy workflow end to end.
 
 ## GitHub execution evidence
+
+| Current conversion evidence | Result |
+| --- | --- |
+| [25-test validation](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/37384624959) | Passed at `284d79a`, including actual admin helper, scoped identities, portable saved plan, integrity and Community namespace rejection. |
+| [Security parameter form](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/37384643968) | Passed at `284d79a`: dispatched configure/both for one synthetic app and created a catalog PR using the job's GitHub token. Test PR was closed without merge; no Vault writes. |
+
+
 
 | Run | Result / evidence |
 | --- | --- |

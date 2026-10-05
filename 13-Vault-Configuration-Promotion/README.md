@@ -2,7 +2,7 @@
 
 Security operates **GitHub Actions**, supplying non-secret parameters. Actions runs Terraform Community CLI; Security does not run scripts or learn Terraform. **Vault Community Edition, with no namespaces.** Git holds configuration and expected structure. Vault holds environment-specific values, with UI access retained.
 
-**Status:** implementation and disposable-Vault tests are available. Customer DEV/UAT/PROD endpoints, state, runners and acceptance remain pending. Live deployment/reporting is disabled until setup is complete. [Test evidence and limits](VALIDATION.md).
+**Status:** [25-test Actions validation](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/37384624959) and [actual parameter-form PR creation](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/37384643968) passed. Customer DEV/UAT/PROD endpoints, state, runners and acceptance remain pending. Live deployment/reporting is disabled until setup is complete. [Test evidence and limits](VALIDATION.md).
 
 ## Actions and daily workflow
 
@@ -35,16 +35,19 @@ Source: [Session 8/9 admin script](../09-Session8and9-UpdatingScripts/ScriptsPer
 
 Every implementation commitment has a location and an explicit remaining checkpoint. [Detailed customer setup](RUNBOOK.md).
 
-| Commitment | Location | Status / remaining checkpoint |
-| --- | --- | --- |
-| Full policies/auth/engines/configuration drift | [inventory.py](scripts/inventory.py), [drift.py](scripts/drift.py), [coverage](INVENTORY.md), [report Action](../.github/workflows/vault-drift.yml) | Built/tested; all mounts and supported adapters, explicit gaps. Review first customer report. |
-| All KV v2 paths and keys without values | [inventory.py](scripts/inventory.py), [keys-only policy](bootstrap/developer-keys-policy.hcl) | API/CLI and denied value reads tested. Customer UI behavior still to verify. [HashiCorp subkeys API](https://developer.hashicorp.com/vault/api-docs/secret/kv/kv-v2#read-secret-subkeys). |
-| Rotation-age reporting | [rotation-report.py](scripts/rotation-report.py), [report Action](../.github/workflows/vault-drift.yml), [details](INVENTORY.md) | Built/tested; confirm metadata field, ISO date format and age threshold with Security. Reports do not rotate secrets. |
-| Transform current script into Security Actions | [request Action](../.github/workflows/vault-admin-request.yml), [deploy Action](../.github/workflows/vault-admin-deploy.yml), [form helper](scripts/admin-request.py), [Terraform](configuration/admin-setup/main.tf) | Built: parameter form, reviewed catalog/release PRs and multiple applications. Validate customer operating process. |
-| Verify configuration pipeline | [admin-pipeline.py](scripts/admin-pipeline.py), [test_admin.py](tests/test_admin.py), [validation](VALIDATION.md) | Disposable tests exercise imports, actual plan helper, portable saved-plan apply, idempotence, preserved values, integrity rejection and scoped access. Full GitHub reviewer/artifact flow and customer remote state remain acceptance items. |
-| Separate credential regeneration | [issuance Action](../.github/workflows/vault-restart-credentials.yml), [restart-credentials.py](scripts/restart-credentials.py), [issuer policy](bootstrap/restart-credential-policy.hcl) | Built/tested delivery and stale-version rejection; customer approves delivery readers, expiry and revocation procedure. |
-| Customer OIDC/runner/state and one-app pilot | [runbook](RUNBOOK.md), [bootstrap](bootstrap/), [environment settings](environments/), [OIDC pilot](OIDC-PILOT.md) | Joint work: customer endpoints/CA, scopes, runner, backend, protected main/reviewers, selected app and DEV → UAT → PROD acceptance. |
-| Unused-path investigation | [cleanup evidence checklist](RUNBOOK.md#unused-path-evidence) | Still open: audit history/retention and application-owner confirmation. No last-access collector or deletion automation implemented. |
+| Commitment | Owner | Repo location | Status / remaining checkpoint |
+| --- | --- | --- | --- |
+| Full drift inventory and rotation report | Sam | [Inventory](scripts/inventory.py); [Drift](scripts/drift.py); [Rotation](scripts/rotation-report.py) | Built/tested; 25-test Actions validation and earlier real OIDC pilot passed. Review first customer report. |
+| Security onboarding parameters | Sam + DevOps | [Request Action](../.github/workflows/vault-admin-request.yml); [Form helper](scripts/admin-request.py) | Built; actual GitHub form created a synthetic catalog PR. Configure/promote form uses non-secret names/settings and reviewed Git changes. |
+| Verify complete Security pipeline | Sam + DevOps | [Deploy Action](../.github/workflows/vault-admin-deploy.yml); [Helper](scripts/admin-pipeline.py); [Tests](tests/test_admin.py); [Evidence](VALIDATION.md) | Helper tests passed: scoped imports/plan, restored saved-plan apply, integrity and preserved values. Full GitHub approval/artifact deployment and customer remote backend remain open. |
+| Configure customer access and report review | DevOps + Security, with Sam | [Setup runbook](RUNBOOK.md); [Environment settings](environments/); [Policy examples](bootstrap/) | Vault Community Edition, no namespaces. Confirm endpoints/CA, mount/policy scope, runner, OIDC, protected main/reviewers, report access, cadence and exceptions. |
+| Select/import promotion pilot | Security + DevOps, with Sam | [Catalog](configuration/admin-catalog.json); [Terraform](configuration/admin-setup/main.tf); [Environment releases/state](environments/) | Choose one application; approve catalog settings and state. Existing supported resources auto-import before plan; review adoption changes. |
+| Validate customer DEV → UAT → PROD | Security + DevOps/application owner, with Sam | [Deploy Action](../.github/workflows/vault-admin-deploy.yml); [Acceptance checklist](RUNBOOK.md) | Pending customer setup: same approved SHA, separate plans/state, reviewer approval, application access, Vault UI entry and recovery. |
+| Developer keys-only access | Sam | [Developer policy](bootstrap/developer-keys-policy.hcl); [Coverage](INVENTORY.md) | API/CLI proven with value reads denied. Customer Vault Community UI behavior still open. |
+| Agree rotation metadata and threshold | Security + Sam | [Rotation report](scripts/rotation-report.py); [Settings](environments/); [Report Action](../.github/workflows/vault-drift.yml) | Report built/tested. Confirm field, ISO date format and maximum age; 90 days is an example. |
+| Investigate unused-path evidence | Sam + Security/application owners | [Evidence checklist](RUNBOOK.md#unused-path-evidence) | Still open: audit history/retention and owner confirmation. No last-access report or deletion automation implemented. |
+| Separate credential regeneration | Sam + Security | [Issuance Action](../.github/workflows/vault-restart-credentials.yml); [Delivery helper](scripts/restart-credentials.py); [Issuer policy](bootstrap/restart-credential-policy.hcl) | Built/tested as a deliberate protected Action. Credentials go directly to restricted Vault KV. Confirm delivery readers, TTL/use limits and revocation process. |
+| Catalog-wide Git compliance | Sam | [Coverage/boundary](README.md#what-is-scanned); [Collector](scripts/drift.py) | Remaining extension: full cross-environment inventory is built, but Git baseline checks currently cover the selected original app and configured expected fields, not every new catalog app. |
 
 ## What is scanned
 

@@ -69,7 +69,7 @@ def generate(args):
     combined = sorted(set(old['applications']) | set(selected))
     if set(combined) - set(pinned['applications']):
         raise ValueError('Pinned catalog is missing previously managed applications')
-    modes = {old['setup_mode'], args.setup_mode}
+    modes = {old['setup_mode'], args.setup_mode} if old['configuration_ref'] != '0'*40 else {args.setup_mode}
     mode = 'both' if 'both' in modes or modes == {'applications', 'restart'} else args.setup_mode
     return target, {'configuration_ref': args.configuration_ref, 'setup_mode': mode, 'applications': combined}
 

@@ -21,7 +21,10 @@ def issue(cfg, token, expected_version):
     try:
         api(cfg, token, 'POST', f'{mount}/data/{path}', {'options': {'cas': expected_version}, 'data': {'role_id': role_id, 'secret_id': minted['secret_id']}})
     except Exception:
-        api(cfg, token, 'POST', 'auth/approle/role/restart/secret-id-accessor/destroy', {'secret_id_accessor': minted['secret_id_accessor']})
+        try:
+            api(cfg, token, 'POST', 'auth/approle/role/restart/secret-id-accessor/destroy', {'secret_id_accessor': minted['secret_id_accessor']})
+        except Exception:
+            raise RuntimeError('Credential delivery and cleanup failed; administrator must investigate issuance in Vault audit logs') from None
         raise RuntimeError('Credential delivery failed; generated SecretID revoked') from None
     return expected_version + 1
 

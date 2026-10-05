@@ -14,6 +14,7 @@ import time
 import unittest
 import uuid
 from unittest.mock import patch
+from types import SimpleNamespace
 
 BASE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(BASE/'scripts'))
@@ -37,6 +38,35 @@ class Inputs(unittest.TestCase):
         with self.assertRaises(ValueError): request.settings('{"password":"value"}', request.DEFAULT)
         with self.assertRaises(ValueError): request.settings('{"token_bound_cidrs":["wrong"]}', request.DEFAULT)
         with self.assertRaises(ValueError): request.settings('{"token_ttl":true}', request.DEFAULT)
+
+    def test_request_catalog_then_reviewed_release(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            repo=Path(tmp); base=repo/'13-Vault-Configuration-Promotion'
+            (base/'configuration').mkdir(parents=True)
+            (base/'environments/dev').mkdir(parents=True)
+            catalog_path=base/'configuration/admin-catalog.json'
+            catalog_path.write_text((BASE/'configuration/admin-catalog.json').read_text())
+            (base/'environments/dev/admin-release.json').write_text(json.dumps({'configuration_ref':'0'*40,'setup_mode':'applications','applications':[]}))
+            args=SimpleNamespace(operation='configure',environment='dev',setup_mode='both',applications='webapp database',keys='api-key db-password',application_settings='{}',restart_settings='{}',configuration_ref='',ticket='SYNTHETIC-TEST')
+            with patch.object(request,'BASE',base),patch.object(request,'REPO',repo):
+                path,catalog=request.generate(args)
+                self.assertEqual(set(catalog['applications']),{'webapp','database'})
+                path.write_text(json.dumps(catalog))
+                subprocess.run(['git','init','-q','-b','main'],cwd=repo,check=True)
+                subprocess.run(['git','add','.'],cwd=repo,check=True)
+                subprocess.run(['git','-c','user.name=Synthetic Test','-c','user.email=test@example.invalid','commit','-qm','Synthetic fixture'],cwd=repo,check=True)
+                sha=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
+                subprocess.run(['git','update-ref','refs/remotes/origin/main',sha],cwd=repo,check=True)
+                args.operation='promote';args.configuration_ref=sha
+                target,definition=request.generate(args)
+                self.assertEqual(definition['configuration_ref'],sha)
+                self.assertEqual(definition['setup_mode'],'both')
+                self.assertEqual(definition['applications'],['database','webapp'])
+                target.write_text(json.dumps(definition))
+                args.setup_mode='applications';args.applications='webapp'
+                _,again=request.generate(args)
+                self.assertEqual(again['setup_mode'],'both')
+                self.assertEqual(again['applications'],['database','webapp'])
 
     def test_community_rejects_namespaces(self):
         with self.assertRaises(ValueError):
@@ -128,6 +158,14 @@ class AdminLive(unittest.TestCase):
                 self.assertEqual(denied.exception.status,403)
                 with self.assertRaises(ValueError): credentials.issue(cfg,issuer,0)
                 self.assertEqual(common.api(cfg,token,'GET','automation-delivery/metadata/restart/credentials')['data']['current_version'],1)
+                before=common.api(cfg,token,'LIST','auth/approle/role/restart/secret-id')['data']['keys']
+                def failed_delivery(c,t,method,path,payload=None,query=None):
+                    if method == 'POST' and path == 'automation-delivery/data/restart/credentials':
+                        raise common.ApiError(403,path)
+                    return common.api(c,t,method,path,payload,query)
+                with patch.object(credentials,'api',failed_delivery), self.assertRaisesRegex(RuntimeError,'generated SecretID revoked'):
+                    credentials.issue(cfg,issuer,1)
+                self.assertEqual(common.api(cfg,token,'LIST','auth/approle/role/restart/secret-id')['data']['keys'],before)
                 # A reduced desired set may never delete managed apps.
                 variables['applications'].pop('database')
                 with contextlib.redirect_stdout(output), self.assertRaises(ValueError):

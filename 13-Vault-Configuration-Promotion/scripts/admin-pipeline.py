@@ -86,7 +86,10 @@ def plan(root, env, cfg, token, variables, backend):
     changes = data.get('resource_changes', [])
     if any('delete' in change['change']['actions'] for change in changes):
         raise ValueError('Deletion/replacement is blocked; migration requires separate review')
-    summary = [{'address': c['address'], 'actions': c['change']['actions']} for c in changes]
+    visible = {'name', 'policy', 'path', 'type', 'options', 'role_name', 'token_policies', 'secret_id_ttl', 'secret_id_num_uses', 'token_ttl', 'token_max_ttl', 'token_num_uses', 'token_bound_cidrs', 'secret_id_bound_cidrs', 'token_no_default_policy', 'default_lease_ttl_seconds', 'max_lease_ttl_seconds'}
+    summary = [{'address': c['address'], 'actions': c['change']['actions'],
+                'before': {k: v for k, v in (c['change'].get('before') or {}).items() if k in visible},
+                'after': {k: v for k, v in (c['change'].get('after') or {}).items() if k in visible}} for c in changes]
     root.joinpath('summary.json').write_text(json.dumps(summary, indent=2))
     print(json.dumps(summary))
     return summary
