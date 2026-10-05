@@ -6,11 +6,17 @@ on:
     branches: [main]
     paths: ['13-Vault-Configuration-Promotion/**', '.github/workflows/vault-*.yml']
   workflow_dispatch:
+    inputs:
+      runner:
+        type: choice
+        options: [hosted, isolated]
+        default: hosted
+        description: Hosted Ubuntu or explicitly registered ephemeral pilot container
 permissions:
   contents: read
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner == 'isolated' && fromJSON('["self-hosted", "vault-pilot"]') || 'ubuntu-latest' }}
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683

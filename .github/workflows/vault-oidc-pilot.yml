@@ -1,6 +1,12 @@
 name: Vault development OIDC pilot
 on:
   workflow_dispatch:
+    inputs:
+      runner:
+        type: choice
+        options: [hosted, isolated]
+        default: hosted
+        description: Hosted Ubuntu or explicitly registered ephemeral pilot container
 permissions:
   contents: read
 concurrency:
@@ -9,7 +15,7 @@ concurrency:
 jobs:
   pilot:
     if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner == 'isolated' && fromJSON('["self-hosted", "vault-pilot"]') || 'ubuntu-latest' }}
     environment: vault-pilot
     timeout-minutes: 20
     permissions:
