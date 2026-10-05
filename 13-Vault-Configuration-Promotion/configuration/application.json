@@ -1,0 +1,11 @@
+{
+  "application": "dbit-demo",
+  "kv_mount": "secret",
+  "secret_path": "demo-demo/dbit",
+  "policy_name": "demo-demo-dbit",
+  "approle_name": "demo-demo-dbit",
+  "fields": [
+    "username",
+    "password"
+  ]
+}

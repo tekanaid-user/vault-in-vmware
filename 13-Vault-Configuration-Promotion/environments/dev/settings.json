@@ -1,0 +1,10 @@
+{
+  "vault_addr": "https://vault-dev.CHANGE_ME:8200",
+  "staging_mount": "promotion-inputs",
+  "jwt_auth_path": "github",
+  "oidc_audience": "demo-vault",
+  "deploy_role": "github-dev-deploy",
+  "drift_role": "github-dev-drift",
+  "token_bound_cidrs": [],
+  "plan_role": "github-dev-plan"
+}
