@@ -25,6 +25,13 @@ class InventoryPureTests(unittest.TestCase):
         self.assertNotIn('example.invalid', json.dumps(result))
         self.assertEqual(inventory.fingerprint(['a', 'b']), inventory.fingerprint(['b', 'a']))
 
+    def test_legacy_reports_cannot_pass_full_inventory(self):
+        reports = [{'environment': e, 'complete': True, 'paths': {}, 'findings': [], 'configuration_ref': 'a'} for e in ('dev', 'uat', 'prod')]
+        comparison = drift.compare_reports(reports)
+        self.assertFalse(comparison['complete'])
+        self.assertTrue(comparison['has_findings'])
+        self.assertEqual(comparison['missing_inventory_reports'], ['dev', 'prod', 'uat'])
+
     def test_exceptions_require_three_environment_agreement(self):
         base = {k: {} for k in ('policies', 'auth_methods', 'secrets_engines', 'configurations', 'kv_paths')}
         base['coverage'] = {'comparison_exceptions': []}
@@ -134,6 +141,7 @@ path "sys/mounts/nested/secrets/tune" { capabilities = ["read"] }
         report = drift.compare_reports([self.collect(i) for i in range(3)])
         self.assertTrue(report['complete'])
         self.assertFalse(report['same_supported_inventory'])
+        self.assertFalse(report['same_observed_structure'])
         self.assertTrue(report['has_findings'])
         self.assertEqual({d['category'] for d in report['inventory_differences']}, {'policies', 'auth_methods', 'secrets_engines', 'configurations', 'kv_paths'})
         fields = next(d['fields'] for d in report['inventory_differences'] if d['resource'] == 'auth/company-ldap/groups/developers')
