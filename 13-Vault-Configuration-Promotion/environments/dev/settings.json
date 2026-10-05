@@ -6,5 +6,23 @@
   "deploy_role": "github-dev-deploy",
   "drift_role": "github-dev-drift",
   "token_bound_cidrs": [],
-  "plan_role": "github-dev-plan"
+  "plan_role": "github-dev-plan",
+  "drift_prefix": "demo/",
+  "rotation_metadata_field": "password_cycle_date",
+  "rotation_max_age_days": 90,
+  "expected_approle": {
+    "token_policies": [
+      "demo-app"
+    ],
+    "token_ttl": 3600,
+    "token_max_ttl": 14400,
+    "secret_id_ttl": 86400,
+    "secret_id_num_uses": 1,
+    "token_bound_cidrs": []
+  },
+  "expected_kv_config": {
+    "cas_required": false,
+    "max_versions": 0,
+    "delete_version_after": "0s"
+  }
 }

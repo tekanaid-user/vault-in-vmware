@@ -1,5 +1,5 @@
-# Copy to REPO_ROOT/.github/workflows only after completing README setup.
-name: Vault promotion example
+# Reference copy; active workflow is at repository-root .github/workflows.
+name: Vault promotion
 on:
   workflow_dispatch:
     inputs:
@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   plan:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && vars.VAULT_AUTOMATION_ENABLED == 'true'
     runs-on: [self-hosted, vault-demo]
     environment: ${{ inputs.environment }}-plan
     permissions:
@@ -65,9 +65,7 @@ jobs:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: vault-plan-${{ github.run_id }}
-          path: |
-            13-Vault-Configuration-Promotion/.runs/
-            !13-Vault-Configuration-Promotion/.runs/**/.terraform/**
+          path: 13-Vault-Configuration-Promotion/.runs/
       - name: Apply the reviewed plan using a fresh Vault OIDC login
         env:
           TARGET_ENV: ${{ inputs.environment }}
@@ -75,7 +73,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 13-Vault-Configuration-Promotion/scripts/runner.py apply             --env "$TARGET_ENV" --run "$RUN_DIRECTORY" --approve-environment "$TARGET_ENV"
+          python3 13-Vault-Configuration-Promotion/scripts/runner.py apply --env "$TARGET_ENV" --run "$RUN_DIRECTORY" --approve-environment "$TARGET_ENV"
       - name: Remove runner-local plan/cache
         if: always()
         run: rm -rf -- 13-Vault-Configuration-Promotion/.runs

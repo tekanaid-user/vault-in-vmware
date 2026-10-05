@@ -60,7 +60,9 @@ def api(cfg, token, method, path, payload=None):
             raw = response.read()
             return json.loads(raw) if raw else {}
     except urllib.error.HTTPError as error:
-        raise ApiError(error.code, path) from None
+        status = error.code
+        error.close()
+        raise ApiError(status, path) from None
     except urllib.error.URLError:
         raise RuntimeError('Vault connection/TLS failure; details suppressed') from None
 

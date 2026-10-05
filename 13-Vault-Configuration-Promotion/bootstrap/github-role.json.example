@@ -4,12 +4,13 @@
   "bound_audiences": ["vault-demo"],
   "bound_claims_type": "string",
   "bound_claims": {
-    "repository": "REPLACE_ORG/REPLACE_REPO",
+    "repository": "tekanaid-user/vault-in-vmware",
     "ref": "refs/heads/main",
-    "sub": "repo:REPLACE_ORG/REPLACE_REPO:environment:dev",
-    "workflow_ref": "REPLACE_ORG/REPLACE_REPO/.github/workflows/vault-promote.yml@refs/heads/main"
+    "sub": "repo:tekanaid-user/vault-in-vmware:environment:dev",
+    "workflow_ref": "tekanaid-user/vault-in-vmware/.github/workflows/vault-promote.yml@refs/heads/main"
   },
   "token_policies": ["demo-deploy"],
+  "token_no_default_policy": true,
   "token_ttl": 1800,
   "token_explicit_max_ttl": 1800
 }
