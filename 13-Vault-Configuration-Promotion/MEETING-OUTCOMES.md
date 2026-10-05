@@ -22,11 +22,11 @@ The team agreed to Git as the source of truth for configuration and secret struc
 
 | Item | Status here | Remaining evidence / dependency |
 | --- | --- | --- |
-| Share a first drift script/report | Implemented and tested locally | Configure live scopes, release SHAs, OIDC/read-only policies and review a report with Security. |
+| Share a first drift script/report | Implemented and tested locally | Disposable TLS/OIDC pilot added on GitHub-hosted runners; configure live scopes/releases and review a real-environment report with Security. |
 | Keys-only developer access | API and `vault read secret/subkeys/...` tested with data-read denied | Validate installed Vault version and UI behavior. API/CLI support does not prove UI support. |
 | Rotation-age report | Implemented: current/overdue/missing/invalid/future-date findings | Confirm exact metadata key, ISO date format and agreed age threshold; 90 days is a placeholder. |
 | Guided initial writer | Implemented: Git fields, hidden prompts, direct Vault write, CAS=0 | Pilot Security's named identity and terminal workflow. No overwrite, Terraform state or GitHub value entry. |
-| Terraform wrapper / promotion pilot | Existing wrapper retained; Actions installed | Choose application, inventory/import existing resources, choose state backend, runner, reviewers and PROD approver. Confirm live TTL/use settings before adopting example defaults. |
+| Terraform wrapper / promotion pilot | Existing wrapper retained; Actions installed | GitHub environments/review gates configured; disposable pilot added. Choose customer application, import scope, remote backend and a reachable self-hosted runner. Confirm live TTL/use settings before adopting example defaults. |
 | Unused-path evidence | No automatic deletion | Investigate available audit access history and retention; verify candidates with application owners. KV metadata has no standard last-access field. |
 | Separate credential regeneration | Design follow-up | Obtain/review the current operational script. This example creates no SecretIDs or application tokens. |
 
