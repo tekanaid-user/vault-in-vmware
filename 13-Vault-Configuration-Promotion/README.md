@@ -50,7 +50,7 @@ Folders contain references and differences, not copied policies. Later main comm
 
 [Advanced secret-write alternative](ADVANCED-SECRET-WRITES.md) retains the earlier ephemeral/write-only example for a future requirement to have Terraform write values. It is not the recommended daily route.
 
-The repository is currently hosted on GitLab. These inactive GitHub Actions templates are intended for installation in your organization’s GitHub repository; pushing this example to GitLab does not activate them.
+The repository is hosted on GitHub. These inactive GitHub Actions templates are intended for installation in your organization's GitHub repository at root `.github/workflows`; they do not run from this folder.
 
 ## One-time setup : DevOps and Security
 
