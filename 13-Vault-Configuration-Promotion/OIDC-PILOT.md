@@ -1,8 +1,8 @@
 # Development OIDC pilot
 
-Run **Actions → Vault development OIDC pilot → Run workflow (main)**.
+Run **Actions → Vault development OIDC pilot → Run workflow (main)**. Select `hosted`, or select `isolated` after starting a disposable container runner below.
 
-This creates three disposable Vault dev servers on one GitHub-hosted Ubuntu runner. Each listens only on loopback with generated TLS certificates, keeps data in memory and is destroyed at the end. DEV/UAT/PROD names represent simulated environments. No public endpoint, application credentials or Vault tokens are put in GitHub secrets.
+This creates three disposable Vault dev servers on one Ubuntu runner (GitHub-hosted or an isolated ephemeral container). Each listens only on loopback with generated TLS certificates, keeps data in memory and is destroyed at the end. DEV/UAT/PROD names represent simulated environments. No public endpoint, application credentials or Vault tokens are put in GitHub secrets.
 
 | Stage | What is exercised |
 | --- | --- |
@@ -19,11 +19,24 @@ The job is manually dispatched from main and uses the `vault-pilot` GitHub envir
 
 | Setting | Configuration |
 | --- | --- |
-| Runner for pilot/validation | GitHub-hosted `ubuntu-latest`; pinned official Vault/Terraform downloads verified with release checksums. |
+| Runner for pilot/validation | Select hosted `ubuntu-latest` or a disposable `self-hosted, vault-pilot` container; pinned official Vault/Terraform downloads verified with release checksums. |
 | Environments | `vault-pilot`, `dev`, `uat`, `prod`, plus plan/drift environments for each target; all restricted to main. |
 | Apply review | UAT and PROD require review from the configured collaborator; self-review prevented. |
 | Live workflow switch | `VAULT_AUTOMATION_ENABLED=false` until real addresses, scoped OIDC roles, remote state/imports and a reachable runner are ready. |
 | Credentials | No environment secrets or stored Vault tokens configured. |
+
+## Isolated runner option
+
+From repository root, with Docker and the repository owner's existing local `gh` login:
+
+```bash
+docker build -t vault-oidc-pilot-runner:2.337.0 13-Vault-Configuration-Promotion/pilot-runner
+python3 13-Vault-Configuration-Promotion/pilot-runner/start.py
+```
+
+Then dispatch the pilot or validation workflow with `runner=isolated`. One container accepts one job, unregisters and is removed afterward. The registration token is generated through the GitHub API, kept in a temporary protected file for startup and deleted immediately; it is not stored in GitHub secrets or Git. The container runs as a non-root user with CPU/memory limits, no host mounts and no Docker socket. It uses its own filesystem/network namespace. Start one container per job; `docker stop <printed-name>` stops an unused container. Check/remove an offline registration if a runner is interrupted before completing its job.
+
+This label is for the disposable pilot only. The actual on-prem deployment workflows use `vault-demo` and need separately configured network access.
 
 ## Local reproduction
 
