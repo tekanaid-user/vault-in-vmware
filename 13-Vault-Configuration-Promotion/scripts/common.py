@@ -20,6 +20,8 @@ class ApiError(RuntimeError):
 
 def settings(env, live=True):
     result = json.loads((BASE / 'environments' / env / 'settings.json').read_text())
+    if result.get('namespace'):
+        raise ValueError('Vault Community Edition has no namespaces; remove namespace configuration')
     if live and ('CHANGE_ME' in result['vault_addr'] or not result['vault_addr'].startswith('https://')):
         raise ValueError('Configure an HTTPS Vault address before live operations')
     return result
@@ -52,7 +54,7 @@ def api(cfg, token, method, path, payload=None, query=None):
     body = json.dumps(payload).encode() if payload is not None else None
     headers = {'X-Vault-Token': token, 'Content-Type': 'application/json'}
     if cfg.get('namespace'):
-        headers['X-Vault-Namespace'] = cfg['namespace']
+        raise ValueError('Vault Community Edition does not support namespaces')
     context = ssl.create_default_context(cafile=os.environ.get('VAULT_CACERT'))
     url = cfg['vault_addr'].rstrip('/') + '/v1/' + urllib.parse.quote(path, safe='/')
     if query:

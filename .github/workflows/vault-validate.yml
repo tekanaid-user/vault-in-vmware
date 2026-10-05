@@ -45,7 +45,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for ROOT in configuration secret-write; do
+          for ROOT in configuration admin-setup; do
             TARGET="13-Vault-Configuration-Promotion/configuration/$ROOT"
             terraform -chdir="$TARGET" fmt -check
             terraform -chdir="$TARGET" init -backend=false -input=false -lockfile=readonly
@@ -55,6 +55,7 @@ jobs:
         run: |
           for SCRIPT in 13-Vault-Configuration-Promotion/scripts/*.sh; do bash -n "$SCRIPT"; done
           python3 13-Vault-Configuration-Promotion/scripts/drift.py --help
-          python3 13-Vault-Configuration-Promotion/scripts/create-secret.py --help
+          python3 13-Vault-Configuration-Promotion/scripts/admin-request.py --help
           python3 13-Vault-Configuration-Promotion/scripts/rotation-report.py --help
-          python3 13-Vault-Configuration-Promotion/scripts/pipeline.py --help
+          python3 13-Vault-Configuration-Promotion/scripts/admin-pipeline.py --help
+          python3 13-Vault-Configuration-Promotion/scripts/restart-credentials.py --help

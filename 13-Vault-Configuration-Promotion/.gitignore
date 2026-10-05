@@ -3,3 +3,5 @@
 *.tfstate*
 *.tfplan
 __pycache__/
+
+.admin-run/

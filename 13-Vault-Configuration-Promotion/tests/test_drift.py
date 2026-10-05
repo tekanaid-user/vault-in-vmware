@@ -18,7 +18,7 @@ BASE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(BASE / 'scripts'))
 import common
 import drift
-spec = importlib.util.spec_from_file_location('creator', BASE / 'scripts/create-secret.py')
+spec = importlib.util.spec_from_file_location('creator', BASE / 'tests/fixtures/create-secret.py')
 creator = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(creator)
 
@@ -175,7 +175,7 @@ class LiveTests(unittest.TestCase):
     def test_05_create_is_safe_and_does_not_overwrite(self):
         cfg = self.configs[0]
         app = {**self.app, 'secret_path': 'demo/new'}
-        policy = (BASE / 'bootstrap/secret-creator-policy.hcl').read_text().replace('demo/app', 'demo/new')
+        policy = (BASE / 'tests/fixtures/secret-creator-policy.hcl').read_text().replace('demo/app', 'demo/new')
         common.api(cfg, self.root, 'PUT', 'sys/policies/acl/create-test', {'policy': policy})
         token = common.api(cfg, self.root, 'POST', 'auth/token/create', {'policies': ['create-test'], 'no_default_policy': True})['auth']['client_token']
         values = {'username': 'synthetic-user', 'password': 'synthetic-password'}
