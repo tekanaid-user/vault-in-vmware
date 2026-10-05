@@ -41,6 +41,7 @@ def terraform_pilot(cfg, root_token, folder, github, checks, forbidden):
                      'TF_VAR_token_bound_cidrs': '[]', 'TF_IN_AUTOMATION': 'true', 'CHECKPOINT_DISABLE': '1'}
         for key in ('TF_LOG', 'TF_LOG_PATH', 'TF_LOG_PROVIDER', 'TF_LOG_CORE'):
             variables.pop(key, None)
+        print('dev: Terraform ' + args[0] + ' with scoped identity')
         result = subprocess.run(['terraform', f'-chdir={directory}', *args], env=variables, capture_output=True, text=True)
         require(result.returncode == 0, 'Terraform pilot ' + args[0] + ' failed; output suppressed')
     token, owned = login('deploy')
@@ -91,6 +92,7 @@ def run(local=False, output=Path('pilot-report.json')):
     with tempfile.TemporaryDirectory(prefix='vault-oidc-pilot-') as temporary:
         try:
             for env in ('dev', 'uat', 'prod'):
+                print(f'{env}: starting isolated TLS Vault')
                 folder = Path(temporary) / env
                 folder.mkdir(mode=0o700)
                 root = uuid.uuid4().hex
@@ -144,6 +146,7 @@ def run(local=False, output=Path('pilot-report.json')):
                     else:
                         close_token(cfg, rejected, owned)
                         raise RuntimeError('Untrusted binding unexpectedly accepted')
+                    print(f'{env}: exchanging GitHub JWT for scoped Vault identity')
                     token, owned = authenticate(cfg, 'drift')
                 else:
                     token = api(cfg, root, 'POST', 'auth/token/create', {'policies': ['demo-drift'], 'no_default_policy': True, 'ttl': '10m'})['auth']['client_token']
@@ -209,6 +212,9 @@ def main():
     try:
         run(args.local, args.output)
         return 0
+    except (ApiError, RuntimeError) as error:
+        print(f'Pilot failed: {error}', file=sys.stderr)
+        return 1
     except Exception:
         print('Pilot failed; check TLS, OIDC claim bindings and scoped policies. Details suppressed.', file=sys.stderr)
         return 1
