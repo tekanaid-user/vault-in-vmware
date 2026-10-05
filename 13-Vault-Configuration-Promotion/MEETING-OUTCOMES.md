@@ -18,7 +18,7 @@ The team agreed to Git as the source of truth for configuration and secret struc
 | Differences | LDAP/developer permissions and values differ. CIDR restrictions are not enabled; future CIDRs would differ per environment. |
 | Rotation | Custom metadata records password-cycle dates, with incomplete coverage. Last updated is not proof of rotation or last access. |
 
-## Sam's delivery items
+## Implementation delivery items
 
 | Item | Status here | Remaining evidence / dependency |
 | --- | --- | --- |
@@ -26,7 +26,7 @@ The team agreed to Git as the source of truth for configuration and secret struc
 | Keys-only developer access | API and `vault read secret/subkeys/...` tested with data-read denied | Validate installed Vault version and UI behavior. API/CLI support does not prove UI support. |
 | Rotation-age report | Implemented/tested: integrated scan plus dedicated `rotation-report.py`; daily Actions artifact | Confirm exact metadata key, ISO date format and agreed age threshold; 90 days is a placeholder. |
 | Guided initial writer | Implemented: Git fields, hidden prompts, direct Vault write, CAS=0 | Pilot Security's named identity and terminal workflow. No overwrite, Terraform state or GitHub value entry. |
-| GitHub Actions promotion interface / pilot | Implemented; Security-facing Terraform shell wrapper removed | GitHub environments/review gates configured; disposable pilot added. Choose customer application, import scope, remote backend and a reachable self-hosted runner. Confirm live TTL/use settings before adopting example defaults. |
+| GitHub Actions promotion interface / pilot | Implemented; Security-facing Terraform shell wrapper removed | Example environment/review gates configured; main branch protection and customer reviewer assignments remain; disposable pilot passed. Choose customer application, import scope, remote backend and a reachable self-hosted runner. Confirm live TTL/use settings before adopting example defaults. |
 | Unused-path evidence | No automatic deletion | Investigate available audit access history and retention; verify candidates with application owners. KV metadata has no standard last-access field. |
 | Separate credential regeneration | Design follow-up | Obtain/review the current operational script. This example creates no SecretIDs or application tokens. |
 
@@ -35,8 +35,11 @@ The team agreed to Git as the source of truth for configuration and secret struc
 | Follow-up | Owner / status reported |
 | --- | --- |
 | Splunk alerts | Security with log analysts: root-token use, root-policy changes, human secret reads in UAT/PROD. Earlier invalid-token item not confirmed closed. |
+| Help-desk / tracking note | Confirm the promised note and related tracking tickets were submitted; completion was not established in the meeting. |
 | Operational logs and retention | Submit log ticket; confirm audit/syslog retention, filtering and rotated-file coverage. Ticket completion was not confirmed. |
 | Datadog | Vault telemetry added successfully on a separate test server. Configure Agent side and verify metrics before nine-server rollout. |
 | Next session | Tuesday October 13, 2:30 proposed; confirm invite/time zone/attendance. Recap outstanding work before new features; LDAP secrets engine is a candidate topic. |
+
+Customer handoff: [built/tested summary, customer prerequisites and remaining implementation follow-ups](README.md).
 
 Source: the two supplied October 5 meeting transcript segments. Detailed internal meeting notes stay outside this public repository.
