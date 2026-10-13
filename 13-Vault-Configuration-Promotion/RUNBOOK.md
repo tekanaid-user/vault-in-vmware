@@ -1,4 +1,6 @@
-# Customer setup and pilot acceptance
+# Environment setup and pilot acceptance
+
+**Reporting first:** use [GETTING-STARTED.md](GETTING-STARTED.md) for Workstream 2 only. Set `VAULT_DRIFT_ENABLED=true` after reporting setup; keep `VAULT_AUTOMATION_ENABLED=false` until deployment prerequisites are ready. The manual onboarding workflow does not require either switch.
 
 **Target: Vault Community Edition, no namespaces.** Each environment has its own Vault endpoint; no namespace header or Terraform namespace is used.
 
@@ -8,14 +10,14 @@ Security's operating interface is [GitHub Actions and Vault UI](README.md#action
 
 | Step | Owner | Required result |
 | --- | --- | --- |
-| Baseline | Security + implementation lead | Choose one application. Review catalog keys, policy paths, TTL/counts and environment CIDRs; example defaults are not an approved customer baseline. Human LDAP remains. |
-| Repository | Repository administrator | Approved private customer repository and report visibility, protected `main`, reviewed PRs. Enable Actions PR creation, restrict workflow write permission to request Action. Bot-created PRs do not trigger other workflows with the default GITHUB_TOKEN; require manually dispatched validation/reviewer evidence before merge. |
+| Baseline | Security + implementation lead | Choose one application. Review catalog keys, policy paths, TTL/counts and environment CIDRs; example defaults are not an approved environment baseline. Human LDAP remains. |
+| Repository | Repository administrator | Approved private environment repository and report visibility, protected `main`, reviewed PRs. Enable Actions PR creation, restrict workflow write permission to request Action. Bot-created PRs do not trigger other workflows with the default GITHUB_TOKEN; require manually dispatched validation/reviewer evidence before merge. |
 | Runner/endpoints | DevOps | Restricted self-hosted runner labelled `vault-demo`; Python 3.10+, Terraform 1.16.1/provider 5.8.0; HTTPS Vault endpoints/CA and state connectivity. Edit `environments/*/settings.json`; install trust or `VAULT_CACERT`. No deployment identities on untrusted PR jobs. |
 | State | DevOps | Separate remote `admin-setup` state per environment; encryption, access control, locking and backups. Replace backend placeholders; runner obtains backend identity separately. Imports adopt existing resources, so examine first plan for unwanted configuration/tune changes. Mount type conflicts fail; deletes/replacements are blocked. |
 | Vault policies | Vault administrator | Expand `admin-plan-policy.hcl` and `admin-deploy-policy.hcl` for each exact approved application name and `restart` when managed; no value reads. Install drift policy, adapting nested mount permissions. Separate credential policy and restricted delivery readers. |
 | OIDC | Vault administrator | JWT auth at `github`; discovery/issuer `https://token.actions.githubusercontent.com`; exact audience, repository ID, owner ID, main ref, environment subject and workflow binding. Use `github-role.json.example` with the roles below. |
 | Credential delivery | Vault administrator + Security | Create KV v2 `automation-delivery`; restrict UI readers for `restart/credentials`. Require reviewers for every `ENV-credentials` environment. Set TTL/use limits deliberately and define distribution/revocation; issuance creates an additional credential, not replacement/revocation. |
-| Enable/accept | Repository administrator + Security | Set `VAULT_AUTOMATION_ENABLED=true` only once relevant prerequisites are ready. Reporting requires no Terraform state. Live workflows stay disabled in this generic example. |
+| Enable/accept | Repository administrator + Security | For reports only, set `VAULT_DRIFT_ENABLED=true` after reporting setup; leave `VAULT_AUTOMATION_ENABLED=false`. Set the broader automation flag only once deployment prerequisites are ready. Reporting requires no Terraform state. |
 
 | OIDC role setting | GitHub environment | Workflow binding |
 | --- | --- | --- |
@@ -24,7 +26,7 @@ Security's operating interface is [GitHub Actions and Vault UI](README.md#action
 | `drift_role` | `ENV-drift` | `.github/workflows/vault-drift.yml@refs/heads/main` |
 | `credential_role` | `ENV-credentials` | `.github/workflows/vault-restart-credentials.yml@refs/heads/main` |
 
-`ENV` is DEV/UAT/PROD in lowercase. UAT/PROD apply requires independent review after the plan job. Full immutable subject example: `repo:tekanaid-user@37753095/vault-in-vmware@1406319724:environment:dev-plan`. Query the customer repository's subject customization and IDs; verify actual issued JWT claims. Do not broaden repository or ref bindings. Human GitHub auth is not the machine authentication mechanism.
+`ENV` is DEV/UAT/PROD in lowercase. UAT/PROD apply requires independent review after the plan job. Full immutable subject example: `repo:tekanaid-user@37753095/vault-in-vmware@1406319724:environment:dev-plan`. Query the repository's subject customization and IDs; verify actual issued JWT claims. Do not broaden repository or ref bindings. Human GitHub auth is not the machine authentication mechanism.
 
 ## Acceptance checklist
 
@@ -44,4 +46,4 @@ This follow-up has no implemented last-access report. Obtain audit access histor
 
 ## Current example controls
 
-Example environments restrict deployment to main; UAT/PROD have reviewer gates. Main protection and permanent customer runners remain pending. Credential environments require independent review before use. Repository application secrets and stored Vault tokens are not used. The request workflow has narrowly scoped Git contents/PR write permission; other jobs use read and short-lived OIDC identities. [GitHub workflow inputs](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onworkflow_dispatchinputs).
+Example environments restrict deployment to main; UAT/PROD have reviewer gates. Main protection and permanent environment runners remain pending. Credential environments require independent review before use. Repository application secrets and stored Vault tokens are not used. The request workflow has narrowly scoped Git contents/PR write permission; other jobs use read and short-lived OIDC identities. [GitHub workflow inputs](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onworkflow_dispatchinputs).

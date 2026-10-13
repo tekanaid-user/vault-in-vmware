@@ -216,7 +216,25 @@ class LiveTests(unittest.TestCase):
             self.assertNotIn(value, state)
         self.assertNotIn('vault_kv_secret', state)
 
-    def test_07_cli_compare_exit_codes(self):
+    def test_07_inventory_only_without_demo_release_or_application(self):
+        calls = []
+        def observed_api(cfg, token, method, path, payload=None):
+            calls.append((method, path))
+            return common.api(cfg, token, method, path, payload)
+        with patch.object(drift, 'revision', side_effect=AssertionError('must not read release')), \
+             patch.object(drift, 'app_definition', side_effect=AssertionError('must not read demo app')), \
+             patch.object(drift, 'authenticate', return_value=(self.tokens[0], False)), \
+             patch.object(drift, 'api', side_effect=observed_api):
+            report = drift.collect('dev', cfg=self.configs[0], inventory_only=True)
+        self.assertTrue(report['complete'])
+        self.assertEqual(report['baseline_mode'], 'inventory_only')
+        self.assertIsNone(report['configuration_ref'])
+        self.assertNotIn('policy_matches_git', report)
+        self.assertTrue(all('/data/' not in path for method, path in calls))
+        for forbidden in [*self.synthetic, self.root, *self.tokens]:
+            self.assertNotIn(forbidden, json.dumps(report))
+
+    def test_08_cli_compare_exit_codes(self):
         files = []
         for index in range(3):
             p = Path(self.temp.name) / f'report-{index}.json'

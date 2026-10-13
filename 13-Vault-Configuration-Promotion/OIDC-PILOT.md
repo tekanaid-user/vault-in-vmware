@@ -1,5 +1,7 @@
 # Development OIDC pilot
 
+**Connecting existing Vaults? Use [GETTING-STARTED.md](GETTING-STARTED.md).** This page is the disposable demonstration, not live environment onboarding.
+
 Run **Actions → Vault development OIDC pilot → Run workflow (main)**. Select `hosted`, or select `isolated` after starting a disposable container runner below.
 
 This creates three disposable Vault dev servers on one Ubuntu runner (GitHub-hosted or an isolated ephemeral container). Each listens only on loopback with generated TLS certificates, keeps data in memory and is destroyed at the end. DEV/UAT/PROD names represent simulated environments. No public endpoint, application credentials or Vault tokens are put in GitHub secrets.
@@ -48,6 +50,6 @@ Run from repository root with Vault and Terraform installed. Local mode checks T
 
 ## External deployment remains separate
 
-For real DEV/UAT/PROD, provision a restricted self-hosted runner in a network that reaches those Vaults and state storage, configure actual HTTPS addresses and trust the real workflow/environment claims in each Vault. Do not point a customer environment at a transient localhost address or treat disposable local state as a remote production backend. Follow [runbook](RUNBOOK.md).
+For real DEV/UAT/PROD, provision a restricted self-hosted runner in a network that reaches those Vaults and state storage, configure actual HTTPS addresses and trust the real workflow/environment claims in each Vault. Do not point a environment environment at a transient localhost address or treat disposable local state as a remote production backend. Follow [runbook](RUNBOOK.md).
 
 Reference: [GitHub OIDC claims and immutable subjects](https://docs.github.com/en/actions/reference/security/oidc#immutable-subject-claims).

@@ -1,0 +1,53 @@
+name: Vault drift - getting started
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options: [dev, uat, prod]
+        default: dev
+        description: Start with DEV; repeat for UAT and PROD
+      step:
+        type: choice
+        options: [claims, authenticate, collect]
+        default: claims
+        description: Inspect identity, test Vault login, then collect read-only inventory
+permissions:
+  contents: read
+concurrency:
+  group: vault-drift-onboarding-${{ inputs.environment }}
+  cancel-in-progress: false
+jobs:
+  onboard:
+    if: github.ref == 'refs/heads/main'
+    runs-on: [self-hosted, vault-demo]
+    environment: ${{ inputs.environment }}-drift
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+      - name: Run the selected read-only onboarding step
+        env:
+          TARGET_ENV: ${{ inputs.environment }}
+          ONBOARDING_STEP: ${{ inputs.step }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          BASE=13-Vault-Configuration-Promotion/scripts
+          case "$ONBOARDING_STEP" in
+            claims) python3 "$BASE/oidc-check.py" --env "$TARGET_ENV" --claims-only > "$TARGET_ENV-claims.json" ;;
+            authenticate) python3 "$BASE/oidc-check.py" --env "$TARGET_ENV" > "$TARGET_ENV-authentication.json" ;;
+            collect) python3 "$BASE/drift.py" --env "$TARGET_ENV" --inventory-only > "$TARGET_ENV.json" ;;
+            *) exit 1 ;;
+          esac
+          echo "Completed $ONBOARDING_STEP for $TARGET_ENV. Download the artifact; see Section 13 GETTING-STARTED.md." >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: vault-onboarding-${{ inputs.environment }}-${{ inputs.step }}
+          path: ${{ inputs.environment }}*.json
+          retention-days: 7

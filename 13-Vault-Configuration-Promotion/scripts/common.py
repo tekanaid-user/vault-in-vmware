@@ -70,17 +70,22 @@ def api(cfg, token, method, path, payload=None, query=None):
     except urllib.error.URLError:
         raise RuntimeError('Vault connection/TLS failure; details suppressed') from None
 
-def authenticate(cfg, role_kind='deploy'):
-    if os.environ.get('GITHUB_ACTIONS') == 'true':
+def github_jwt(audience):
+    if os.environ.get('GITHUB_ACTIONS') != 'true':
+        raise ValueError('Run this step in GitHub Actions with id-token: write')
+    try:
         url = os.environ['ACTIONS_ID_TOKEN_REQUEST_URL']
         separator = '&' if '?' in url else '?'
-        url += separator + urllib.parse.urlencode({'audience': cfg['oidc_audience']})
+        url += separator + urllib.parse.urlencode({'audience': audience})
         request = urllib.request.Request(url, headers={'Authorization': 'Bearer ' + os.environ['ACTIONS_ID_TOKEN_REQUEST_TOKEN']})
-        try:
-            with urllib.request.urlopen(request, timeout=30) as response:
-                jwt = json.load(response)['value']
-        except Exception:
-            raise RuntimeError('GitHub OIDC request failed; response suppressed') from None
+        with urllib.request.urlopen(request, timeout=30) as response:
+            return json.load(response)['value']
+    except Exception:
+        raise RuntimeError('GitHub OIDC request failed; response suppressed') from None
+
+def authenticate(cfg, role_kind='deploy'):
+    if os.environ.get('GITHUB_ACTIONS') == 'true':
+        jwt = github_jwt(cfg['oidc_audience'])
         result = api(cfg, '', 'POST', f"auth/{cfg['jwt_auth_path']}/login", {'role': cfg[f'{role_kind}_role'], 'jwt': jwt})
         return result['auth']['client_token'], True
     token = os.environ.get('VAULT_TOKEN')

@@ -1,6 +1,6 @@
 # Workstream 2: inventory, drift and rotation
 
-Security reviews **Actions → Daily Vault inventory and rotation**. It scans DEV/UAT/PROD independently, compares the inventories and saves `comparison.json` plus `rotation-report.json`. No corrections or deletions occur.
+Security reviews **Actions → Weekly Vault inventory and rotation**. It scans DEV/UAT/PROD independently, compares the inventories and saves `comparison.json` plus `rotation-report.json`. No corrections or deletions occur.
 
 ## Coverage
 

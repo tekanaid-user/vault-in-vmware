@@ -1,0 +1,22 @@
+{
+  "role_type": "jwt",
+  "user_claim": "sub",
+  "bound_audiences": ["vault-demo"],
+  "bound_claims_type": "string",
+  "bound_claims": {
+    "repository": "CHANGE_ME_OWNER/CHANGE_ME_REPO",
+    "repository_id": "CHANGE_ME_REPOSITORY_ID",
+    "repository_owner_id": "CHANGE_ME_OWNER_ID",
+    "ref": "refs/heads/main",
+    "sub": "CHANGE_ME_EXACT_ENVIRONMENT_SUBJECT",
+    "workflow_ref": [
+      "CHANGE_ME_OWNER/CHANGE_ME_REPO/.github/workflows/vault-drift-onboarding.yml@refs/heads/main",
+      "CHANGE_ME_OWNER/CHANGE_ME_REPO/.github/workflows/vault-drift.yml@refs/heads/main"
+    ],
+    "event_name": ["workflow_dispatch", "schedule"]
+  },
+  "token_policies": ["github-drift"],
+  "token_no_default_policy": true,
+  "token_ttl": 900,
+  "token_explicit_max_ttl": 900
+}

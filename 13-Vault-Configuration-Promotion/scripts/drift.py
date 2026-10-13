@@ -47,7 +47,21 @@ def rotation_status(metadata, field, days, today):
     return {'status': 'overdue' if age > days else 'current', 'age_days': age}
 
 
-def collect(env, cfg=None, sha=None, app=None, policy=None, today=None):
+def collect(env, cfg=None, sha=None, app=None, policy=None, today=None, inventory_only=False):
+    if inventory_only:
+        cfg = cfg or settings(env)
+        today = today or dt.datetime.now(dt.timezone.utc).date()
+        token, owned = authenticate(cfg, 'drift')
+        try:
+            snapshot = inventory.scan(cfg, lambda method, path, payload=None: api(cfg, token, method, path, payload),
+                                      normalized_policy, leaf_fields, rotation_status, today)
+            return {'schema_version': 2, 'environment': env, 'configuration_ref': None,
+                    'baseline_mode': 'inventory_only', 'expected': None,
+                    'collected_at': dt.datetime.now(dt.timezone.utc).isoformat(),
+                    'inventory': snapshot, 'paths': snapshot['kv_paths'],
+                    'findings': snapshot['findings'], 'complete': snapshot['complete']}
+        finally:
+            close_token(cfg, token, owned)
     sha = sha or revision(env)
     app = app or app_definition(sha)
     cfg = cfg or settings(env)
@@ -124,9 +138,9 @@ def compare_reports(reports):
     differences, ignored = inventory.compare(inventories) if len(inventories) == len(reports) and inventories else ([], [])
     inventory_complete = complete and len(inventories) == 3
     return {'missing_environment_reports': missing, 'missing_inventory_reports': missing_inventory, 'complete': complete, 'environments': reports,
-            'same_selected_release': len({r['configuration_ref'] for r in reports}) == 1 if not missing else None,
+            'same_selected_release': len({r['configuration_ref'] for r in reports}) == 1 if not missing and all(r.get('configuration_ref') for r in reports) else None,
             'same_observed_structure': len({json.dumps(s, sort_keys=True) for s in structures}) == 1 if complete else None,
-            'all_policies_match_selected_git': all(r.get('policy_matches_git', False) for r in reports) if complete else None,
+            'all_policies_match_selected_git': all(r['policy_matches_git'] for r in reports) if complete and all('policy_matches_git' in r for r in reports) else None,
             'inventory_differences': differences, 'approved_comparison_exceptions': ignored,
             'same_supported_inventory': not differences if inventory_complete else None,
             'has_findings': bool(missing) or bool(missing_inventory) or bool(differences) or any(r['findings'] for r in reports),
@@ -139,9 +153,12 @@ def main():
     group.add_argument('--env', choices=['dev', 'uat', 'prod'])
     group.add_argument('--compare', nargs='*', metavar='REPORT_JSON')
     parser.add_argument('--fail-on-findings', action='store_true', help='Exit 2 for drift/rotation findings, 3 for incomplete evidence')
+    parser.add_argument('--inventory-only', action='store_true', help='Scan without the selected demo application/release.yaml baseline; configured inventory expectations still apply')
     args = parser.parse_args()
+    if args.inventory_only and not args.env:
+        parser.error('--inventory-only requires --env')
     try:
-        report = collect(args.env) if args.env else compare_reports([json.loads(Path(p).read_text()) for p in args.compare])
+        report = collect(args.env, inventory_only=args.inventory_only) if args.env else compare_reports([json.loads(Path(p).read_text()) for p in args.compare])
         print(json.dumps(report, indent=2))
         if args.fail_on_findings:
             if not report['complete']:

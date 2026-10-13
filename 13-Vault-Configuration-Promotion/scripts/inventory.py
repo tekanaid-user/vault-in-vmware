@@ -281,6 +281,10 @@ def compare(inventories):
                 fields = []
                 if all(isinstance(f, dict) for f in fieldsets):
                     fields = [f for f in sorted(set().union(*(set(v) for v in fieldsets))) if len({v.get(f) for v in fieldsets}) > 1]
+                elif category == 'kv_paths' and all(isinstance(f, (list, dict)) for f in fieldsets):
+                    # Missing paths have an empty dict; report per-path key-name differences too.
+                    fields = [f for f in sorted(set().union(*(set(v) for v in fieldsets)))
+                              if len({f in v for v in fieldsets}) > 1]
                 differences.append({'category': category, 'resource': resource, 'fields': fields,
                     'environments': {env: e['status'] for env, e in entries.items()}})
     return differences, ignored

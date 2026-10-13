@@ -1,0 +1,38 @@
+{
+  "complete": true,
+  "missing_environment_reports": [],
+  "counts": {
+    "current": 2,
+    "future_date": 0,
+    "invalid": 0,
+    "missing": 1,
+    "overdue": 1,
+    "unknown": 0
+  },
+  "secrets": [
+    {
+      "environment": "dev",
+      "path": "secret/example-app-old/config",
+      "status": "missing"
+    },
+    {
+      "environment": "dev",
+      "path": "secret/example-app/config",
+      "status": "current",
+      "age_days": 10
+    },
+    {
+      "environment": "prod",
+      "path": "secret/example-app/config",
+      "status": "current",
+      "age_days": 10
+    },
+    {
+      "environment": "uat",
+      "path": "secret/example-app/config",
+      "status": "overdue",
+      "age_days": 120
+    }
+  ],
+  "note": "Operator-maintained rotation metadata; not proof that the upstream credential rotated. No values or raw metadata included."
+}

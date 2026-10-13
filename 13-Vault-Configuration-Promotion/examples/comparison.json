@@ -1,0 +1,232 @@
+{
+  "missing_environment_reports": [],
+  "missing_inventory_reports": [],
+  "complete": true,
+  "environments": [
+    {
+      "schema_version": 2,
+      "environment": "dev",
+      "configuration_ref": null,
+      "baseline_mode": "inventory_only",
+      "expected": null,
+      "collected_at": "2030-01-01T00:00:00+00:00",
+      "complete": true,
+      "paths": {
+        "secret/example-app/config": {
+          "status": "present",
+          "fields": [
+            "password",
+            "username"
+          ],
+          "rotation": {
+            "status": "current",
+            "age_days": 10
+          }
+        },
+        "secret/example-app-old/config": {
+          "status": "present",
+          "fields": [
+            "password",
+            "username"
+          ],
+          "rotation": {
+            "status": "missing"
+          }
+        }
+      },
+      "inventory": {
+        "policies": {
+          "acl/application-reader": {
+            "status": "present",
+            "fingerprint": "cf52f81f3274fc3bfd91694d2721d43d271fc53486640211b39f1df14a8af4f9"
+          }
+        },
+        "auth_methods": {},
+        "secrets_engines": {},
+        "configurations": {},
+        "kv_paths": {
+          "secret/example-app/config": {
+            "status": "present",
+            "fields": [
+              "password",
+              "username"
+            ],
+            "rotation": {
+              "status": "current",
+              "age_days": 10
+            }
+          },
+          "secret/example-app-old/config": {
+            "status": "present",
+            "fields": [
+              "password",
+              "username"
+            ],
+            "rotation": {
+              "status": "missing"
+            }
+          }
+        },
+        "coverage": {
+          "unsupported_details": [],
+          "comparison_exceptions": []
+        }
+      },
+      "findings": [
+        {
+          "kind": "rotation_missing",
+          "path": "secret/example-app-old/config"
+        }
+      ]
+    },
+    {
+      "schema_version": 2,
+      "environment": "uat",
+      "configuration_ref": null,
+      "baseline_mode": "inventory_only",
+      "expected": null,
+      "collected_at": "2030-01-01T00:00:00+00:00",
+      "complete": true,
+      "paths": {
+        "secret/example-app/config": {
+          "status": "present",
+          "fields": [
+            "username"
+          ],
+          "rotation": {
+            "status": "overdue",
+            "age_days": 120
+          }
+        }
+      },
+      "inventory": {
+        "policies": {
+          "acl/application-reader": {
+            "status": "present",
+            "fingerprint": "4f8cb641fb309d6c65c0e2436af995d7fef699a73d6a8ef9f6667bccef091a35"
+          }
+        },
+        "auth_methods": {},
+        "secrets_engines": {},
+        "configurations": {},
+        "kv_paths": {
+          "secret/example-app/config": {
+            "status": "present",
+            "fields": [
+              "username"
+            ],
+            "rotation": {
+              "status": "overdue",
+              "age_days": 120
+            }
+          }
+        },
+        "coverage": {
+          "unsupported_details": [],
+          "comparison_exceptions": []
+        }
+      },
+      "findings": [
+        {
+          "kind": "rotation_overdue",
+          "path": "secret/example-app/config"
+        }
+      ]
+    },
+    {
+      "schema_version": 2,
+      "environment": "prod",
+      "configuration_ref": null,
+      "baseline_mode": "inventory_only",
+      "expected": null,
+      "collected_at": "2030-01-01T00:00:00+00:00",
+      "complete": true,
+      "paths": {
+        "secret/example-app/config": {
+          "status": "present",
+          "fields": [
+            "password",
+            "username"
+          ],
+          "rotation": {
+            "status": "current",
+            "age_days": 10
+          }
+        }
+      },
+      "inventory": {
+        "policies": {
+          "acl/application-reader": {
+            "status": "present",
+            "fingerprint": "cf52f81f3274fc3bfd91694d2721d43d271fc53486640211b39f1df14a8af4f9"
+          }
+        },
+        "auth_methods": {},
+        "secrets_engines": {},
+        "configurations": {},
+        "kv_paths": {
+          "secret/example-app/config": {
+            "status": "present",
+            "fields": [
+              "password",
+              "username"
+            ],
+            "rotation": {
+              "status": "current",
+              "age_days": 10
+            }
+          }
+        },
+        "coverage": {
+          "unsupported_details": [],
+          "comparison_exceptions": []
+        }
+      },
+      "findings": []
+    }
+  ],
+  "same_selected_release": null,
+  "same_observed_structure": false,
+  "all_policies_match_selected_git": null,
+  "inventory_differences": [
+    {
+      "category": "policies",
+      "resource": "acl/application-reader",
+      "fields": [],
+      "environments": {
+        "dev": "present",
+        "uat": "present",
+        "prod": "present"
+      }
+    },
+    {
+      "category": "kv_paths",
+      "resource": "secret/example-app-old/config",
+      "fields": [
+        "password",
+        "username"
+      ],
+      "environments": {
+        "dev": "present",
+        "uat": "absent",
+        "prod": "absent"
+      }
+    },
+    {
+      "category": "kv_paths",
+      "resource": "secret/example-app/config",
+      "fields": [
+        "password"
+      ],
+      "environments": {
+        "dev": "present",
+        "uat": "present",
+        "prod": "present"
+      }
+    }
+  ],
+  "approved_comparison_exceptions": [],
+  "same_supported_inventory": false,
+  "has_findings": true,
+  "note": "Different releases may mean pending promotion. Null parity means incomplete evidence. Values were not read; no corrections or deletions were made."
+}

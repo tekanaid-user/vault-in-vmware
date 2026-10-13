@@ -1,17 +1,27 @@
 # Validation: October 5, 2026
 
+## Workstream 2 onboarding additions (local evidence)
+
+- `python3 -m unittest discover -s 13-Vault-Configuration-Promotion/tests -v`: **31 tests passed locally**, including disposable Vault integration tests and Terraform import/apply regression coverage.
+- New coverage verifies inventory-only collection without the demo release/application, continued exclusion of value-read calls/tokens/values, claims-only inspection without a Vault connection, refusal of local-token fallback for the federation check, token cleanup on failed reads, per-path field-name differences and null Git-compliance results when no selected baseline was checked.
+- All Vault workflow YAML files parse; `git diff --check` passes. Synthetic comparison/rotation/Markdown examples were generated using actual reporting functions.
+- New manual onboarding workflow: claims inspection → login/mount-read test → collection, one environment at a time. Readable Markdown is included in the weekly run summary/artifact. `VAULT_DRIFT_ENABLED` enables reporting independently of deployment.
+- **Boundary:** the additions passed local checks; the live onboarding workflow has not been exercised against existing environments. Earlier real OIDC evidence below belongs to the previous disposable pilot. No live endpoint, runner, OIDC role, repository variable or Vault configuration was changed. Environment setup/acceptance and full GitHub deployment remain pending.
+
+## Prior October 5 evidence
+
 | Check | Result |
 | --- | --- |
 | Python unit/integration suite | 26 tests passed locally; isolated Vault dev fixtures with restricted identities and synthetic values. |
 | Vault / Terraform versions | Vault 2.1.0; Terraform CLI 1.16.1; Vault provider 5.8.0. |
 | Keys-only access | Restricted identity reads `subkeys` via API and Vault CLI; data read returns 403. UI rendering was not tested. |
-| Drift / rotation | All ACL/password policies; multiple/empty/nested KV v2 mounts; LDAP config/group/user mappings; Kubernetes/token/AppRole roles; userpass; transit/PKI; cross-environment changes in every inventory category; deleted paths and denied/hidden listings passed. Database adapters tested with API fixtures; historical Sentinel fixture is not customer Community scope. |
+| Drift / rotation | All ACL/password policies; multiple/empty/nested KV v2 mounts; LDAP config/group/user mappings; Kubernetes/token/AppRole roles; userpass; transit/PKI; cross-environment changes in every inventory category; deleted paths and denied/hidden listings passed. Database adapters tested with API fixtures; historical Sentinel fixture is not Community Edition scope. |
 | Dedicated rotation report | `rotation-report.py` extracts age/status across all scanned mounts, flags missing environments and excludes arbitrary metadata. Integrated date cases and report extraction passed. |
 | Reports | No synthetic secret values, root/report tokens or arbitrary custom metadata in output. Incomplete evidence cannot report parity; CLI exits distinguish findings and missing reports. |
 | Historical initial-writer utility | Real API create-only write verified; existing path refuses a second write; creator cannot read values. Retained under tests/fixtures only; not Security's daily workflow. |
 | Terraform | Both roots pass `fmt -check`, `init -backend=false -lockfile=readonly` and `validate`. Temporary local-state fixture imports existing policy/AppRole, plans/applies and produces a subsequent plan with no changes. Synthetic application values/tokens absent from state. Superseded optional staged secret-write example removed. |
 | Workflows | All active root workflows pass actionlint 1.7.7; duplicate reference copies removed. YAML, JSON, Python and shell syntax checks pass. |
-| Public content | No customer-specific names or em dashes in Session 13 / workflows. |
+| Public content | No organization or attendee names or em dashes in Session 13 / workflows. |
 | Actions interface | Security-facing Terraform shell wrapper removed; admin request/deploy/credential Actions invoke internal Python helpers. Daily report saves both inventory comparison and rotation artifacts. |
 | Cleanup | Test Vault processes terminated; temporary test directories/logs removed. |
 
@@ -27,7 +37,7 @@ Target is Vault Community Edition with no namespaces; nonempty namespace configu
 | Integrity | Saved-plan/manifest tampering and wrong target rejected by the actual artifact verifier. |
 | Deliberate issuance | Scoped identity delivers restart credentials to Vault KV, cannot read application/delivery values, and stale delivery version prevents another issuance. Failed delivery cleanup/revocation also verified locally. |
 
-**Verification boundary:** local tests exercise the actual helpers and a restored saved plan. They do not establish real GitHub cross-job upload/download, reviewer approval, customer remote state, customer UI behavior or customer deployments. The earlier real OIDC pilot remains evidence for authentication/reporting and the original one-app Terraform fixture, not the new admin deploy workflow end to end.
+**Verification boundary:** local tests exercise the actual helpers and a restored saved plan. They do not establish real GitHub cross-job upload/download, reviewer approval, environment remote state, environment UI behavior or environment deployments. The earlier real OIDC pilot remains evidence for authentication/reporting and the original one-app Terraform fixture, not the new admin deploy workflow end to end.
 
 ## GitHub execution evidence
 
@@ -45,6 +55,6 @@ Target is Vault Community Edition with no namespaces; nonempty namespace configu
 | Runner cleanup | API reported zero registered runners after completion; no pilot containers remained. TLS keys, synthetic values, plans, local state and server logs were disposable. |
 | Repository setup | Ten GitHub environments restricted to main; UAT/PROD reviewer gates with self-review prevented; repository secrets count zero. Live endpoint switch remains false. |
 
-The initial hosted jobs were queued and cancelled; successful runs used isolated disposable Docker runners registered to GitHub. These are real GitHub workflow/OIDC results against synthetic Vaults, not customer DEV/UAT/PROD evidence. Remote state storage, on-prem connectivity and customer deployments remain untested. Live workflows require actual endpoints/state/runner setup and `VAULT_AUTOMATION_ENABLED=true`; see [runbook](RUNBOOK.md).
+The initial hosted jobs were queued and cancelled; successful runs used isolated disposable Docker runners registered to GitHub. These are real GitHub workflow/OIDC results against synthetic Vaults, not environment DEV/UAT/PROD evidence. Remote state storage, on-prem connectivity and environment deployments remain untested. Live workflows require actual endpoints/state/runner setup and `VAULT_AUTOMATION_ENABLED=true`; see [runbook](RUNBOOK.md).
 
 The expanded inventory, full KV structure parity and legacy-report guard passed locally and in GitHub Actions. Unsupported plugin details and excluded server/credential settings are documented in [INVENTORY.md](INVENTORY.md).

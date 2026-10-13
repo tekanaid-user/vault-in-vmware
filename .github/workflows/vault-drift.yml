@@ -1,7 +1,7 @@
-name: Daily Vault inventory and rotation
+name: Weekly Vault inventory and rotation
 on:
   schedule:
-    - cron: '0 11 * * *' # UTC; confirm the desired local schedule
+    - cron: '0 11 * * 1' # Monday at 11:00 UTC
   workflow_dispatch:
 permissions:
   contents: read
@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   collect:
-    if: github.ref == 'refs/heads/main' && vars.VAULT_AUTOMATION_ENABLED == 'true'
+    if: github.ref == 'refs/heads/main' && (vars.VAULT_DRIFT_ENABLED == 'true' || vars.VAULT_AUTOMATION_ENABLED == 'true')
     strategy:
       fail-fast: false
       matrix:
@@ -29,7 +29,7 @@ jobs:
           TARGET_ENV: ${{ matrix.environment }}
         run: |
           umask 077
-          python3 13-Vault-Configuration-Promotion/scripts/drift.py --env "$TARGET_ENV" > "$TARGET_ENV.json"
+          python3 13-Vault-Configuration-Promotion/scripts/drift.py --env "$TARGET_ENV" --inventory-only > "$TARGET_ENV.json"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: vault-drift-${{ matrix.environment }}
@@ -37,7 +37,7 @@ jobs:
           retention-days: 7
   report:
     needs: collect
-    if: always() && github.ref == 'refs/heads/main' && vars.VAULT_AUTOMATION_ENABLED == 'true'
+    if: always() && github.ref == 'refs/heads/main' && (vars.VAULT_DRIFT_ENABLED == 'true' || vars.VAULT_AUTOMATION_ENABLED == 'true')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -56,12 +56,17 @@ jobs:
           echo 'Review comparison.json; this job never changes Vault.' >> "$GITHUB_STEP_SUMMARY"
       - name: Extract rotation ages without another Vault connection
         run: python3 13-Vault-Configuration-Promotion/scripts/rotation-report.py comparison.json > rotation-report.json
+      - name: Prepare the readable Security report
+        run: |
+          python3 13-Vault-Configuration-Promotion/scripts/render-report.py comparison.json rotation-report.json > report.md
+          cat report.md >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: vault-drift-comparison
           path: |
             comparison.json
             rotation-report.json
+            report.md
           retention-days: 7
       - name: Flag findings after saving the report
         run: |
