@@ -14,6 +14,8 @@ Open [Section 13 in the repository](https://github.com/tekanaid-user/vault-in-vm
 | --- | --- |
 | [GETTING-STARTED.md](https://github.com/tekanaid-user/vault-in-vmware/blob/main/13-Vault-Configuration-Promotion/GETTING-STARTED.md) | The main setup guide. Follow this first. |
 | [HANDOFF.md](https://github.com/tekanaid-user/vault-in-vmware/blob/main/13-Vault-Configuration-Promotion/HANDOFF.md) | A short checklist of responsibilities and the first working session. |
+| [examples/report.md — see the output](https://github.com/tekanaid-user/vault-in-vmware/blob/main/13-Vault-Configuration-Promotion/examples/report.md) | The readable report collected from three real local Vaults, showing DEV/UAT/PROD differences and rotation findings. |
+| [examples/REPORT-WALKTHROUGH.md](https://github.com/tekanaid-user/vault-in-vmware/blob/main/13-Vault-Configuration-Promotion/examples/REPORT-WALKTHROUGH.md) | Explains each observed difference and how Security should interpret it. |
 | [bootstrap/drift-policy.hcl](https://github.com/tekanaid-user/vault-in-vmware/blob/main/13-Vault-Configuration-Promotion/bootstrap/drift-policy.hcl) | The Vault read-only inventory policy for Security to review and install. |
 | [bootstrap/github-drift-role.json.example](https://github.com/tekanaid-user/vault-in-vmware/blob/main/13-Vault-Configuration-Promotion/bootstrap/github-drift-role.json.example) | The Vault JWT role template. Replace its placeholders with your own GitHub identity claims. |
 | [environments/dev/settings.json](https://github.com/tekanaid-user/vault-in-vmware/blob/main/13-Vault-Configuration-Promotion/environments/dev/settings.json) | Where DEV maps to its Vault URL, authentication mount, audience, role and reporting settings. |
@@ -21,6 +23,8 @@ Open [Section 13 in the repository](https://github.com/tekanaid-user/vault-in-vm
 | [.github/workflows/vault-drift.yml](https://github.com/tekanaid-user/vault-in-vmware/blob/main/.github/workflows/vault-drift.yml) | The weekly/on-demand workflow that collects all three environments and produces the combined report. |
 
 The workflows are at the **repository root under .github/workflows**, not inside Section 13. Python runs behind them; Security does not need to operate scripts manually. Leave the admin-deploy, admin-request and credential-issuance workflows for the later promotion workstream.
+
+**Preview the report before setup:** open [the readable output](https://github.com/tekanaid-user/vault-in-vmware/blob/main/13-Vault-Configuration-Promotion/examples/report.md), then [the walkthrough](https://github.com/tekanaid-user/vault-in-vmware/blob/main/13-Vault-Configuration-Promotion/examples/REPORT-WALKTHROUGH.md). For example, the report shows UAT missing a `password` field, an old application path present only in DEV, policy/configuration differences, and overdue or missing rotation metadata. These are real API observations from a controlled local lab with generated non-production data, not findings from your environments. Your run produces the same report format using your own inventory.
 
 ## 2. Prepare your repository and GitHub settings — repository administrator
 
@@ -115,6 +119,8 @@ Use each environment's own endpoint and exact issued subject. Keep the policy/au
 1. Set repository variable `VAULT_DRIFT_ENABLED=true`. Keep `VAULT_AUTOMATION_ENABLED=false` so reporting does not enable deployment/credential workflows.
 2. Open **Actions → Weekly Vault inventory and rotation → Run workflow → main**.
 3. Read the report tables in **Summary**. Download `vault-drift-comparison` and extract `report.md`, `comparison.json` and `rotation-report.json`. Individual `vault-drift-dev/uat/prod` artifacts contain the source inventories.
+
+**Use the examples while reviewing your first run:** [report.md](https://github.com/tekanaid-user/vault-in-vmware/blob/main/13-Vault-Configuration-Promotion/examples/report.md) shows the readable tables; [REPORT-WALKTHROUGH.md](https://github.com/tekanaid-user/vault-in-vmware/blob/main/13-Vault-Configuration-Promotion/examples/REPORT-WALKTHROUGH.md) explains how to interpret differences. The corresponding [comparison JSON](https://github.com/tekanaid-user/vault-in-vmware/blob/main/13-Vault-Configuration-Promotion/examples/comparison.json) and [rotation JSON](https://github.com/tekanaid-user/vault-in-vmware/blob/main/13-Vault-Configuration-Promotion/examples/rotation-report.json) show the downloadable data format. Compare the layout and meaning, not the lab's particular paths or counts.
 
 The schedule is **once a week, Mondays at 11:00 UTC**; manual runs remain available. Artifacts are retained seven days. The final report job can be red while the report is successfully saved: exit **2** means findings to review; exit **3** means incomplete evidence to fix.
 
