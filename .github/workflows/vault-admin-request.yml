@@ -1,3 +1,15 @@
+# Workstream 1 Git request form: configure catalog definitions or promote a SHA.
+# Manual main-only workflow; it does not authenticate to or write any Vault.
+# Inputs: names/field names/mode, approved non-secret AppRole JSON, ticket, target;
+# promote additionally needs a full reviewed main-ancestor configuration SHA.
+# admin-request.py validates and edits one file; this workflow creates a branch
+# and PR. The returned PR needs review/validation before merge; no deploy follows.
+# Uses GitHub contents/PR write permission (unlike reporting's read-only access).
+# GITHUB_TOKEN-created PRs do not trigger ordinary follow-up workflows; reviewers
+# must obtain manually dispatched validation evidence. No automation switch.
+# Runner: hosted Ubuntu or an explicitly registered self-hosted/vault-pilot.
+# Setup/accepted inputs: Section 13 RUNBOOK.md and SCRIPT-REFERENCE.md.
+
 name: Vault admin change request
 on:
   workflow_dispatch:
@@ -56,6 +68,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
+      # The helper edits only Git files; the following shell block publishes a review PR.
       - name: Generate reviewed configuration or release change
         env:
           OPERATION: ${{ inputs.operation }}
@@ -74,10 +87,12 @@ jobs:
             --operation "$OPERATION" --environment "$TARGET_ENV" --setup-mode "$MODE" \
             --applications "$APPS" --keys "$KEYS" --application-settings "$APP_SETTINGS" \
             --restart-settings "$RESTART_SETTINGS" --configuration-ref "$CONFIG_REF" --ticket "$TICKET"
+          # Idempotent requests should not create empty commits/duplicate review work.
           if git diff --quiet; then
             echo 'No configuration change requested.' >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
+          # Unique run/attempt branch preserves main; reviewers decide whether to merge.
           BRANCH="vault-admin/request-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           git switch -c "$BRANCH"
           git config user.name github-actions[bot]
@@ -85,6 +100,7 @@ jobs:
           git add 13-Vault-Configuration-Promotion/configuration/admin-catalog.json 13-Vault-Configuration-Promotion/environments/*/admin-release.json
           git commit -m 'Request reviewed Vault admin configuration change'
           git push origin "$BRANCH"
+          # Build the PR body as data; ticket text is never evaluated as shell/Python code.
           python3 -c 'import os,pathlib; pathlib.Path("/tmp/vault-request-body.md").write_text("Ticket: " + os.environ["TICKET"] + "\n\nGenerated from the Security Actions form. Review configuration and environment selection before merging. No Vault writes or credentials issued.\n")'
           export REQUEST_BRANCH="$BRANCH"
           python3 - <<'PYREQUEST' >> "$GITHUB_STEP_SUMMARY"

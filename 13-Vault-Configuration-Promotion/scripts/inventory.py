@@ -1,4 +1,13 @@
-"""Vault inventory adapters. No KV data, credentials, issuance or export endpoints."""
+"""Read-only Vault Community inventory adapters and environment comparison.
+
+Library called by drift.py; no CLI or authentication of its own. scan() receives
+an authenticated API callable and normalization helpers. It discovers supported
+mounts/configuration and KV v2 metadata/subkeys; arbitrary config fields are
+excluded and allowed configuration values are fingerprinted before export.
+Denied/failed reads are unknown and set complete=False; unsupported details are
+reported separately. Compare aliases and exceptions are explicit settings, not
+inferred approvals. Hash parity is not a Git-compliance or last-access check.
+See INVENTORY.md for coverage and SCRIPT-REFERENCE.md for call contracts."""
 import hashlib
 import json
 from common import ApiError
@@ -51,6 +60,7 @@ TRANSIT_KEY = {'type', 'derived', 'exportable', 'allow_plaintext_backup', 'delet
 
 
 def canonical(value):
+    """Recursively normalize dictionaries and order-insensitive lists before hashing."""
     if isinstance(value, dict):
         return {k: canonical(v) for k, v in sorted(value.items())}
     if isinstance(value, list):
@@ -59,11 +69,12 @@ def canonical(value):
 
 
 def fingerprint(value):
+    """Hash normalized JSON for equality checks; a hash is not encryption or redaction."""
     return hashlib.sha256(json.dumps(canonical(value), sort_keys=True, separators=(',', ':')).encode()).hexdigest()
 
 
 def fingerprints(data, allowed):
-    """Only documented non-credential fields; no raw config serialized, even if unexpected."""
+    """Export only allowlisted configuration fingerprints, splitting bound claims by key."""
     result = {}
     for key in sorted(allowed & data.keys()):
         if key == 'bound_claims' and isinstance(data[key], dict):
@@ -75,7 +86,10 @@ def fingerprints(data, allowed):
 
 
 def scan(cfg, call, policy_normalizer, leaf_fields, rotation_status, today):
-    """Inventory a Vault Community instance, including every enabled mount and KV v2 root."""
+    """Collect supported inventory using the supplied authenticated API callable.
+
+    Return category maps, findings, complete and coverage. Read failures are unknown;
+    unsupported plugin details are explicit exclusions. Never request KV data values."""
     result = {key: {} for key in ('policies', 'auth_methods', 'secrets_engines', 'configurations', 'kv_paths')}
     result.update(complete=True, findings=[], coverage={'vault_scope': 'Vault Community instance; no namespaces',
         'unsupported_details': [], 'policy_families': cfg.get('policy_families', ['acl', 'password']),
@@ -259,7 +273,10 @@ def scan(cfg, call, policy_normalizer, leaf_fields, rotation_status, today):
 
 
 def compare(inventories):
-    """Field-level differences; no actual configuration values or hashes in findings."""
+    """Return (differences, agreed_exceptions) for observed per-environment inventories.
+
+    Rotation ages do not participate in parity. Exceptions take effect only when
+    identical across every supplied inventory; the caller decides completeness."""
     differences = []
     ignored = []
     for category in ('policies', 'auth_methods', 'secrets_engines', 'configurations', 'kv_paths'):

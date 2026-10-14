@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
-"""Render selected values-free report fields as Markdown for Security review."""
+"""Render comparison and rotation JSON into a readable Markdown report.
+
+Used by vault-drift.yml for report.md and the Actions Summary; runs offline with
+no Vault token or network. Arguments: comparison.json rotation-report.json.
+Only selected reporting fields are rendered; arbitrary input keys and config
+fingerprints are omitted. Table cells escape HTML, pipes and line breaks.
+Coverage, per-path field differences, findings, rotation and exceptions are
+shown. Exit 0 means rendered successfully; exit 1 means input/render failure.
+An incomplete/red report is still useful evidence. See SCRIPT-REFERENCE.md."""
 import argparse
 import html
 import json
@@ -8,15 +16,18 @@ import sys
 
 
 def cell(value):
+    """Escape a report field for one Markdown table cell without allowing raw HTML."""
     return html.escape(str(value)).replace('|', '&#124;').replace('\n', ' ').replace('\r', ' ')
 
 
 def table(headers, rows):
+    """Render headers and sanitized rows; an empty section retains its table headers."""
     return '\n'.join(['| ' + ' | '.join(headers) + ' |', '| ' + ' | '.join(['---'] * len(headers)) + ' |',
                       *['| ' + ' | '.join(cell(v) for v in row) + ' |' for row in rows]])
 
 
 def render(report, rotation):
+    """Select coverage/difference/rotation fields; omit arbitrary input data and hashes."""
     sections = ['# Vault drift and rotation report',
                 f"Supported scan complete: **{report['complete']}**. Findings: **{report['has_findings']}**.",
                 'Read-only report. Differences require review; no corrections or deletions were made. Null Git-baseline results mean the selected application baseline was not evaluated.',
@@ -45,6 +56,7 @@ def render(report, rotation):
 
 
 def main():
+    """Render two local JSON files to stdout; invalid schema/input exits 1 safely."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('comparison', type=Path)
     parser.add_argument('rotation', type=Path)

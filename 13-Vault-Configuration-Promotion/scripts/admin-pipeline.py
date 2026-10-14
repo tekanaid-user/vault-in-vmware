@@ -1,4 +1,15 @@
-"""Internal Terraform plan/apply for the legacy admin configuration, without values."""
+"""Import managed Vault configuration, save a plan, or apply its approved artifact.
+
+Called by vault-admin-deploy.yml with plan|apply --env dev|uat|prod; apply also
+requires --digest from the plan job. Requires Git, Terraform, the reviewed admin
+release, settings, backend connectivity/identity and separate admin_plan/admin_
+deploy OIDC roles. Works in .admin-run; no application secret values are managed.
+Planning may write Terraform state through imports; apply changes Vault config.
+A manifest binds target/release/settings/backend/source/plan to the approval.
+Deletes/replacements are rejected. Emits a configuration action summary and
+manifest_digest via GITHUB_OUTPUT; sensitive Terraform diagnostics are suppressed.
+Workflow jobs clean local artifacts; owned Vault tokens are revoked in finally.
+See RUNBOOK.md and SCRIPT-REFERENCE.md."""
 import argparse
 import hashlib
 import json
@@ -12,10 +23,15 @@ from common import BASE, REPO, PREFIX, api, ApiError, settings, authenticate, cl
 
 
 def digest(path):
+    """Compute a file SHA-256 used to bind the saved artifact to the plan job."""
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def run_tf(root, env, *args, capture=False):
+    """Run Terraform with captured diagnostics; return stdout only when requested.
+
+    An absent initial state is tolerated for state list; other errors are suppressed
+    to avoid leaking provider response credentials. No retry/apply fallback occurs."""
     result = subprocess.run(['terraform', *args], cwd=root, env=env, text=True,
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if result.returncode and args == ('state', 'list') and 'No state file was found' in result.stderr:
@@ -29,6 +45,7 @@ def run_tf(root, env, *args, capture=False):
 
 
 def release(target):
+    """Load selected release/catalog at its SHA; require it to be an ancestor of HEAD."""
     result = json.loads((BASE / 'environments' / target / 'admin-release.json').read_text())
     sha = result['configuration_ref']
     if not re.fullmatch(r'[0-9a-f]{40}', sha) or sha == '0'*40:
@@ -41,12 +58,17 @@ def release(target):
 
 
 def prepare(root, sha):
+    """Copy pinned Terraform source and lockfile into a new isolated work directory."""
     root.mkdir(parents=True)
     for filename in ('main.tf', '.terraform.lock.hcl'):
         root.joinpath(filename).write_bytes(subprocess.check_output(['git', 'show', f'{sha}:{PREFIX}/configuration/admin-setup/{filename}'], cwd=REPO))
 
 
 def imports(root, env, cfg, token, variables):
+    """Adopt existing selected mounts/policies/AppRoles into state without duplicating them.
+
+    Only absent resources (404) are skipped. Wrong mount types and denied reads fail;
+    imports can update the configured remote state before plan review."""
     auth = api(cfg, token, 'GET', 'sys/auth')['data']
     mounts = api(cfg, token, 'GET', 'sys/mounts')['data']
     resources = []
@@ -78,6 +100,10 @@ def imports(root, env, cfg, token, variables):
 
 
 def plan(root, env, cfg, token, variables, backend):
+    """Initialize/import, save approved.tfplan, reject delete/replace and write summary.
+
+    summary.json includes allowlisted configuration before/after fields; never use
+    this root to manage application values or credentials."""
     root.joinpath('terraform.tfvars.json').write_text(json.dumps(variables))
     run_tf(root, env, 'init', '-input=false', f'-backend-config={backend}')
     imports(root, env, cfg, token, variables)
@@ -96,6 +122,7 @@ def plan(root, env, cfg, token, variables, backend):
 
 
 def verify_artifact(root, expected_digest, target, definition, backend):
+    """Reject changed target/release/settings/backend/source or mismatched manifest digest."""
     if not expected_digest or expected_digest != digest(root/'manifest.json'):
         raise ValueError('Saved plan manifest digest mismatch')
     m = json.loads(root.joinpath('manifest.json').read_text())
@@ -105,6 +132,7 @@ def verify_artifact(root, expected_digest, target, definition, backend):
         raise ValueError('Plan/source artifact changed')
 
 def main():
+    """Use plan/apply-specific identities; always close the owned authentication token."""
     p = argparse.ArgumentParser()
     p.add_argument('command', choices=['plan', 'apply'])
     p.add_argument('--env', choices=['dev', 'uat', 'prod'], required=True)

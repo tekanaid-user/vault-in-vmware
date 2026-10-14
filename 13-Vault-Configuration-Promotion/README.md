@@ -1,8 +1,12 @@
 # Vault configuration, drift and rotation
 
+**Operator walkthrough:** [Workstream 2 onboarding](WORKSTREAM-2-ONBOARDING.md) takes the team from repository/runner setup through OIDC, individual collections and the weekly report, with linked files and expected results at each step.
+
 **New to this repo? [Start with Workstream 2: GitHub OIDC → one-environment login → drift report](GETTING-STARTED.md).** The guide includes a repo map, Vault commands, environment settings, a manual onboarding workflow and a sample report. No Terraform/state backend is required for reporting.
 
-[First working-session checklist](HANDOFF.md) · [Example Security report](examples/REPORT-WALKTHROUGH.md). The onboarding additions passed **31 local tests** against disposable Vault fixtures; their new GitHub workflow and live federation have not yet been run. Use the getting-started guide to configure the manual workflow in the target environment.
+[First working-session checklist](HANDOFF.md) · [Observed local Vault report](examples/REPORT-WALKTHROUGH.md) · [Observed DEV claims](examples/DEV-CLAIMS-REFERENCE.md) · [Reproduce the local lab](LOCAL-LAB.md). Three real TLS Vaults produced a complete report with 22 differences across all five inventory categories. **33 local tests passed**, including the repeatable CLI lab. A [new real GitHub OIDC run](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/38474723943) passed against three disposable TLS Vaults on a local container runner. Recipient endpoints/trust/permissions still require validation.
+
+For file-by-file behavior, inputs, outputs and failure handling, see [Workflow and script reference](SCRIPT-REFERENCE.md). Workflow headers and Python/Bash comments explain the implementation alongside the code.
 
 Security operates **GitHub Actions**, supplying non-secret parameters. Actions runs Terraform Community CLI; Security does not run scripts or learn Terraform. **Vault Community Edition, with no namespaces.** Git holds configuration and expected structure. Vault holds environment-specific values, with UI access retained.
 

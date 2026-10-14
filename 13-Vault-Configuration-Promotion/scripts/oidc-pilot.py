@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
-"""Disposable three-Vault TLS pilot on a hosted runner; real GitHub OIDC, synthetic data."""
+"""Exercise OIDC, reporting and Terraform against three disposable TLS Vaults.
+
+Called by vault-oidc-pilot.yml, with synthetic data and loopback-only dev servers.
+Requires Vault, Terraform, Git, Python and the reviewed demo fixture. Real Actions
+mode is deliberately bound to this demonstration repository/main/vault-pilot
+identity; cloning it does not configure live environment trust. --local tests
+mechanics with scoped tokens and does not prove GitHub federation.
+Temporary root tokens bootstrap fixtures only. Reports verify denied value
+reads, rejected trust binding (Actions), idempotent Terraform and introduced
+UAT drift/rotation findings. --output selects the values-free JSON report;
+exit 0 passes checks, exit 1 fails. Temporary servers/files are cleaned in finally.
+See OIDC-PILOT.md; use GETTING-STARTED.md for existing Vaults."""
 import argparse
 import datetime as dt
 import json
@@ -17,12 +28,13 @@ from drift import collect, compare_reports
 
 
 def require(condition, message):
+    """Fail the controlled synthetic pilot immediately when a check does not hold."""
     if not condition:
         raise RuntimeError(message)
 
 
 def terraform_pilot(cfg, root_token, folder, github, checks, forbidden):
-    """Local disposable state only; GitHub plan/apply tokens use separate policies."""
+    """Use disposable local state to verify import, scoped plan/apply and unchanged re-plan."""
     source = folder / 'terraform'
     shutil.copytree(BASE / 'configuration', source, ignore=shutil.ignore_patterns('.terraform', '__pycache__'))
     directory = source / 'configuration'
@@ -75,6 +87,10 @@ def terraform_pilot(cfg, root_token, folder, github, checks, forbidden):
 
 
 def run(local=False, output=Path('pilot-report.json')):
+    """Bootstrap synthetic TLS Vaults, validate scoped behavior, export safe evidence.
+
+    local=True must be outside Actions. Restore caller environment and stop all
+    started servers in finally, including failures; temporary files are removed."""
     github = os.environ.get('GITHUB_ACTIONS') == 'true'
     require(local != github, 'Use --local outside Actions; Actions must use real OIDC')
     if github:
@@ -206,6 +222,7 @@ def run(local=False, output=Path('pilot-report.json')):
 
 
 def main():
+    """Choose local versus real Actions mode and write only the values-free pilot report."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--local', action='store_true', help='Local mechanics only; no OIDC claim')
     parser.add_argument('--output', type=Path, default=Path('pilot-report.json'))

@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
-"""Read-only KV v2 structure/configuration and rotation report. Never GET secret data."""
+"""Collect read-only inventory or compare existing environment reports.
+
+Used by vault-drift-onboarding.yml and vault-drift.yml. Python 3.10+ and a Git
+checkout are required. --env selects environments/<env>/settings.json and the
+drift OIDC role; --inventory-only skips the original demo application/release
+baseline, but configured inventory expectations still apply. --compare is
+offline and expects up to three unique DEV/UAT/PROD JSON reports.
+JSON goes to stdout; safe diagnostics go to stderr. Default collection succeeds
+when JSON is produced, even with findings. With --fail-on-findings: 0 clean,
+1 collection/format error, 2 findings, 3 incomplete evidence. No KV values are
+read, no corrections are made. See GETTING-STARTED.md and SCRIPT-REFERENCE.md."""
 import argparse
 import datetime as dt
 import json
@@ -12,11 +22,13 @@ from common import ApiError, api, app_definition, authenticate, close_token, rea
 
 def normalized_policy(text):
     # Tokenize before dropping whitespace/comments; quoted paths remain intact.
+    """Normalize policy comments/spacing while preserving whitespace inside strings."""
     tokens = re.findall(r'"(?:\\.|[^"\\])*"|#[^\n]*|//[^\n]*|/\*[\s\S]*?\*/|[^\s"#/]+|[/#]', text)
     return ''.join(token for token in tokens if not token.startswith(('#', '//', '/*')))
 
 
 def leaf_fields(structure, prefix=''):
+    """Flatten nested subkeys to escaped field paths; reject any non-null leaf value."""
     result = []
     for key, value in structure.items():
         name = prefix + key.replace('~', '~0').replace('/', '~1')
@@ -34,6 +46,7 @@ def leaf_fields(structure, prefix=''):
 
 def rotation_status(metadata, field, days, today):
     # Never return arbitrary custom metadata, which operators could misuse for secrets.
+    """Return only status/age for the chosen ISO date field; never export raw metadata."""
     value = (metadata.get('custom_metadata') or {}).get(field)
     if not value:
         return {'status': 'missing'}
@@ -48,6 +61,10 @@ def rotation_status(metadata, field, days, today):
 
 
 def collect(env, cfg=None, sha=None, app=None, policy=None, today=None, inventory_only=False):
+    """Return one environment report, revoking owned credentials even on failure.
+
+    inventory_only bypasses demo app/release checks. Both modes retain configured
+    inventory expectations. cfg/sha/app/policy/today overrides support isolated tests."""
     if inventory_only:
         cfg = cfg or settings(env)
         today = today or dt.datetime.now(dt.timezone.utc).date()
@@ -127,6 +144,10 @@ def collect(env, cfg=None, sha=None, app=None, policy=None, today=None, inventor
 
 
 def compare_reports(reports):
+    """Compare unique environment artifacts; missing/unknown data yields null parity.
+
+    Return coverage, per-resource differences and findings. A matching inventory
+    without an evaluated baseline does not claim Git release/policy compliance."""
     names = {r['environment'] for r in reports}
     if len(names) != len(reports) or not names <= {'dev', 'uat', 'prod'}:
         raise ValueError('Duplicate or invalid environment reports')
@@ -148,17 +169,22 @@ def compare_reports(reports):
 
 
 def main():
+    """Collect or compare JSON; optionally distinguish findings (2) and incomplete (3)."""
     parser = argparse.ArgumentParser(description=__doc__)
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--env', choices=['dev', 'uat', 'prod'])
     group.add_argument('--compare', nargs='*', metavar='REPORT_JSON')
     parser.add_argument('--fail-on-findings', action='store_true', help='Exit 2 for drift/rotation findings, 3 for incomplete evidence')
     parser.add_argument('--inventory-only', action='store_true', help='Scan without the selected demo application/release.yaml baseline; configured inventory expectations still apply')
+    parser.add_argument('--settings-file', type=Path, help='Reviewed environment settings override, e.g. a private localhost lab file; still requires HTTPS/no namespaces')
     args = parser.parse_args()
     if args.inventory_only and not args.env:
         parser.error('--inventory-only requires --env')
+    if args.settings_file and not args.env:
+        parser.error('--settings-file requires --env')
     try:
-        report = collect(args.env, inventory_only=args.inventory_only) if args.env else compare_reports([json.loads(Path(p).read_text()) for p in args.compare])
+        cfg = settings(args.env, filename=args.settings_file) if args.settings_file else None
+        report = collect(args.env, cfg=cfg, inventory_only=args.inventory_only) if args.env else compare_reports([json.loads(Path(p).read_text()) for p in args.compare])
         print(json.dumps(report, indent=2))
         if args.fail_on_findings:
             if not report['complete']:

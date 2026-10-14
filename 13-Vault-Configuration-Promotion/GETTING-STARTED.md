@@ -4,6 +4,8 @@
 
 Use this guide to connect your existing environments. [OIDC-PILOT.md](OIDC-PILOT.md) reproduces the disposable demonstration; it does not configure your existing Vaults. [RUNBOOK.md](RUNBOOK.md) covers the broader promotion project for later.
 
+**Want a working lab first? [LOCAL-LAB.md](LOCAL-LAB.md) creates three real TLS Vaults and generates reports from their APIs.** The [walkthrough](examples/REPORT-WALKTHROUGH.md) uses observed results and links actual GitHub OIDC evidence. Lab data/labels do not substitute for configuring your own endpoints/trust.
+
 ## 1. Find your way around the repository
 
 | Open this | Purpose / when to use it |
@@ -18,6 +20,7 @@ Use this guide to connect your existing environments. [OIDC-PILOT.md](OIDC-PILOT
 | [`scripts/rotation-report.py`](scripts/rotation-report.py) | Uses collected reports to summarize rotation dates; makes no second Vault connection. |
 | [`examples/REPORT-WALKTHROUGH.md`](examples/REPORT-WALKTHROUGH.md) | Sample report and how to interpret findings. |
 | [`INVENTORY.md`](INVENTORY.md) | Exact supported inventory, exclusions and exception handling. |
+| [`SCRIPT-REFERENCE.md`](SCRIPT-REFERENCE.md) | Workflow-to-script map, dependencies, identities, outputs, side effects and exit codes. |
 
 Leave `vault-admin-request`, `vault-admin-deploy`, `vault-restart-credentials`, `configuration/admin-setup` and backend files for Workstream 1. `vault-validate` runs synthetic regression tests. `vault-oidc-pilot` builds disposable Vaults and also exercises Terraform; it is optional evidence, not your first environment scan.
 
@@ -69,6 +72,8 @@ This can run **before Vault JWT auth is configured**, using the internal runner.
 2. Select branch `main`, environment `dev`, step `claims`.
 3. Wait for success. On the run's Summary page, download artifact `vault-onboarding-dev-claims` and open `dev-claims.json`.
 4. Record `iss`, `aud`, `sub`, `repository`, `repository_id`, `repository_owner_id`, `ref`, `workflow_ref`, `event_name`. Only these selected non-secret claims are exported; the JWT is never exported. Decoding claims is diagnostic, not signature verification.
+
+**Observed example:** [DEV claims reference and field mapping](examples/DEV-CLAIMS-REFERENCE.md) includes [the downloaded JSON](examples/github-dev-claims.json) from a successful demonstration-repo run. In the UI, the artifact is a ZIP; extract it to read `dev-claims.json`. Claims inspection succeeds without a real Vault endpoint and does not prove Vault authentication. After saving your own claims, continue to step 5, then run `authenticate` and `collect` after configuring the real endpoint and role.
 
 Do not copy the public demonstration repository IDs or subject from older examples. GitHub subjects may use default, customized or immutable-ID formats. Use the **exact issued `sub`**, including any encoding. Repeat for UAT/PROD because the environment part changes.
 

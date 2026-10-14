@@ -1,4 +1,11 @@
-"""Actual admin helper with disposable Vault and portable saved plan, synthetic data."""
+"""Actual admin helper with disposable Vault and portable saved plan, synthetic data.
+
+Covers non-secret form validation, import/plan/apply, restored artifact integrity,
+idempotence and deliberate credential delivery using disposable local Vaults.
+
+Run from repository root: python3 -m unittest discover -s
+13-Vault-Configuration-Promotion/tests -v. No live environment acceptance is implied.
+"""
 import contextlib
 import importlib.util
 import io

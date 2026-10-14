@@ -1,4 +1,13 @@
-"""Actions-only non-secret form -> reviewable Git change. No Vault writes."""
+"""Translate non-secret workflow form inputs into a reviewable Git file change.
+
+Called by vault-admin-request.yml for Workstream 1; no Vault login or writes.
+configure updates configuration/admin-catalog.json; promote updates the chosen
+environment's admin-release.json using a full main-ancestor SHA and retains
+previously managed applications/restart mode. Names, field names, TTL/counts,
+CIDRs and ticket syntax are validated. This script only edits the local file;
+the workflow creates the branch, commit and PR. Requires Git and Python 3.10+.
+Prints the modified relative path; invalid inputs raise an exception/nonzero
+exit. Never supply secret values. See SCRIPT-REFERENCE.md and RUNBOOK.md."""
 import argparse
 import ipaddress
 import json
@@ -11,6 +20,7 @@ DEFAULT = dict(secret_id_ttl=86400, secret_id_num_uses=150, token_ttl=18000,
                secret_id_bound_cidrs=[], token_no_default_policy=False)
 
 def names(raw):
+    """Parse unique approved application identifiers and reject reserved/traversal names."""
     result = raw.split()
     if not result or len(set(result)) != len(result):
         raise ValueError('Provide unique application names')
@@ -19,6 +29,7 @@ def names(raw):
     return result
 
 def settings(raw, defaults):
+    """Merge only approved AppRole settings; validate numeric limits, types and CIDRs."""
     supplied = json.loads(raw)
     if not isinstance(supplied, dict) or set(supplied) - set(DEFAULT):
         raise ValueError('Only documented non-secret AppRole settings are accepted')
@@ -39,6 +50,10 @@ def settings(raw, defaults):
     return result
 
 def generate(args):
+    """Return (target_path, JSON_content) without writing it or contacting Vault.
+
+    configure edits catalog definitions; promote pins an existing main-ancestor
+    commit and preserves the full previously managed set in the environment release."""
     selected = names(args.applications)
     if not re.fullmatch(r'[A-Za-z0-9 _./:#-]{1,120}', args.ticket):
         raise ValueError('Provide a non-secret change ticket reference')
@@ -74,6 +89,7 @@ def generate(args):
     return target, {'configuration_ref': args.configuration_ref, 'setup_mode': mode, 'applications': combined}
 
 def main():
+    """Validate form arguments, write one Git configuration file and print its path."""
     p = argparse.ArgumentParser()
     p.add_argument('--operation', choices=['configure', 'promote'], required=True)
     p.add_argument('--environment', choices=['dev', 'uat', 'prod'], required=True)

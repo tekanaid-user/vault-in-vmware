@@ -1,7 +1,15 @@
 # Validation: October 5, 2026
 
-## Workstream 2 onboarding additions (local evidence)
+## Real local lab and current GitHub evidence
 
+- Three localhost TLS Vault dev-mode servers were created and seeded with deliberate differences. The actual `drift.py` CLI produced a complete supported scan: **22 inventory differences** across policies/auth methods/secrets engines/configuration/KV paths; rotation counts **11 current, 1 overdue, 1 missing, 1 invalid, 1 future, 0 unknown**.
+- The full local regression suite passed **33 tests**. New live-lab tests cover repeated CLI collection, all five drift categories, restricted settings overrides, actual 403 value denial/unknown inventory and cleanup. [Reproduce](LOCAL-LAB.md).
+- [Real GitHub OIDC run 38474723943](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/38474723943) passed on a local ephemeral runner against disposable TLS Vaults at published commit `47ab160`; rejected repository bindings, denied values, introduced UAT drift and scoped Terraform/idempotence checks passed.
+- [Local evidence](examples/evidence.json), [OIDC evidence](examples/oidc-evidence.json), [downloaded OIDC artifact](examples/oidc-pilot-report.json). The longer-running local lab uses fresh local read-only tokens; real GitHub federation used a separate disposable trio. The lab code, documentation and report refreshes are included in this repository. The captured evidence records local changes at collection time; recipient environments remain unconfigured/unverified.
+
+## Prior onboarding additions (local evidence)
+
+- **Subsequent GitHub evidence:** the [DEV claims run](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/38469756292) succeeded on a self-hosted runner at commit `47ab160`. [Reference JSON and interpretation](examples/DEV-CLAIMS-REFERENCE.md). This verifies runner execution/claims retrieval only; the step did not connect to Vault or validate a Vault-issued identity. Live authentication and collection remain pending.
 - `python3 -m unittest discover -s 13-Vault-Configuration-Promotion/tests -v`: **31 tests passed locally**, including disposable Vault integration tests and Terraform import/apply regression coverage.
 - New coverage verifies inventory-only collection without the demo release/application, continued exclusion of value-read calls/tokens/values, claims-only inspection without a Vault connection, refusal of local-token fallback for the federation check, token cleanup on failed reads, per-path field-name differences and null Git-compliance results when no selected baseline was checked.
 - All Vault workflow YAML files parse; `git diff --check` passes. Synthetic comparison/rotation/Markdown examples were generated using actual reporting functions.

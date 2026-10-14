@@ -1,4 +1,11 @@
-"""Onboarding boundaries: claims-only, exact roles, token cleanup and report interpretation."""
+"""Onboarding boundaries: claims-only, exact roles, token cleanup and report interpretation.
+
+Uses API/authentication doubles for claims-only and cleanup boundaries;
+checks incomplete/baseline interpretation and escaped Markdown rendering.
+
+Run from repository root: python3 -m unittest discover -s
+13-Vault-Configuration-Promotion/tests -v. No live environment acceptance is implied.
+"""
 import base64
 import copy
 import importlib.util

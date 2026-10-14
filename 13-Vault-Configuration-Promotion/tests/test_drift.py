@@ -1,4 +1,11 @@
-"""Integration tests: three isolated loopback Vault dev processes, synthetic values only."""
+"""Integration tests: three isolated loopback Vault dev processes, synthetic values only.
+
+Covers scoped reads, value exclusion, inventory-only mode and original baseline;
+starts local synthetic Vault fixtures and optional disposable Terraform state.
+
+Run from repository root: python3 -m unittest discover -s
+13-Vault-Configuration-Promotion/tests -v. No live environment acceptance is implied.
+"""
 import datetime as dt
 import importlib.util
 import json

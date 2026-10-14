@@ -2,6 +2,8 @@
 
 **Read first:** [GETTING-STARTED.md](GETTING-STARTED.md). It answers where the scripts live, where the Vault URLs go, how to configure OIDC and what Security does in Actions. [Sample report](examples/REPORT-WALKTHROUGH.md).
 
+[LOCAL-LAB.md](LOCAL-LAB.md) provides a reproducible working example. The report is actual local API evidence, with separate real GitHub federation evidence.
+
 ## First working session
 
 | Order | Who | Result |

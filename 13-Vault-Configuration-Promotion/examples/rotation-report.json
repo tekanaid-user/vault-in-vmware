@@ -2,14 +2,26 @@
   "complete": true,
   "missing_environment_reports": [],
   "counts": {
-    "current": 2,
-    "future_date": 0,
-    "invalid": 0,
+    "current": 11,
+    "future_date": 1,
+    "invalid": 1,
     "missing": 1,
     "overdue": 1,
     "unknown": 0
   },
   "secrets": [
+    {
+      "environment": "dev",
+      "path": "apps/service/config",
+      "status": "current",
+      "age_days": 10
+    },
+    {
+      "environment": "dev",
+      "path": "nested/secrets/service/config",
+      "status": "current",
+      "age_days": 10
+    },
     {
       "environment": "dev",
       "path": "secret/example-app-old/config",
@@ -22,8 +34,54 @@
       "age_days": 10
     },
     {
+      "environment": "dev",
+      "path": "secret/invalid-date/config",
+      "status": "invalid"
+    },
+    {
+      "environment": "dev",
+      "path": "secret/retired/config",
+      "status": "current",
+      "age_days": 10
+    },
+    {
+      "environment": "prod",
+      "path": "apps/service/config",
+      "status": "current",
+      "age_days": 10
+    },
+    {
+      "environment": "prod",
+      "path": "nested/secrets/service/config",
+      "status": "current",
+      "age_days": 10
+    },
+    {
       "environment": "prod",
       "path": "secret/example-app/config",
+      "status": "current",
+      "age_days": 10
+    },
+    {
+      "environment": "prod",
+      "path": "secret/future-date/config",
+      "status": "future_date"
+    },
+    {
+      "environment": "prod",
+      "path": "secret/retired/config",
+      "status": "current",
+      "age_days": 10
+    },
+    {
+      "environment": "uat",
+      "path": "apps/service/config",
+      "status": "current",
+      "age_days": 10
+    },
+    {
+      "environment": "uat",
+      "path": "nested/secrets/service/config",
       "status": "current",
       "age_days": 10
     },
@@ -32,6 +90,12 @@
       "path": "secret/example-app/config",
       "status": "overdue",
       "age_days": 120
+    },
+    {
+      "environment": "uat",
+      "path": "secret/retired/config",
+      "status": "current",
+      "age_days": 10
     }
   ],
   "note": "Operator-maintained rotation metadata; not proof that the upstream credential rotated. No values or raw metadata included."

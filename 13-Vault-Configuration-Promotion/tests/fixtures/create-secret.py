@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""Create a new KV v2 secret directly with approved Git fields and hidden prompts."""
+"""Historical create-only secret-entry fixture; not an active Security workflow.
+
+Used by disposable regression tests to prove CAS=0 cannot overwrite an existing
+KV location and the creator cannot read values. The legacy interactive CLI needs
+matching --env/--approve-environment, a TTY and hidden prompts. Do not use it for
+current onboarding: active workflows configure structure; Vault UI holds values.
+This fixture performs a write, unlike inventory reporting. See SCRIPT-REFERENCE.md.
+"""
 import argparse
 import getpass
 import sys

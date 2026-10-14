@@ -1,0 +1,3085 @@
+{
+  "mode": "real GitHub OIDC",
+  "checks": [
+    "dev: untrusted repository binding rejected",
+    "dev: fields readable; secret values denied (403)",
+    "dev: scoped plan/apply, configuration restored, subsequent plan unchanged, values absent from disposable state",
+    "uat: untrusted repository binding rejected",
+    "uat: fields readable; secret values denied (403)",
+    "prod: untrusted repository binding rejected",
+    "prod: fields readable; secret values denied (403)"
+  ],
+  "baseline": {
+    "missing_environment_reports": [],
+    "missing_inventory_reports": [],
+    "complete": true,
+    "environments": [
+      {
+        "schema_version": 2,
+        "environment": "dev",
+        "configuration_ref": "47ab1608ee55c2556c8dcb5e6adaacdaf44fa2d9",
+        "expected": {
+          "application": "demo-app",
+          "kv_mount": "secret",
+          "secret_path": "demo/app",
+          "policy_name": "demo-app",
+          "approle_name": "demo-app",
+          "fields": [
+            "username",
+            "password"
+          ]
+        },
+        "collected_at": "2026-10-13T22:00:50.666196+00:00",
+        "paths": {
+          "demo/app": {
+            "status": "present",
+            "fields": [
+              "password",
+              "username"
+            ],
+            "rotation": {
+              "status": "current",
+              "age_days": 0
+            }
+          }
+        },
+        "findings": [],
+        "complete": true,
+        "inventory": {
+          "policies": {
+            "acl/default": {
+              "status": "present",
+              "fingerprint": "bfa504dd05b04f0f5305acc00b7f3a6d54e656aef7dcc1aec1010f09e31d82d4"
+            },
+            "acl/default-ceiling": {
+              "status": "present",
+              "fingerprint": "b666cb6c1d5f289370b24de6522b13302d02d7dbf1399759d45d3f02282c8010"
+            },
+            "acl/demo-app": {
+              "status": "present",
+              "fingerprint": "841b9d7653f75a14682862ee69d66b96502ed0d4286466cc3f84651f2d6be902"
+            },
+            "acl/demo-deploy": {
+              "status": "present",
+              "fingerprint": "eefd0a51412b85996614f7baa34e8bcf05bcf903a1c59cff37d9eb5b7cb51320"
+            },
+            "acl/demo-drift": {
+              "status": "present",
+              "fingerprint": "0a4aa821832b47b9f9a79ae0caf7cfd5826cd86f5c9ba75ed36fb27f19332fc9"
+            },
+            "acl/demo-plan": {
+              "status": "present",
+              "fingerprint": "e4b4281717457ed2cae3126acccda62e1ff5707edebd6bdd475ac82cb2de10c8"
+            },
+            "acl/root": {
+              "status": "builtin"
+            }
+          },
+          "auth_methods": {
+            "approle/": {
+              "status": "present",
+              "type": "approle",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "4be08459449a30a5dee4f5a8df68085b92338cf8a6d9069a33bb689ce10b773a"
+              }
+            },
+            "github/": {
+              "status": "present",
+              "type": "jwt",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395"
+              }
+            },
+            "token/": {
+              "status": "present",
+              "type": "token",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "3d872b2ab22a2475ca9ba197dc3cc954d8c991e44284994557fbcaf873cdb73f"
+              }
+            }
+          },
+          "secrets_engines": {
+            "agent-registry/": {
+              "status": "present",
+              "type": "agent_registry",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "d381eced72a08e85e3ff3749e3c8c985e904efbf1cd83f19d0dc8aace5658704"
+              }
+            },
+            "cubbyhole/": {
+              "status": "present",
+              "type": "cubbyhole",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "c0b93423e312b8afc670adcde87a5f85d38740969a3100cae41ffc34db078a65"
+              }
+            },
+            "identity/": {
+              "status": "present",
+              "type": "identity",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "edc16df845e33adb7350d4f445198696bd235f430ce3956d999e04d6e23a6a29"
+              }
+            },
+            "secret/": {
+              "status": "present",
+              "type": "kv",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "77da9a7ed3026aba89bb78dac4b72501c10b9ae1f0689d3c4b31e27c3667940d",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "43b2da73702af10d1a5400d81a263e005e864079b0fb7023504f06a234db0a31"
+              }
+            },
+            "sys/": {
+              "status": "present",
+              "type": "system",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "type": "0dc8cd0a92280156c12ba5073f5049586727ba0bef2ff72099577bd332db18f5"
+              }
+            }
+          },
+          "configurations": {
+            "sys/mounts/auth/approle/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "auth/approle/role/demo-app": {
+              "status": "present",
+              "fields": {
+                "bind_secret_id": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "local_secret_ids": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "secret_id_bound_cidrs": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "secret_id_num_uses": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+                "secret_id_ttl": "b045dd9c18caa8be1e17a4b902152cc1fd292b242b7b9dd74ba8c40896239424",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_max_ttl": "5be21fec7f4c958e2d23dc67d760036b956859a35612c89ff8bfbd766a094cad",
+                "token_no_default_policy": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "51cb7accbcc1cb8bb1e7fd48931c8ed163a94ec19b1793d5f3c732d68ca36017",
+                "token_ttl": "8b34042b7a96b3ba94b27ad723ca8f57787eefbab2083b3098173c444aefbfdf",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba"
+              }
+            },
+            "sys/mounts/auth/github/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "auth/github/config": {
+              "status": "present",
+              "fields": {
+                "bound_issuer": "99d4d7115c571b819412a4e7f4fbb9f8e1c6c8ad98a44ebf0bd5009337331a98",
+                "default_role": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwks_ca_pem": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwks_url": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwt_supported_algs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "jwt_validation_pubkeys": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "namespace_in_state": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "oidc_client_id": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_discovery_ca_pem": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_discovery_url": "99d4d7115c571b819412a4e7f4fbb9f8e1c6c8ad98a44ebf0bd5009337331a98",
+                "oidc_response_mode": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_response_types": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              }
+            },
+            "auth/github/role/rejected-pilot": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "bf2232136af6c595d9195b228420aee7fe6149bb4118f548157e3fad7826c9b5",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "c17778966c04c62eb8608813b66b52bb8332ef1079dc10b4d592f47c3da66a56",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "sys/mounts/auth/token/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "sys/mounts/cubbyhole/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+              }
+            },
+            "sys/mounts/identity/tune": {
+              "status": "present",
+              "fields": {
+                "allowed_response_headers": "743aacb790358967e754fc338625d748d1e32431b8ef2613acdbb1ee362e2ab6",
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "passthrough_request_headers": "278b44948bebc437f59fb8dd6ed581aea29a5b5476329c52c33dbca2d617de73"
+              }
+            },
+            "sys/mounts/secret/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+              }
+            },
+            "secret/config": {
+              "status": "present",
+              "fields": {
+                "cas_required": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "delete_version_after": "5a6b8ed57886cff8a27d996943486d8873884cb045e38a5b305c953715f83e79",
+                "max_versions": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+              }
+            },
+            "sys/mounts/sys/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "passthrough_request_headers": "18c39ca782c7c884de20a91eff24eb4b060dc596dadfd49951b8894ac7195861"
+              }
+            },
+            "auth/github/role/github-ENV-drift": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "c17778966c04c62eb8608813b66b52bb8332ef1079dc10b4d592f47c3da66a56",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "auth/github/role/github-ENV-plan": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "4ef4f247bbb71743536332693b7991ffc1db95cea819577a72136937f1e811a8",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "auth/github/role/github-ENV-deploy": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "ebbab4365217fbac279852419aea41b8e561091ee29f0367ddf433dcb6b5aae2",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            }
+          },
+          "kv_paths": {
+            "secret/demo/app": {
+              "status": "present",
+              "fields": [
+                "password",
+                "username"
+              ],
+              "rotation": {
+                "status": "current",
+                "age_days": 0
+              }
+            }
+          },
+          "complete": true,
+          "findings": [],
+          "coverage": {
+            "vault_scope": "Vault Community instance; no namespaces",
+            "unsupported_details": [
+              {
+                "category": "secrets_engines",
+                "mount": "agent-registry/",
+                "type": "agent_registry",
+                "note": "Built-in registry does not expose mount tuning"
+              }
+            ],
+            "policy_families": [
+              "acl",
+              "password"
+            ],
+            "excluded": [
+              "KV v1 values",
+              "credentials and secret values",
+              "server storage/seal/TLS configuration",
+              "identity entities/groups",
+              "secret issuance/export endpoints"
+            ],
+            "resource_aliases": {
+              "configurations": {
+                "auth/github/role/github-dev-drift": "auth/github/role/github-ENV-drift",
+                "auth/github/role/github-dev-plan": "auth/github/role/github-ENV-plan",
+                "auth/github/role/github-dev-deploy": "auth/github/role/github-ENV-deploy",
+                "auth/github/role/github-dev-admin-plan": "auth/github/role/github-ENV-admin-plan",
+                "auth/github/role/github-dev-admin-deploy": "auth/github/role/github-ENV-admin-deploy",
+                "auth/github/role/github-dev-credentials": "auth/github/role/github-ENV-credentials"
+              }
+            },
+            "comparison_exceptions": [
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-drift",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-plan",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-deploy",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-admin-plan",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-admin-deploy",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-credentials",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              }
+            ]
+          }
+        },
+        "policy_matches_git": true,
+        "approle_matches_git": true,
+        "kv_config_matches_git": true
+      },
+      {
+        "schema_version": 2,
+        "environment": "uat",
+        "configuration_ref": "47ab1608ee55c2556c8dcb5e6adaacdaf44fa2d9",
+        "expected": {
+          "application": "demo-app",
+          "kv_mount": "secret",
+          "secret_path": "demo/app",
+          "policy_name": "demo-app",
+          "approle_name": "demo-app",
+          "fields": [
+            "username",
+            "password"
+          ]
+        },
+        "collected_at": "2026-10-13T22:00:51.946956+00:00",
+        "paths": {
+          "demo/app": {
+            "status": "present",
+            "fields": [
+              "password",
+              "username"
+            ],
+            "rotation": {
+              "status": "current",
+              "age_days": 0
+            }
+          }
+        },
+        "findings": [],
+        "complete": true,
+        "inventory": {
+          "policies": {
+            "acl/default": {
+              "status": "present",
+              "fingerprint": "bfa504dd05b04f0f5305acc00b7f3a6d54e656aef7dcc1aec1010f09e31d82d4"
+            },
+            "acl/default-ceiling": {
+              "status": "present",
+              "fingerprint": "b666cb6c1d5f289370b24de6522b13302d02d7dbf1399759d45d3f02282c8010"
+            },
+            "acl/demo-app": {
+              "status": "present",
+              "fingerprint": "841b9d7653f75a14682862ee69d66b96502ed0d4286466cc3f84651f2d6be902"
+            },
+            "acl/demo-deploy": {
+              "status": "present",
+              "fingerprint": "eefd0a51412b85996614f7baa34e8bcf05bcf903a1c59cff37d9eb5b7cb51320"
+            },
+            "acl/demo-drift": {
+              "status": "present",
+              "fingerprint": "0a4aa821832b47b9f9a79ae0caf7cfd5826cd86f5c9ba75ed36fb27f19332fc9"
+            },
+            "acl/demo-plan": {
+              "status": "present",
+              "fingerprint": "e4b4281717457ed2cae3126acccda62e1ff5707edebd6bdd475ac82cb2de10c8"
+            },
+            "acl/root": {
+              "status": "builtin"
+            }
+          },
+          "auth_methods": {
+            "approle/": {
+              "status": "present",
+              "type": "approle",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "4be08459449a30a5dee4f5a8df68085b92338cf8a6d9069a33bb689ce10b773a"
+              }
+            },
+            "github/": {
+              "status": "present",
+              "type": "jwt",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395"
+              }
+            },
+            "token/": {
+              "status": "present",
+              "type": "token",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "3d872b2ab22a2475ca9ba197dc3cc954d8c991e44284994557fbcaf873cdb73f"
+              }
+            }
+          },
+          "secrets_engines": {
+            "agent-registry/": {
+              "status": "present",
+              "type": "agent_registry",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "d381eced72a08e85e3ff3749e3c8c985e904efbf1cd83f19d0dc8aace5658704"
+              }
+            },
+            "cubbyhole/": {
+              "status": "present",
+              "type": "cubbyhole",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "c0b93423e312b8afc670adcde87a5f85d38740969a3100cae41ffc34db078a65"
+              }
+            },
+            "identity/": {
+              "status": "present",
+              "type": "identity",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "edc16df845e33adb7350d4f445198696bd235f430ce3956d999e04d6e23a6a29"
+              }
+            },
+            "secret/": {
+              "status": "present",
+              "type": "kv",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "77da9a7ed3026aba89bb78dac4b72501c10b9ae1f0689d3c4b31e27c3667940d",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "43b2da73702af10d1a5400d81a263e005e864079b0fb7023504f06a234db0a31"
+              }
+            },
+            "sys/": {
+              "status": "present",
+              "type": "system",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "type": "0dc8cd0a92280156c12ba5073f5049586727ba0bef2ff72099577bd332db18f5"
+              }
+            }
+          },
+          "configurations": {
+            "sys/mounts/auth/approle/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "auth/approle/role/demo-app": {
+              "status": "present",
+              "fields": {
+                "bind_secret_id": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "local_secret_ids": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "secret_id_bound_cidrs": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "secret_id_num_uses": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+                "secret_id_ttl": "b045dd9c18caa8be1e17a4b902152cc1fd292b242b7b9dd74ba8c40896239424",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_max_ttl": "5be21fec7f4c958e2d23dc67d760036b956859a35612c89ff8bfbd766a094cad",
+                "token_no_default_policy": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "51cb7accbcc1cb8bb1e7fd48931c8ed163a94ec19b1793d5f3c732d68ca36017",
+                "token_ttl": "8b34042b7a96b3ba94b27ad723ca8f57787eefbab2083b3098173c444aefbfdf",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba"
+              }
+            },
+            "sys/mounts/auth/github/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "auth/github/config": {
+              "status": "present",
+              "fields": {
+                "bound_issuer": "99d4d7115c571b819412a4e7f4fbb9f8e1c6c8ad98a44ebf0bd5009337331a98",
+                "default_role": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwks_ca_pem": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwks_url": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwt_supported_algs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "jwt_validation_pubkeys": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "namespace_in_state": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "oidc_client_id": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_discovery_ca_pem": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_discovery_url": "99d4d7115c571b819412a4e7f4fbb9f8e1c6c8ad98a44ebf0bd5009337331a98",
+                "oidc_response_mode": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_response_types": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              }
+            },
+            "auth/github/role/rejected-pilot": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "bf2232136af6c595d9195b228420aee7fe6149bb4118f548157e3fad7826c9b5",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "c17778966c04c62eb8608813b66b52bb8332ef1079dc10b4d592f47c3da66a56",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "sys/mounts/auth/token/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "sys/mounts/cubbyhole/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+              }
+            },
+            "sys/mounts/identity/tune": {
+              "status": "present",
+              "fields": {
+                "allowed_response_headers": "743aacb790358967e754fc338625d748d1e32431b8ef2613acdbb1ee362e2ab6",
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "passthrough_request_headers": "278b44948bebc437f59fb8dd6ed581aea29a5b5476329c52c33dbca2d617de73"
+              }
+            },
+            "sys/mounts/secret/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+              }
+            },
+            "secret/config": {
+              "status": "present",
+              "fields": {
+                "cas_required": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "delete_version_after": "5a6b8ed57886cff8a27d996943486d8873884cb045e38a5b305c953715f83e79",
+                "max_versions": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+              }
+            },
+            "sys/mounts/sys/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "passthrough_request_headers": "18c39ca782c7c884de20a91eff24eb4b060dc596dadfd49951b8894ac7195861"
+              }
+            },
+            "auth/github/role/github-ENV-drift": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "c17778966c04c62eb8608813b66b52bb8332ef1079dc10b4d592f47c3da66a56",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "auth/github/role/github-ENV-plan": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "4ef4f247bbb71743536332693b7991ffc1db95cea819577a72136937f1e811a8",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "auth/github/role/github-ENV-deploy": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "ebbab4365217fbac279852419aea41b8e561091ee29f0367ddf433dcb6b5aae2",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            }
+          },
+          "kv_paths": {
+            "secret/demo/app": {
+              "status": "present",
+              "fields": [
+                "password",
+                "username"
+              ],
+              "rotation": {
+                "status": "current",
+                "age_days": 0
+              }
+            }
+          },
+          "complete": true,
+          "findings": [],
+          "coverage": {
+            "vault_scope": "Vault Community instance; no namespaces",
+            "unsupported_details": [
+              {
+                "category": "secrets_engines",
+                "mount": "agent-registry/",
+                "type": "agent_registry",
+                "note": "Built-in registry does not expose mount tuning"
+              }
+            ],
+            "policy_families": [
+              "acl",
+              "password"
+            ],
+            "excluded": [
+              "KV v1 values",
+              "credentials and secret values",
+              "server storage/seal/TLS configuration",
+              "identity entities/groups",
+              "secret issuance/export endpoints"
+            ],
+            "resource_aliases": {
+              "configurations": {
+                "auth/github/role/github-uat-drift": "auth/github/role/github-ENV-drift",
+                "auth/github/role/github-uat-plan": "auth/github/role/github-ENV-plan",
+                "auth/github/role/github-uat-deploy": "auth/github/role/github-ENV-deploy",
+                "auth/github/role/github-uat-admin-plan": "auth/github/role/github-ENV-admin-plan",
+                "auth/github/role/github-uat-admin-deploy": "auth/github/role/github-ENV-admin-deploy",
+                "auth/github/role/github-uat-credentials": "auth/github/role/github-ENV-credentials"
+              }
+            },
+            "comparison_exceptions": [
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-drift",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-plan",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-deploy",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-admin-plan",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-admin-deploy",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-credentials",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              }
+            ]
+          }
+        },
+        "policy_matches_git": true,
+        "approle_matches_git": true,
+        "kv_config_matches_git": true
+      },
+      {
+        "schema_version": 2,
+        "environment": "prod",
+        "configuration_ref": "47ab1608ee55c2556c8dcb5e6adaacdaf44fa2d9",
+        "expected": {
+          "application": "demo-app",
+          "kv_mount": "secret",
+          "secret_path": "demo/app",
+          "policy_name": "demo-app",
+          "approle_name": "demo-app",
+          "fields": [
+            "username",
+            "password"
+          ]
+        },
+        "collected_at": "2026-10-13T22:00:54.081902+00:00",
+        "paths": {
+          "demo/app": {
+            "status": "present",
+            "fields": [
+              "password",
+              "username"
+            ],
+            "rotation": {
+              "status": "current",
+              "age_days": 0
+            }
+          }
+        },
+        "findings": [],
+        "complete": true,
+        "inventory": {
+          "policies": {
+            "acl/default": {
+              "status": "present",
+              "fingerprint": "bfa504dd05b04f0f5305acc00b7f3a6d54e656aef7dcc1aec1010f09e31d82d4"
+            },
+            "acl/default-ceiling": {
+              "status": "present",
+              "fingerprint": "b666cb6c1d5f289370b24de6522b13302d02d7dbf1399759d45d3f02282c8010"
+            },
+            "acl/demo-app": {
+              "status": "present",
+              "fingerprint": "841b9d7653f75a14682862ee69d66b96502ed0d4286466cc3f84651f2d6be902"
+            },
+            "acl/demo-deploy": {
+              "status": "present",
+              "fingerprint": "eefd0a51412b85996614f7baa34e8bcf05bcf903a1c59cff37d9eb5b7cb51320"
+            },
+            "acl/demo-drift": {
+              "status": "present",
+              "fingerprint": "0a4aa821832b47b9f9a79ae0caf7cfd5826cd86f5c9ba75ed36fb27f19332fc9"
+            },
+            "acl/demo-plan": {
+              "status": "present",
+              "fingerprint": "e4b4281717457ed2cae3126acccda62e1ff5707edebd6bdd475ac82cb2de10c8"
+            },
+            "acl/root": {
+              "status": "builtin"
+            }
+          },
+          "auth_methods": {
+            "approle/": {
+              "status": "present",
+              "type": "approle",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "4be08459449a30a5dee4f5a8df68085b92338cf8a6d9069a33bb689ce10b773a"
+              }
+            },
+            "github/": {
+              "status": "present",
+              "type": "jwt",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395"
+              }
+            },
+            "token/": {
+              "status": "present",
+              "type": "token",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "3d872b2ab22a2475ca9ba197dc3cc954d8c991e44284994557fbcaf873cdb73f"
+              }
+            }
+          },
+          "secrets_engines": {
+            "agent-registry/": {
+              "status": "present",
+              "type": "agent_registry",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "d381eced72a08e85e3ff3749e3c8c985e904efbf1cd83f19d0dc8aace5658704"
+              }
+            },
+            "cubbyhole/": {
+              "status": "present",
+              "type": "cubbyhole",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "c0b93423e312b8afc670adcde87a5f85d38740969a3100cae41ffc34db078a65"
+              }
+            },
+            "identity/": {
+              "status": "present",
+              "type": "identity",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "edc16df845e33adb7350d4f445198696bd235f430ce3956d999e04d6e23a6a29"
+              }
+            },
+            "secret/": {
+              "status": "present",
+              "type": "kv",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "77da9a7ed3026aba89bb78dac4b72501c10b9ae1f0689d3c4b31e27c3667940d",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "43b2da73702af10d1a5400d81a263e005e864079b0fb7023504f06a234db0a31"
+              }
+            },
+            "sys/": {
+              "status": "present",
+              "type": "system",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "type": "0dc8cd0a92280156c12ba5073f5049586727ba0bef2ff72099577bd332db18f5"
+              }
+            }
+          },
+          "configurations": {
+            "sys/mounts/auth/approle/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "auth/approle/role/demo-app": {
+              "status": "present",
+              "fields": {
+                "bind_secret_id": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "local_secret_ids": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "secret_id_bound_cidrs": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "secret_id_num_uses": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+                "secret_id_ttl": "b045dd9c18caa8be1e17a4b902152cc1fd292b242b7b9dd74ba8c40896239424",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_max_ttl": "5be21fec7f4c958e2d23dc67d760036b956859a35612c89ff8bfbd766a094cad",
+                "token_no_default_policy": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "51cb7accbcc1cb8bb1e7fd48931c8ed163a94ec19b1793d5f3c732d68ca36017",
+                "token_ttl": "8b34042b7a96b3ba94b27ad723ca8f57787eefbab2083b3098173c444aefbfdf",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba"
+              }
+            },
+            "sys/mounts/auth/github/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "auth/github/config": {
+              "status": "present",
+              "fields": {
+                "bound_issuer": "99d4d7115c571b819412a4e7f4fbb9f8e1c6c8ad98a44ebf0bd5009337331a98",
+                "default_role": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwks_ca_pem": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwks_url": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwt_supported_algs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "jwt_validation_pubkeys": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "namespace_in_state": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "oidc_client_id": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_discovery_ca_pem": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_discovery_url": "99d4d7115c571b819412a4e7f4fbb9f8e1c6c8ad98a44ebf0bd5009337331a98",
+                "oidc_response_mode": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_response_types": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              }
+            },
+            "auth/github/role/rejected-pilot": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "bf2232136af6c595d9195b228420aee7fe6149bb4118f548157e3fad7826c9b5",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "c17778966c04c62eb8608813b66b52bb8332ef1079dc10b4d592f47c3da66a56",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "sys/mounts/auth/token/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "sys/mounts/cubbyhole/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+              }
+            },
+            "sys/mounts/identity/tune": {
+              "status": "present",
+              "fields": {
+                "allowed_response_headers": "743aacb790358967e754fc338625d748d1e32431b8ef2613acdbb1ee362e2ab6",
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "passthrough_request_headers": "278b44948bebc437f59fb8dd6ed581aea29a5b5476329c52c33dbca2d617de73"
+              }
+            },
+            "sys/mounts/secret/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+              }
+            },
+            "secret/config": {
+              "status": "present",
+              "fields": {
+                "cas_required": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "delete_version_after": "5a6b8ed57886cff8a27d996943486d8873884cb045e38a5b305c953715f83e79",
+                "max_versions": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+              }
+            },
+            "sys/mounts/sys/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "passthrough_request_headers": "18c39ca782c7c884de20a91eff24eb4b060dc596dadfd49951b8894ac7195861"
+              }
+            },
+            "auth/github/role/github-ENV-drift": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "c17778966c04c62eb8608813b66b52bb8332ef1079dc10b4d592f47c3da66a56",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "auth/github/role/github-ENV-plan": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "4ef4f247bbb71743536332693b7991ffc1db95cea819577a72136937f1e811a8",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "auth/github/role/github-ENV-deploy": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "ebbab4365217fbac279852419aea41b8e561091ee29f0367ddf433dcb6b5aae2",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            }
+          },
+          "kv_paths": {
+            "secret/demo/app": {
+              "status": "present",
+              "fields": [
+                "password",
+                "username"
+              ],
+              "rotation": {
+                "status": "current",
+                "age_days": 0
+              }
+            }
+          },
+          "complete": true,
+          "findings": [],
+          "coverage": {
+            "vault_scope": "Vault Community instance; no namespaces",
+            "unsupported_details": [
+              {
+                "category": "secrets_engines",
+                "mount": "agent-registry/",
+                "type": "agent_registry",
+                "note": "Built-in registry does not expose mount tuning"
+              }
+            ],
+            "policy_families": [
+              "acl",
+              "password"
+            ],
+            "excluded": [
+              "KV v1 values",
+              "credentials and secret values",
+              "server storage/seal/TLS configuration",
+              "identity entities/groups",
+              "secret issuance/export endpoints"
+            ],
+            "resource_aliases": {
+              "configurations": {
+                "auth/github/role/github-prod-drift": "auth/github/role/github-ENV-drift",
+                "auth/github/role/github-prod-plan": "auth/github/role/github-ENV-plan",
+                "auth/github/role/github-prod-deploy": "auth/github/role/github-ENV-deploy",
+                "auth/github/role/github-prod-admin-plan": "auth/github/role/github-ENV-admin-plan",
+                "auth/github/role/github-prod-admin-deploy": "auth/github/role/github-ENV-admin-deploy",
+                "auth/github/role/github-prod-credentials": "auth/github/role/github-ENV-credentials"
+              }
+            },
+            "comparison_exceptions": [
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-drift",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-plan",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-deploy",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-admin-plan",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-admin-deploy",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-credentials",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              }
+            ]
+          }
+        },
+        "policy_matches_git": true,
+        "approle_matches_git": true,
+        "kv_config_matches_git": true
+      }
+    ],
+    "same_selected_release": true,
+    "same_observed_structure": true,
+    "all_policies_match_selected_git": true,
+    "inventory_differences": [],
+    "approved_comparison_exceptions": [
+      {
+        "category": "configurations",
+        "resource": "auth/github/role/github-ENV-deploy",
+        "field": "bound_claims/sub",
+        "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+      },
+      {
+        "category": "configurations",
+        "resource": "auth/github/role/github-ENV-drift",
+        "field": "bound_claims/sub",
+        "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+      },
+      {
+        "category": "configurations",
+        "resource": "auth/github/role/github-ENV-plan",
+        "field": "bound_claims/sub",
+        "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+      }
+    ],
+    "same_supported_inventory": true,
+    "has_findings": false,
+    "note": "Different releases may mean pending promotion. Null parity means incomplete evidence. Values were not read; no corrections or deletions were made."
+  },
+  "introduced_drift": {
+    "missing_environment_reports": [],
+    "missing_inventory_reports": [],
+    "complete": true,
+    "environments": [
+      {
+        "schema_version": 2,
+        "environment": "dev",
+        "configuration_ref": "47ab1608ee55c2556c8dcb5e6adaacdaf44fa2d9",
+        "expected": {
+          "application": "demo-app",
+          "kv_mount": "secret",
+          "secret_path": "demo/app",
+          "policy_name": "demo-app",
+          "approle_name": "demo-app",
+          "fields": [
+            "username",
+            "password"
+          ]
+        },
+        "collected_at": "2026-10-13T22:00:50.666196+00:00",
+        "paths": {
+          "demo/app": {
+            "status": "present",
+            "fields": [
+              "password",
+              "username"
+            ],
+            "rotation": {
+              "status": "current",
+              "age_days": 0
+            }
+          }
+        },
+        "findings": [],
+        "complete": true,
+        "inventory": {
+          "policies": {
+            "acl/default": {
+              "status": "present",
+              "fingerprint": "bfa504dd05b04f0f5305acc00b7f3a6d54e656aef7dcc1aec1010f09e31d82d4"
+            },
+            "acl/default-ceiling": {
+              "status": "present",
+              "fingerprint": "b666cb6c1d5f289370b24de6522b13302d02d7dbf1399759d45d3f02282c8010"
+            },
+            "acl/demo-app": {
+              "status": "present",
+              "fingerprint": "841b9d7653f75a14682862ee69d66b96502ed0d4286466cc3f84651f2d6be902"
+            },
+            "acl/demo-deploy": {
+              "status": "present",
+              "fingerprint": "eefd0a51412b85996614f7baa34e8bcf05bcf903a1c59cff37d9eb5b7cb51320"
+            },
+            "acl/demo-drift": {
+              "status": "present",
+              "fingerprint": "0a4aa821832b47b9f9a79ae0caf7cfd5826cd86f5c9ba75ed36fb27f19332fc9"
+            },
+            "acl/demo-plan": {
+              "status": "present",
+              "fingerprint": "e4b4281717457ed2cae3126acccda62e1ff5707edebd6bdd475ac82cb2de10c8"
+            },
+            "acl/root": {
+              "status": "builtin"
+            }
+          },
+          "auth_methods": {
+            "approle/": {
+              "status": "present",
+              "type": "approle",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "4be08459449a30a5dee4f5a8df68085b92338cf8a6d9069a33bb689ce10b773a"
+              }
+            },
+            "github/": {
+              "status": "present",
+              "type": "jwt",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395"
+              }
+            },
+            "token/": {
+              "status": "present",
+              "type": "token",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "3d872b2ab22a2475ca9ba197dc3cc954d8c991e44284994557fbcaf873cdb73f"
+              }
+            }
+          },
+          "secrets_engines": {
+            "agent-registry/": {
+              "status": "present",
+              "type": "agent_registry",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "d381eced72a08e85e3ff3749e3c8c985e904efbf1cd83f19d0dc8aace5658704"
+              }
+            },
+            "cubbyhole/": {
+              "status": "present",
+              "type": "cubbyhole",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "c0b93423e312b8afc670adcde87a5f85d38740969a3100cae41ffc34db078a65"
+              }
+            },
+            "identity/": {
+              "status": "present",
+              "type": "identity",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "edc16df845e33adb7350d4f445198696bd235f430ce3956d999e04d6e23a6a29"
+              }
+            },
+            "secret/": {
+              "status": "present",
+              "type": "kv",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "77da9a7ed3026aba89bb78dac4b72501c10b9ae1f0689d3c4b31e27c3667940d",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "43b2da73702af10d1a5400d81a263e005e864079b0fb7023504f06a234db0a31"
+              }
+            },
+            "sys/": {
+              "status": "present",
+              "type": "system",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "type": "0dc8cd0a92280156c12ba5073f5049586727ba0bef2ff72099577bd332db18f5"
+              }
+            }
+          },
+          "configurations": {
+            "sys/mounts/auth/approle/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "auth/approle/role/demo-app": {
+              "status": "present",
+              "fields": {
+                "bind_secret_id": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "local_secret_ids": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "secret_id_bound_cidrs": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "secret_id_num_uses": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+                "secret_id_ttl": "b045dd9c18caa8be1e17a4b902152cc1fd292b242b7b9dd74ba8c40896239424",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_max_ttl": "5be21fec7f4c958e2d23dc67d760036b956859a35612c89ff8bfbd766a094cad",
+                "token_no_default_policy": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "51cb7accbcc1cb8bb1e7fd48931c8ed163a94ec19b1793d5f3c732d68ca36017",
+                "token_ttl": "8b34042b7a96b3ba94b27ad723ca8f57787eefbab2083b3098173c444aefbfdf",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba"
+              }
+            },
+            "sys/mounts/auth/github/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "auth/github/config": {
+              "status": "present",
+              "fields": {
+                "bound_issuer": "99d4d7115c571b819412a4e7f4fbb9f8e1c6c8ad98a44ebf0bd5009337331a98",
+                "default_role": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwks_ca_pem": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwks_url": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwt_supported_algs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "jwt_validation_pubkeys": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "namespace_in_state": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "oidc_client_id": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_discovery_ca_pem": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_discovery_url": "99d4d7115c571b819412a4e7f4fbb9f8e1c6c8ad98a44ebf0bd5009337331a98",
+                "oidc_response_mode": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_response_types": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              }
+            },
+            "auth/github/role/rejected-pilot": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "bf2232136af6c595d9195b228420aee7fe6149bb4118f548157e3fad7826c9b5",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "c17778966c04c62eb8608813b66b52bb8332ef1079dc10b4d592f47c3da66a56",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "sys/mounts/auth/token/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "sys/mounts/cubbyhole/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+              }
+            },
+            "sys/mounts/identity/tune": {
+              "status": "present",
+              "fields": {
+                "allowed_response_headers": "743aacb790358967e754fc338625d748d1e32431b8ef2613acdbb1ee362e2ab6",
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "passthrough_request_headers": "278b44948bebc437f59fb8dd6ed581aea29a5b5476329c52c33dbca2d617de73"
+              }
+            },
+            "sys/mounts/secret/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+              }
+            },
+            "secret/config": {
+              "status": "present",
+              "fields": {
+                "cas_required": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "delete_version_after": "5a6b8ed57886cff8a27d996943486d8873884cb045e38a5b305c953715f83e79",
+                "max_versions": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+              }
+            },
+            "sys/mounts/sys/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "passthrough_request_headers": "18c39ca782c7c884de20a91eff24eb4b060dc596dadfd49951b8894ac7195861"
+              }
+            },
+            "auth/github/role/github-ENV-drift": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "c17778966c04c62eb8608813b66b52bb8332ef1079dc10b4d592f47c3da66a56",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "auth/github/role/github-ENV-plan": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "4ef4f247bbb71743536332693b7991ffc1db95cea819577a72136937f1e811a8",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "auth/github/role/github-ENV-deploy": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "ebbab4365217fbac279852419aea41b8e561091ee29f0367ddf433dcb6b5aae2",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            }
+          },
+          "kv_paths": {
+            "secret/demo/app": {
+              "status": "present",
+              "fields": [
+                "password",
+                "username"
+              ],
+              "rotation": {
+                "status": "current",
+                "age_days": 0
+              }
+            }
+          },
+          "complete": true,
+          "findings": [],
+          "coverage": {
+            "vault_scope": "Vault Community instance; no namespaces",
+            "unsupported_details": [
+              {
+                "category": "secrets_engines",
+                "mount": "agent-registry/",
+                "type": "agent_registry",
+                "note": "Built-in registry does not expose mount tuning"
+              }
+            ],
+            "policy_families": [
+              "acl",
+              "password"
+            ],
+            "excluded": [
+              "KV v1 values",
+              "credentials and secret values",
+              "server storage/seal/TLS configuration",
+              "identity entities/groups",
+              "secret issuance/export endpoints"
+            ],
+            "resource_aliases": {
+              "configurations": {
+                "auth/github/role/github-dev-drift": "auth/github/role/github-ENV-drift",
+                "auth/github/role/github-dev-plan": "auth/github/role/github-ENV-plan",
+                "auth/github/role/github-dev-deploy": "auth/github/role/github-ENV-deploy",
+                "auth/github/role/github-dev-admin-plan": "auth/github/role/github-ENV-admin-plan",
+                "auth/github/role/github-dev-admin-deploy": "auth/github/role/github-ENV-admin-deploy",
+                "auth/github/role/github-dev-credentials": "auth/github/role/github-ENV-credentials"
+              }
+            },
+            "comparison_exceptions": [
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-drift",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-plan",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-deploy",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-admin-plan",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-admin-deploy",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-credentials",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              }
+            ]
+          }
+        },
+        "policy_matches_git": true,
+        "approle_matches_git": true,
+        "kv_config_matches_git": true
+      },
+      {
+        "schema_version": 2,
+        "environment": "uat",
+        "configuration_ref": "47ab1608ee55c2556c8dcb5e6adaacdaf44fa2d9",
+        "expected": {
+          "application": "demo-app",
+          "kv_mount": "secret",
+          "secret_path": "demo/app",
+          "policy_name": "demo-app",
+          "approle_name": "demo-app",
+          "fields": [
+            "username",
+            "password"
+          ]
+        },
+        "collected_at": "2026-10-13T22:00:52.227023+00:00",
+        "paths": {
+          "demo/app": {
+            "status": "present",
+            "fields": [
+              "unexpected_field",
+              "username"
+            ],
+            "rotation": {
+              "status": "overdue",
+              "age_days": 2477
+            }
+          }
+        },
+        "findings": [
+          {
+            "kind": "rotation_overdue",
+            "path": "secret/demo/app"
+          },
+          {
+            "kind": "field_difference",
+            "path": "demo/app",
+            "missing": [
+              "password"
+            ],
+            "extra": [
+              "unexpected_field"
+            ]
+          }
+        ],
+        "complete": true,
+        "inventory": {
+          "policies": {
+            "acl/default": {
+              "status": "present",
+              "fingerprint": "bfa504dd05b04f0f5305acc00b7f3a6d54e656aef7dcc1aec1010f09e31d82d4"
+            },
+            "acl/default-ceiling": {
+              "status": "present",
+              "fingerprint": "b666cb6c1d5f289370b24de6522b13302d02d7dbf1399759d45d3f02282c8010"
+            },
+            "acl/demo-app": {
+              "status": "present",
+              "fingerprint": "841b9d7653f75a14682862ee69d66b96502ed0d4286466cc3f84651f2d6be902"
+            },
+            "acl/demo-deploy": {
+              "status": "present",
+              "fingerprint": "eefd0a51412b85996614f7baa34e8bcf05bcf903a1c59cff37d9eb5b7cb51320"
+            },
+            "acl/demo-drift": {
+              "status": "present",
+              "fingerprint": "0a4aa821832b47b9f9a79ae0caf7cfd5826cd86f5c9ba75ed36fb27f19332fc9"
+            },
+            "acl/demo-plan": {
+              "status": "present",
+              "fingerprint": "e4b4281717457ed2cae3126acccda62e1ff5707edebd6bdd475ac82cb2de10c8"
+            },
+            "acl/root": {
+              "status": "builtin"
+            }
+          },
+          "auth_methods": {
+            "approle/": {
+              "status": "present",
+              "type": "approle",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "4be08459449a30a5dee4f5a8df68085b92338cf8a6d9069a33bb689ce10b773a"
+              }
+            },
+            "github/": {
+              "status": "present",
+              "type": "jwt",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395"
+              }
+            },
+            "token/": {
+              "status": "present",
+              "type": "token",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "3d872b2ab22a2475ca9ba197dc3cc954d8c991e44284994557fbcaf873cdb73f"
+              }
+            }
+          },
+          "secrets_engines": {
+            "agent-registry/": {
+              "status": "present",
+              "type": "agent_registry",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "d381eced72a08e85e3ff3749e3c8c985e904efbf1cd83f19d0dc8aace5658704"
+              }
+            },
+            "cubbyhole/": {
+              "status": "present",
+              "type": "cubbyhole",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "c0b93423e312b8afc670adcde87a5f85d38740969a3100cae41ffc34db078a65"
+              }
+            },
+            "identity/": {
+              "status": "present",
+              "type": "identity",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "edc16df845e33adb7350d4f445198696bd235f430ce3956d999e04d6e23a6a29"
+              }
+            },
+            "secret/": {
+              "status": "present",
+              "type": "kv",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "77da9a7ed3026aba89bb78dac4b72501c10b9ae1f0689d3c4b31e27c3667940d",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "43b2da73702af10d1a5400d81a263e005e864079b0fb7023504f06a234db0a31"
+              }
+            },
+            "sys/": {
+              "status": "present",
+              "type": "system",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "type": "0dc8cd0a92280156c12ba5073f5049586727ba0bef2ff72099577bd332db18f5"
+              }
+            }
+          },
+          "configurations": {
+            "sys/mounts/auth/approle/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "auth/approle/role/demo-app": {
+              "status": "present",
+              "fields": {
+                "bind_secret_id": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "local_secret_ids": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "secret_id_bound_cidrs": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "secret_id_num_uses": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+                "secret_id_ttl": "b045dd9c18caa8be1e17a4b902152cc1fd292b242b7b9dd74ba8c40896239424",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_max_ttl": "5be21fec7f4c958e2d23dc67d760036b956859a35612c89ff8bfbd766a094cad",
+                "token_no_default_policy": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "51cb7accbcc1cb8bb1e7fd48931c8ed163a94ec19b1793d5f3c732d68ca36017",
+                "token_ttl": "8b34042b7a96b3ba94b27ad723ca8f57787eefbab2083b3098173c444aefbfdf",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba"
+              }
+            },
+            "sys/mounts/auth/github/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "auth/github/config": {
+              "status": "present",
+              "fields": {
+                "bound_issuer": "99d4d7115c571b819412a4e7f4fbb9f8e1c6c8ad98a44ebf0bd5009337331a98",
+                "default_role": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwks_ca_pem": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwks_url": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwt_supported_algs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "jwt_validation_pubkeys": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "namespace_in_state": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "oidc_client_id": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_discovery_ca_pem": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_discovery_url": "99d4d7115c571b819412a4e7f4fbb9f8e1c6c8ad98a44ebf0bd5009337331a98",
+                "oidc_response_mode": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_response_types": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              }
+            },
+            "auth/github/role/rejected-pilot": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "bf2232136af6c595d9195b228420aee7fe6149bb4118f548157e3fad7826c9b5",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "c17778966c04c62eb8608813b66b52bb8332ef1079dc10b4d592f47c3da66a56",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "sys/mounts/auth/token/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "sys/mounts/cubbyhole/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+              }
+            },
+            "sys/mounts/identity/tune": {
+              "status": "present",
+              "fields": {
+                "allowed_response_headers": "743aacb790358967e754fc338625d748d1e32431b8ef2613acdbb1ee362e2ab6",
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "passthrough_request_headers": "278b44948bebc437f59fb8dd6ed581aea29a5b5476329c52c33dbca2d617de73"
+              }
+            },
+            "sys/mounts/secret/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+              }
+            },
+            "secret/config": {
+              "status": "present",
+              "fields": {
+                "cas_required": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "delete_version_after": "5a6b8ed57886cff8a27d996943486d8873884cb045e38a5b305c953715f83e79",
+                "max_versions": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+              }
+            },
+            "sys/mounts/sys/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "passthrough_request_headers": "18c39ca782c7c884de20a91eff24eb4b060dc596dadfd49951b8894ac7195861"
+              }
+            },
+            "auth/github/role/github-ENV-drift": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "c17778966c04c62eb8608813b66b52bb8332ef1079dc10b4d592f47c3da66a56",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "auth/github/role/github-ENV-plan": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "4ef4f247bbb71743536332693b7991ffc1db95cea819577a72136937f1e811a8",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "auth/github/role/github-ENV-deploy": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "ebbab4365217fbac279852419aea41b8e561091ee29f0367ddf433dcb6b5aae2",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            }
+          },
+          "kv_paths": {
+            "secret/demo/app": {
+              "status": "present",
+              "fields": [
+                "unexpected_field",
+                "username"
+              ],
+              "rotation": {
+                "status": "overdue",
+                "age_days": 2477
+              }
+            }
+          },
+          "complete": true,
+          "findings": [
+            {
+              "kind": "rotation_overdue",
+              "path": "secret/demo/app"
+            }
+          ],
+          "coverage": {
+            "vault_scope": "Vault Community instance; no namespaces",
+            "unsupported_details": [
+              {
+                "category": "secrets_engines",
+                "mount": "agent-registry/",
+                "type": "agent_registry",
+                "note": "Built-in registry does not expose mount tuning"
+              }
+            ],
+            "policy_families": [
+              "acl",
+              "password"
+            ],
+            "excluded": [
+              "KV v1 values",
+              "credentials and secret values",
+              "server storage/seal/TLS configuration",
+              "identity entities/groups",
+              "secret issuance/export endpoints"
+            ],
+            "resource_aliases": {
+              "configurations": {
+                "auth/github/role/github-uat-drift": "auth/github/role/github-ENV-drift",
+                "auth/github/role/github-uat-plan": "auth/github/role/github-ENV-plan",
+                "auth/github/role/github-uat-deploy": "auth/github/role/github-ENV-deploy",
+                "auth/github/role/github-uat-admin-plan": "auth/github/role/github-ENV-admin-plan",
+                "auth/github/role/github-uat-admin-deploy": "auth/github/role/github-ENV-admin-deploy",
+                "auth/github/role/github-uat-credentials": "auth/github/role/github-ENV-credentials"
+              }
+            },
+            "comparison_exceptions": [
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-drift",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-plan",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-deploy",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-admin-plan",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-admin-deploy",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-credentials",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              }
+            ]
+          }
+        },
+        "policy_matches_git": true,
+        "approle_matches_git": true,
+        "kv_config_matches_git": true
+      },
+      {
+        "schema_version": 2,
+        "environment": "prod",
+        "configuration_ref": "47ab1608ee55c2556c8dcb5e6adaacdaf44fa2d9",
+        "expected": {
+          "application": "demo-app",
+          "kv_mount": "secret",
+          "secret_path": "demo/app",
+          "policy_name": "demo-app",
+          "approle_name": "demo-app",
+          "fields": [
+            "username",
+            "password"
+          ]
+        },
+        "collected_at": "2026-10-13T22:00:54.081902+00:00",
+        "paths": {
+          "demo/app": {
+            "status": "present",
+            "fields": [
+              "password",
+              "username"
+            ],
+            "rotation": {
+              "status": "current",
+              "age_days": 0
+            }
+          }
+        },
+        "findings": [],
+        "complete": true,
+        "inventory": {
+          "policies": {
+            "acl/default": {
+              "status": "present",
+              "fingerprint": "bfa504dd05b04f0f5305acc00b7f3a6d54e656aef7dcc1aec1010f09e31d82d4"
+            },
+            "acl/default-ceiling": {
+              "status": "present",
+              "fingerprint": "b666cb6c1d5f289370b24de6522b13302d02d7dbf1399759d45d3f02282c8010"
+            },
+            "acl/demo-app": {
+              "status": "present",
+              "fingerprint": "841b9d7653f75a14682862ee69d66b96502ed0d4286466cc3f84651f2d6be902"
+            },
+            "acl/demo-deploy": {
+              "status": "present",
+              "fingerprint": "eefd0a51412b85996614f7baa34e8bcf05bcf903a1c59cff37d9eb5b7cb51320"
+            },
+            "acl/demo-drift": {
+              "status": "present",
+              "fingerprint": "0a4aa821832b47b9f9a79ae0caf7cfd5826cd86f5c9ba75ed36fb27f19332fc9"
+            },
+            "acl/demo-plan": {
+              "status": "present",
+              "fingerprint": "e4b4281717457ed2cae3126acccda62e1ff5707edebd6bdd475ac82cb2de10c8"
+            },
+            "acl/root": {
+              "status": "builtin"
+            }
+          },
+          "auth_methods": {
+            "approle/": {
+              "status": "present",
+              "type": "approle",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "4be08459449a30a5dee4f5a8df68085b92338cf8a6d9069a33bb689ce10b773a"
+              }
+            },
+            "github/": {
+              "status": "present",
+              "type": "jwt",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395"
+              }
+            },
+            "token/": {
+              "status": "present",
+              "type": "token",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "3d872b2ab22a2475ca9ba197dc3cc954d8c991e44284994557fbcaf873cdb73f"
+              }
+            }
+          },
+          "secrets_engines": {
+            "agent-registry/": {
+              "status": "present",
+              "type": "agent_registry",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "d381eced72a08e85e3ff3749e3c8c985e904efbf1cd83f19d0dc8aace5658704"
+              }
+            },
+            "cubbyhole/": {
+              "status": "present",
+              "type": "cubbyhole",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "c0b93423e312b8afc670adcde87a5f85d38740969a3100cae41ffc34db078a65"
+              }
+            },
+            "identity/": {
+              "status": "present",
+              "type": "identity",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "edc16df845e33adb7350d4f445198696bd235f430ce3956d999e04d6e23a6a29"
+              }
+            },
+            "secret/": {
+              "status": "present",
+              "type": "kv",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "77da9a7ed3026aba89bb78dac4b72501c10b9ae1f0689d3c4b31e27c3667940d",
+                "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "type": "43b2da73702af10d1a5400d81a263e005e864079b0fb7023504f06a234db0a31"
+              }
+            },
+            "sys/": {
+              "status": "present",
+              "type": "system",
+              "fields": {
+                "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "seal_wrap": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "type": "0dc8cd0a92280156c12ba5073f5049586727ba0bef2ff72099577bd332db18f5"
+              }
+            }
+          },
+          "configurations": {
+            "sys/mounts/auth/approle/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "auth/approle/role/demo-app": {
+              "status": "present",
+              "fields": {
+                "bind_secret_id": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "local_secret_ids": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "secret_id_bound_cidrs": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "secret_id_num_uses": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+                "secret_id_ttl": "b045dd9c18caa8be1e17a4b902152cc1fd292b242b7b9dd74ba8c40896239424",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_max_ttl": "5be21fec7f4c958e2d23dc67d760036b956859a35612c89ff8bfbd766a094cad",
+                "token_no_default_policy": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "51cb7accbcc1cb8bb1e7fd48931c8ed163a94ec19b1793d5f3c732d68ca36017",
+                "token_ttl": "8b34042b7a96b3ba94b27ad723ca8f57787eefbab2083b3098173c444aefbfdf",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba"
+              }
+            },
+            "sys/mounts/auth/github/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "auth/github/config": {
+              "status": "present",
+              "fields": {
+                "bound_issuer": "99d4d7115c571b819412a4e7f4fbb9f8e1c6c8ad98a44ebf0bd5009337331a98",
+                "default_role": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwks_ca_pem": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwks_url": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "jwt_supported_algs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "jwt_validation_pubkeys": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "namespace_in_state": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "oidc_client_id": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_discovery_ca_pem": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_discovery_url": "99d4d7115c571b819412a4e7f4fbb9f8e1c6c8ad98a44ebf0bd5009337331a98",
+                "oidc_response_mode": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "oidc_response_types": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              }
+            },
+            "auth/github/role/rejected-pilot": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "bf2232136af6c595d9195b228420aee7fe6149bb4118f548157e3fad7826c9b5",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "c17778966c04c62eb8608813b66b52bb8332ef1079dc10b4d592f47c3da66a56",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "sys/mounts/auth/token/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+              }
+            },
+            "sys/mounts/cubbyhole/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+              }
+            },
+            "sys/mounts/identity/tune": {
+              "status": "present",
+              "fields": {
+                "allowed_response_headers": "743aacb790358967e754fc338625d748d1e32431b8ef2613acdbb1ee362e2ab6",
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "passthrough_request_headers": "278b44948bebc437f59fb8dd6ed581aea29a5b5476329c52c33dbca2d617de73"
+              }
+            },
+            "sys/mounts/secret/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+              }
+            },
+            "secret/config": {
+              "status": "present",
+              "fields": {
+                "cas_required": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "delete_version_after": "5a6b8ed57886cff8a27d996943486d8873884cb045e38a5b305c953715f83e79",
+                "max_versions": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+              }
+            },
+            "sys/mounts/sys/tune": {
+              "status": "present",
+              "fields": {
+                "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+                "passthrough_request_headers": "18c39ca782c7c884de20a91eff24eb4b060dc596dadfd49951b8894ac7195861"
+              }
+            },
+            "auth/github/role/github-ENV-drift": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "c17778966c04c62eb8608813b66b52bb8332ef1079dc10b4d592f47c3da66a56",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "auth/github/role/github-ENV-plan": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "4ef4f247bbb71743536332693b7991ffc1db95cea819577a72136937f1e811a8",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            },
+            "auth/github/role/github-ENV-deploy": {
+              "status": "present",
+              "fields": {
+                "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+                "bound_claims/event_name": "162880108959cb621c0dec332b92505f7adb62bc5a08b1452c7c7c90fd98a9c7",
+                "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+                "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+                "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+                "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+                "bound_claims/sub": "cd818087424d8ecfac07693e3b7a50f4e7420aa926bf0990160e430323643e48",
+                "bound_claims/workflow_ref": "66f5407c05b0c7e6af4c404085801832aeabbd4a4be7194e759ce5aebd3e8589",
+                "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+                "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+                "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "token_explicit_max_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+                "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+                "token_policies": "ebbab4365217fbac279852419aea41b8e561091ee29f0367ddf433dcb6b5aae2",
+                "token_ttl": "e49ec846db7527df7ff483009fe61700e6435072c8c5b551ab08f0a13fc45a07",
+                "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+                "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+                "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+                "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+              }
+            }
+          },
+          "kv_paths": {
+            "secret/demo/app": {
+              "status": "present",
+              "fields": [
+                "password",
+                "username"
+              ],
+              "rotation": {
+                "status": "current",
+                "age_days": 0
+              }
+            }
+          },
+          "complete": true,
+          "findings": [],
+          "coverage": {
+            "vault_scope": "Vault Community instance; no namespaces",
+            "unsupported_details": [
+              {
+                "category": "secrets_engines",
+                "mount": "agent-registry/",
+                "type": "agent_registry",
+                "note": "Built-in registry does not expose mount tuning"
+              }
+            ],
+            "policy_families": [
+              "acl",
+              "password"
+            ],
+            "excluded": [
+              "KV v1 values",
+              "credentials and secret values",
+              "server storage/seal/TLS configuration",
+              "identity entities/groups",
+              "secret issuance/export endpoints"
+            ],
+            "resource_aliases": {
+              "configurations": {
+                "auth/github/role/github-prod-drift": "auth/github/role/github-ENV-drift",
+                "auth/github/role/github-prod-plan": "auth/github/role/github-ENV-plan",
+                "auth/github/role/github-prod-deploy": "auth/github/role/github-ENV-deploy",
+                "auth/github/role/github-prod-admin-plan": "auth/github/role/github-ENV-admin-plan",
+                "auth/github/role/github-prod-admin-deploy": "auth/github/role/github-ENV-admin-deploy",
+                "auth/github/role/github-prod-credentials": "auth/github/role/github-ENV-credentials"
+              }
+            },
+            "comparison_exceptions": [
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-drift",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-plan",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-deploy",
+                "field": "bound_claims/sub",
+                "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-admin-plan",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-admin-deploy",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              },
+              {
+                "category": "configurations",
+                "resource": "auth/github/role/github-ENV-credentials",
+                "field": "bound_claims/sub",
+                "reason": "Exact environment subject differs; actual binding is checked against Git expectation."
+              }
+            ]
+          }
+        },
+        "policy_matches_git": true,
+        "approle_matches_git": true,
+        "kv_config_matches_git": true
+      }
+    ],
+    "same_selected_release": true,
+    "same_observed_structure": false,
+    "all_policies_match_selected_git": true,
+    "inventory_differences": [
+      {
+        "category": "kv_paths",
+        "resource": "secret/demo/app",
+        "fields": [
+          "password",
+          "unexpected_field"
+        ],
+        "environments": {
+          "dev": "present",
+          "uat": "present",
+          "prod": "present"
+        }
+      }
+    ],
+    "approved_comparison_exceptions": [
+      {
+        "category": "configurations",
+        "resource": "auth/github/role/github-ENV-deploy",
+        "field": "bound_claims/sub",
+        "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+      },
+      {
+        "category": "configurations",
+        "resource": "auth/github/role/github-ENV-drift",
+        "field": "bound_claims/sub",
+        "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+      },
+      {
+        "category": "configurations",
+        "resource": "auth/github/role/github-ENV-plan",
+        "field": "bound_claims/sub",
+        "reason": "Exact GitHub environment subject differs by environment; review the actual role binding during bootstrap."
+      }
+    ],
+    "same_supported_inventory": false,
+    "has_findings": true,
+    "note": "Different releases may mean pending promotion. Null parity means incomplete evidence. Values were not read; no corrections or deletions were made."
+  },
+  "disposable": true
+}

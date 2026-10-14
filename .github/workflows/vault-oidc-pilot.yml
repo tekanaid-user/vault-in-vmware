@@ -1,3 +1,16 @@
+# Disposable demonstration: real GitHub OIDC against synthetic TLS Vaults only.
+# Manual main-only run in vault-pilot; independent of live automation switches.
+# Runner: hosted Ubuntu or one ephemeral self-hosted/vault-pilot container.
+# Installs pinned Vault/Terraform with published checksum verification, then
+# oidc-pilot.py starts three loopback dev servers and synthetic configuration.
+# The pilot is bound to this demonstration repo's identity; copying the workflow
+# does not configure existing Vault trust. Root tokens are fixture bootstrap only.
+# Verifies rejected trust, denied value reads, plan/apply and introduced drift.
+# Output: values-free pilot-report.json artifact, seven days. Temporary processes,
+# TLS files, tokens and local state are cleaned by the script's finally blocks.
+# Existing-environment onboarding uses vault-drift-onboarding.yml instead.
+# Reproduce/limits: Section 13 OIDC-PILOT.md and SCRIPT-REFERENCE.md.
+
 name: Vault development OIDC pilot
 on:
   workflow_dispatch:
@@ -25,6 +38,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
+      # Published checksum match is required before executable installation.
       - name: Install pinned Vault and Terraform from official releases
         shell: bash
         run: |
@@ -44,11 +58,13 @@ jobs:
             chmod +x "$TOOL"
           done
           echo "$INSTALL_DIR" >> "$GITHUB_PATH"
+      # The helper owns fixture bootstrap, negative checks, redaction and cleanup.
       - name: Create isolated TLS Vaults and verify real OIDC
         run: |
           umask 077
           python3 13-Vault-Configuration-Promotion/scripts/oidc-pilot.py --output pilot-report.json
           echo 'Real GitHub OIDC tested against disposable TLS Vault dev servers. Review artifact for baseline and introduced drift.' >> "$GITHUB_STEP_SUMMARY"
+      # Upload safe evidence only; temporary TLS keys/server logs/state are not artifacts.
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: vault-development-oidc-pilot

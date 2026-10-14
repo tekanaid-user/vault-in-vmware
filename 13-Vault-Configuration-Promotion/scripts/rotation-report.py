@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
-"""Extract rotation age from existing drift artifacts; never connects to Vault."""
+"""Build an offline rotation-age report from existing inventory artifacts.
+
+Called by vault-drift.yml after comparison. Positional inputs are JSON collector
+reports or comparison documents; no Vault access, credentials or network needed.
+Outputs sorted environment/path/status/age rows and counts to stdout. Missing
+environments or incomplete scans keep complete=False. Dates are operator
+metadata, not proof of upstream rotation or last access. Current, overdue,
+missing, invalid, future_date and unknown are counted; raw metadata is omitted.
+Exit 0 means a report was produced, not that rotation findings are absent;
+exit 1 means invalid input. See SCRIPT-REFERENCE.md."""
 import argparse
 import json
 from pathlib import Path
@@ -9,6 +18,10 @@ STATUSES = {'current', 'overdue', 'missing', 'invalid', 'future_date'}
 
 
 def build(reports):
+    """Aggregate unique environment reports into sanitized rotation rows and counts.
+
+    Accept collector documents or comparison documents. Missing environments make
+    complete=False, while unexpected statuses/ages and duplicate environments fail."""
     rows = []
     complete = True
     environments = []
@@ -39,6 +52,7 @@ def build(reports):
 
 
 def main():
+    """Read local JSON inputs and emit rotation JSON; never authenticate to Vault."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('reports', nargs='+', type=Path)
     args = parser.parse_args()

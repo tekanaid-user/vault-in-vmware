@@ -1,3 +1,15 @@
+# Workstream 2 first run: diagnose claims, authenticate, then collect one environment.
+# Operator: Actions -> Vault drift - getting started -> main -> environment + step.
+# Runner: trusted self-hosted/vault-demo with Git, Python 3.10+, Vault CA trust.
+# Identity: ENV-drift GitHub Environment and id-token: write; settings.json selects
+# the audience/JWT mount/drift role. claims needs no Vault access; authenticate
+# tests login + sys/mounts only; collect uses inventory-only (no Terraform state).
+# No automation switch is required: this is a deliberate manual main-only run.
+# Effects: authentication/revoke-self and inventory reads; no application writes.
+# Output: vault-onboarding-ENV-STEP artifact, seven days. A green collect means
+# JSON was produced; inspect complete/findings/coverage before claiming parity.
+# Setup/troubleshooting: Section 13 GETTING-STARTED.md and SCRIPT-REFERENCE.md.
+
 name: Vault drift - getting started
 on:
   workflow_dispatch:
@@ -21,6 +33,7 @@ jobs:
   onboard:
     if: github.ref == 'refs/heads/main'
     runs-on: [self-hosted, vault-demo]
+    # This Environment name must match the exact OIDC subject bound in Vault.
     environment: ${{ inputs.environment }}-drift
     timeout-minutes: 30
     permissions:
@@ -30,6 +43,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
+      # Pass form values through env/quoted shell variables, not executable interpolation.
       - name: Run the selected read-only onboarding step
         env:
           TARGET_ENV: ${{ inputs.environment }}
@@ -46,6 +60,7 @@ jobs:
             *) exit 1 ;;
           esac
           echo "Completed $ONBOARDING_STEP for $TARGET_ENV. Download the artifact; see Section 13 GETTING-STARTED.md." >> "$GITHUB_STEP_SUMMARY"
+      # Export only selected claims/check results or sanitized inventory, never the JWT.
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: vault-onboarding-${{ inputs.environment }}-${{ inputs.step }}

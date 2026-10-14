@@ -1,4 +1,11 @@
-"""Full inventory: real Vault adapters, permissions, redaction and cross-env parity."""
+"""Full inventory: real Vault adapters, permissions, redaction and cross-env parity.
+
+Covers supported adapters, nested mount permissions, unknown listings, aliases,
+exact-field exceptions and sanitization using synthetic fixtures/API doubles.
+
+Run from repository root: python3 -m unittest discover -s
+13-Vault-Configuration-Promotion/tests -v. No live environment acceptance is implied.
+"""
 import copy
 import datetime as dt
 import importlib.util

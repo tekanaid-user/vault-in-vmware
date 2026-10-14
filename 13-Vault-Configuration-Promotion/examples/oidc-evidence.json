@@ -1,0 +1,19 @@
+{
+  "mode": "real GitHub OIDC against disposable TLS Vault servers on a local ephemeral container runner",
+  "run_url": "https://github.com/tekanaid-user/vault-in-vmware/actions/runs/38474723943",
+  "source_commit": "47ab1608ee55c2556c8dcb5e6adaacdaf44fa2d9",
+  "conclusion": "success",
+  "runner_name": "vault-pilot-6d5f74f61716",
+  "artifact": "vault-development-oidc-pilot",
+  "artifact_sha256": "a72ac2a7f02b11264a58e7c21007ff2855085ef3709c9d11247452c97860d3bf",
+  "checks": [
+    "dev: untrusted repository binding rejected",
+    "dev: fields readable; secret values denied (403)",
+    "dev: scoped plan/apply, configuration restored, subsequent plan unchanged, values absent from disposable state",
+    "uat: untrusted repository binding rejected",
+    "uat: fields readable; secret values denied (403)",
+    "prod: untrusted repository binding rejected",
+    "prod: fields readable; secret values denied (403)"
+  ],
+  "boundary": "Disposable TLS Vault fixtures with generated test data; separate from the longer-running localhost lab and recipient environments."
+}

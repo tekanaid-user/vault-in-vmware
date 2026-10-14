@@ -1,0 +1,704 @@
+{
+  "schema_version": 2,
+  "environment": "uat",
+  "configuration_ref": null,
+  "baseline_mode": "inventory_only",
+  "expected": null,
+  "collected_at": "2026-10-13T22:08:53.004516+00:00",
+  "inventory": {
+    "policies": {
+      "acl/application-reader": {
+        "status": "present",
+        "fingerprint": "336da5677e1c87d2dee1e4ee83ff889a0b8210fcad571074a081552421dc2b19"
+      },
+      "acl/default": {
+        "status": "present",
+        "fingerprint": "bfa504dd05b04f0f5305acc00b7f3a6d54e656aef7dcc1aec1010f09e31d82d4"
+      },
+      "acl/default-ceiling": {
+        "status": "present",
+        "fingerprint": "b666cb6c1d5f289370b24de6522b13302d02d7dbf1399759d45d3f02282c8010"
+      },
+      "acl/github-drift": {
+        "status": "present",
+        "fingerprint": "c30d06af8aef7c1b4ad4f4a17a127e95c95047edf6d57e7bf64c9127f0251ca5"
+      },
+      "acl/lab-denied": {
+        "status": "present",
+        "fingerprint": "b80dd21510d11aa039d1b03fbaf35dbe1ce5dcbcf15a4e9f28ba7d32b068a893"
+      },
+      "acl/root": {
+        "status": "builtin"
+      },
+      "password/application": {
+        "status": "present",
+        "fingerprint": "45428d43d86b5322dff00008da0eb3a222ae83b2c9e6e650713bb446a49c99a7"
+      }
+    },
+    "auth_methods": {
+      "approle/": {
+        "status": "present",
+        "type": "approle",
+        "fields": {
+          "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+          "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "type": "4be08459449a30a5dee4f5a8df68085b92338cf8a6d9069a33bb689ce10b773a"
+        }
+      },
+      "cluster/": {
+        "status": "present",
+        "type": "kubernetes",
+        "fields": {
+          "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+          "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "type": "a536488d2686b587e6dd4dad460ead220977d415060f09eb7922b996f963e68b"
+        }
+      },
+      "company-ldap/": {
+        "status": "present",
+        "type": "ldap",
+        "fields": {
+          "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+          "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "type": "8f1a4fb203c03f765942a893ea0ef86bc17561cea95d3a0d4da813ccd2e13618"
+        }
+      },
+      "github/": {
+        "status": "present",
+        "type": "jwt",
+        "fields": {
+          "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+          "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395"
+        }
+      },
+      "token/": {
+        "status": "present",
+        "type": "token",
+        "fields": {
+          "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "type": "3d872b2ab22a2475ca9ba197dc3cc954d8c991e44284994557fbcaf873cdb73f"
+        }
+      }
+    },
+    "secrets_engines": {
+      "agent-registry/": {
+        "status": "present",
+        "type": "agent_registry",
+        "fields": {
+          "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "type": "d381eced72a08e85e3ff3749e3c8c985e904efbf1cd83f19d0dc8aace5658704"
+        }
+      },
+      "apps/": {
+        "status": "present",
+        "type": "kv",
+        "fields": {
+          "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "options": "77da9a7ed3026aba89bb78dac4b72501c10b9ae1f0689d3c4b31e27c3667940d",
+          "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "type": "43b2da73702af10d1a5400d81a263e005e864079b0fb7023504f06a234db0a31"
+        }
+      },
+      "certificates/": {
+        "status": "present",
+        "type": "pki",
+        "fields": {
+          "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+          "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "type": "e4275a87d0baaa389903a4bbc3bbfbe93380637c90907e2d5ddfd9d0a1d1af19"
+        }
+      },
+      "cubbyhole/": {
+        "status": "present",
+        "type": "cubbyhole",
+        "fields": {
+          "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "local": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "type": "c0b93423e312b8afc670adcde87a5f85d38740969a3100cae41ffc34db078a65"
+        }
+      },
+      "encryption/": {
+        "status": "present",
+        "type": "transit",
+        "fields": {
+          "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "options": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+          "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "type": "857d56a47e2bb3db767de55ae2a5dcffc74f41f28550cd26660610ee65783f16"
+        }
+      },
+      "identity/": {
+        "status": "present",
+        "type": "identity",
+        "fields": {
+          "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "type": "edc16df845e33adb7350d4f445198696bd235f430ce3956d999e04d6e23a6a29"
+        }
+      },
+      "nested/secrets/": {
+        "status": "present",
+        "type": "kv",
+        "fields": {
+          "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "options": "77da9a7ed3026aba89bb78dac4b72501c10b9ae1f0689d3c4b31e27c3667940d",
+          "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "type": "43b2da73702af10d1a5400d81a263e005e864079b0fb7023504f06a234db0a31"
+        }
+      },
+      "secret/": {
+        "status": "present",
+        "type": "kv",
+        "fields": {
+          "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "options": "77da9a7ed3026aba89bb78dac4b72501c10b9ae1f0689d3c4b31e27c3667940d",
+          "seal_wrap": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "type": "43b2da73702af10d1a5400d81a263e005e864079b0fb7023504f06a234db0a31"
+        }
+      },
+      "sys/": {
+        "status": "present",
+        "type": "system",
+        "fields": {
+          "external_entropy_access": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "local": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "options": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "seal_wrap": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "type": "0dc8cd0a92280156c12ba5073f5049586727ba0bef2ff72099577bd332db18f5"
+        }
+      }
+    },
+    "configurations": {
+      "sys/mounts/auth/approle/tune": {
+        "status": "present",
+        "fields": {
+          "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+        }
+      },
+      "auth/approle/role/example-app": {
+        "status": "present",
+        "fields": {
+          "bind_secret_id": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "local_secret_ids": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "secret_id_bound_cidrs": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "secret_id_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "secret_id_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "token_explicit_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_no_default_policy": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_policies": "64596e8fae6888521fb3ede38ff797973fc738cdf8b82d4dc6695764e2e9e0d1",
+          "token_ttl": "3c5d8ca315f8c36d4cd4beecbc55b34c92a2d6eb1df730908df6f23dd2aa08f7",
+          "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba"
+        }
+      },
+      "sys/mounts/auth/cluster/tune": {
+        "status": "present",
+        "fields": {
+          "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+        }
+      },
+      "auth/cluster/config": {
+        "status": "present",
+        "fields": {
+          "disable_iss_validation": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "disable_local_ca_jwt": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "issuer": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+          "kubernetes_ca_cert": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+          "kubernetes_host": "876dc0b3024326940e443f5e83d0986783133f6275e1d70692d2d59530e435c0",
+          "pem_keys": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "auth/cluster/role/example-app": {
+        "status": "present",
+        "fields": {
+          "alias_name_source": "657448df2b69cde3f9c80e64b0053cf17462aa0c760d394e2d0e5e2138668070",
+          "bound_service_account_names": "9d8262e8e02819610d3318036877f31d9181ce9f7e2889f756594c081c61290b",
+          "bound_service_account_namespace_selector": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+          "bound_service_account_namespaces": "efc5a48fa83df5c597c5e1a0dc5dd27cca69bb32aa85fc97cb96dd7c73edb46e",
+          "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "token_explicit_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_no_default_policy": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_policies": "64596e8fae6888521fb3ede38ff797973fc738cdf8b82d4dc6695764e2e9e0d1",
+          "token_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba"
+        }
+      },
+      "sys/mounts/auth/company-ldap/tune": {
+        "status": "present",
+        "fields": {
+          "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+        }
+      },
+      "auth/company-ldap/config": {
+        "status": "present",
+        "fields": {
+          "anonymous_group_search": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "binddn": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+          "case_sensitive_names": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "certificate": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+          "connection_timeout": "624b60c58c9d8bfb6ff1886c2fd605d2adeb6ea4da576068201b6c6958ce93f4",
+          "deny_null_bind": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "dereference_aliases": "48c4ee8f1739566a5ab22826f6409654a11b3e7b014f0ec17fc8bef69ac2fba4",
+          "disable_automated_rotation": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "discoverdn": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "enable_samaccountname_login": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "groupattr": "e7e878da03503b711d2c468887640fa4498fc31c80c73d3dfcc59816c4547521",
+          "groupdn": "c8c535c6d22e8da96ef27bb1457216f0d7d1cda19ed53774c164cb041d5f2c8f",
+          "groupfilter": "35004fbfc08ce3f5e92a162727b24b55468e564bc53262e86e58bc439cb896e6",
+          "insecure_tls": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "max_page_size": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "request_timeout": "69f59c273b6e669ac32a6dd5e1b2cb63333d8b004f9696447aee2d422ce63763",
+          "rotation_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "rotation_schedule": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+          "rotation_window": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "starttls": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "tls_max_version": "32dae39777a0653a4ffaf7ed15e1ea9837b3c6b68ee5d8b50b1e641cdcc78ce4",
+          "tls_min_version": "32dae39777a0653a4ffaf7ed15e1ea9837b3c6b68ee5d8b50b1e641cdcc78ce4",
+          "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "token_explicit_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_no_default_policy": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_policies": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "token_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+          "upndomain": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+          "url": "98f5186f1e1dfc71c1ec081241ad907ff67f839422f5bcdf2f3fabea7794474e",
+          "use_token_groups": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "userattr": "0c18f38cd7333ebf08984ef66b3a6dafb3adedf3f33b741ecc61ba0ab52107ed",
+          "userdn": "380935e62c93a494aea07e5fada603df938412d00420793a1a7f2a0f0102a637",
+          "userfilter": "6584d9344dea40d60ddc873ae78c247aeb87ce7f78da34d26c3ac093df8a5585",
+          "username_as_alias": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+        }
+      },
+      "auth/company-ldap/groups/developers": {
+        "status": "present",
+        "fields": {
+          "policies": "64596e8fae6888521fb3ede38ff797973fc738cdf8b82d4dc6695764e2e9e0d1"
+        }
+      },
+      "auth/company-ldap/users/demo-user": {
+        "status": "present",
+        "fields": {
+          "groups": "d5d3f663ca304d59e3e198ec1e9ad5e710830b06d7d507a01d18e793ea0bb43a",
+          "policies": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "sys/mounts/auth/github/tune": {
+        "status": "present",
+        "fields": {
+          "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+        }
+      },
+      "auth/github/config": {
+        "status": "present",
+        "fields": {
+          "bound_issuer": "99d4d7115c571b819412a4e7f4fbb9f8e1c6c8ad98a44ebf0bd5009337331a98",
+          "default_role": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+          "jwks_ca_pem": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+          "jwks_url": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+          "jwt_supported_algs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "jwt_validation_pubkeys": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "namespace_in_state": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "oidc_client_id": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+          "oidc_discovery_ca_pem": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+          "oidc_discovery_url": "99d4d7115c571b819412a4e7f4fbb9f8e1c6c8ad98a44ebf0bd5009337331a98",
+          "oidc_response_mode": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+          "oidc_response_types": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "auth/github/role/github-drift": {
+        "status": "present",
+        "fields": {
+          "allowed_redirect_uris": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "bound_audiences": "1a0de2a816af527216c895e2fb830976d6843e46ff12ea3842d47035a9d4e8e4",
+          "bound_claims/event_name": "136188e966345b330ea041c0ab1e06933e4262ce90ce847bb224277b5d67c269",
+          "bound_claims/ref": "c0e67ecc0bd55ecca07b082f35ad5c6dee386dec7705b3613ae1f55da3369c8c",
+          "bound_claims/repository": "ae70f6285b3322af9df3e645738a79809a653150ea3416aef6d700ccbaf3b9b0",
+          "bound_claims/repository_id": "0556117de2f1414d4496ba6f38d45a11f0c4cec88dc3ac2f3efdfbe5ba6b6c2c",
+          "bound_claims/repository_owner_id": "2c9c85ca6b307ac03086e44e3d72478ab04c4719f419307e53337ff1b15cd971",
+          "bound_claims/sub": "39a76e29f8b12825fdd78526d3970f6e468f1a7b2c581f8cce6d3cf9158979a7",
+          "bound_claims/workflow_ref": "b330c05d449fd9a724a65edb41f511f07636dfe9b361b231df7753555fe7cb92",
+          "bound_claims_type": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+          "bound_subject": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+          "claim_mappings": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "clock_skew_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "expiration_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "groups_claim": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+          "max_age": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "not_before_leeway": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "oidc_scopes": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+          "role_type": "25f953392fff504646277154e3be0d822879465169b5cff4b387226c1ba42395",
+          "token_bound_cidrs": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "token_explicit_max_ttl": "bdc5d8a48c23897906b09a9a3680bd2e9c8b3121edbda36f949800f0959c8d55",
+          "token_max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_no_default_policy": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "token_num_uses": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "token_policies": "2af2caa4d91aabc9865fb8fd4f6aadfb12751b9f1d0b4b51de748c42e24afb48",
+          "token_ttl": "bdc5d8a48c23897906b09a9a3680bd2e9c8b3121edbda36f949800f0959c8d55",
+          "token_type": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+          "user_claim": "b8f15d32ba01b7b155ee6580459bdfa632acaf98307fcdb31bb9db47047dda98",
+          "user_claim_json_pointer": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "verbose_oidc_logging": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+        }
+      },
+      "sys/mounts/auth/token/tune": {
+        "status": "present",
+        "fields": {
+          "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "token_type": "616cc23fa39b9d1deff1fe02a99e741bfd38ed1204375a8e61aefefa12439324"
+        }
+      },
+      "sys/mounts/apps/tune": {
+        "status": "present",
+        "fields": {
+          "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+        }
+      },
+      "apps/config": {
+        "status": "present",
+        "fields": {
+          "cas_required": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "delete_version_after": "5a6b8ed57886cff8a27d996943486d8873884cb045e38a5b305c953715f83e79",
+          "max_versions": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+        }
+      },
+      "sys/mounts/certificates/tune": {
+        "status": "present",
+        "fields": {
+          "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+        }
+      },
+      "certificates/config/urls": {
+        "status": "present",
+        "fields": {
+          "crl_distribution_points": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "enable_templating": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "issuing_certificates": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "ocsp_servers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "certificates/config/crl": {
+        "status": "present",
+        "fields": {
+          "auto_rebuild": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "auto_rebuild_grace_period": "25341d415a4dd4b802c0c0393766c26c6223f193ade385c1f7f816343e3e9171",
+          "cross_cluster_revocation": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "delta_rebuild_interval": "cb38f6b964425f026d6c21a3f51b54b48737e922efdf90ac0c40e77813b02f61",
+          "disable": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "enable_delta": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "expiry": "8e66f37811701aec0c421cd12bfc98b06c9d3f928c3e3df4c737f1d481f6b4bc",
+          "ocsp_disable": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "ocsp_expiry": "25341d415a4dd4b802c0c0393766c26c6223f193ade385c1f7f816343e3e9171",
+          "unified_crl": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "unified_crl_on_existing_paths": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+        }
+      },
+      "certificates/roles/application": {
+        "status": "present",
+        "fields": {
+          "allow_any_name": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "allow_bare_domains": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "allow_glob_domains": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "allow_ip_sans": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "allow_localhost": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "allow_subdomains": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "allowed_domains": "52f674fa94a562d9153b650cbb0400177642e797bad400573322f495e9847985",
+          "allowed_domains_template": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "allowed_other_sans": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "allowed_uri_sans": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "basic_constraints_valid_for_non_ca": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "client_flag": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "code_signing_flag": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "country": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "email_protection_flag": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "enforce_hostnames": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "ext_key_usage": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "ext_key_usage_oids": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "generate_lease": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "issuer_ref": "1080a60800d9e5bddc69f51489c636a776bacaadb5368f46db4aa0947c67e3ba",
+          "key_bits": "bfa0ec8bdf2946547879d50a68687ea32e2fa628db187357415858b633d194d9",
+          "key_type": "e8b23eea492794f0ab96c8733248040a339ebf48aef55d2a79e4b7c3b8748d48",
+          "key_usage": "b633e8af0515e5b7697ee22d7487b1f36fcd5f6287b43af3e92aa1936b86a906",
+          "locality": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "max_ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "no_store": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "not_after": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+          "not_before_duration": "624b60c58c9d8bfb6ff1886c2fd605d2adeb6ea4da576068201b6c6958ce93f4",
+          "organization": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "ou": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "policy_identifiers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "postal_code": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "province": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "require_cn": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "server_flag": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "signature_bits": "51e8ea280b44e16934d4d611901f3d3afc41789840acdff81942c2f65009cd52",
+          "street_address": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "ttl": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "use_csr_common_name": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "use_csr_sans": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "use_pss": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+        }
+      },
+      "sys/mounts/cubbyhole/tune": {
+        "status": "present",
+        "fields": {
+          "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+        }
+      },
+      "sys/mounts/encryption/tune": {
+        "status": "present",
+        "fields": {
+          "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+        }
+      },
+      "encryption/keys/application": {
+        "status": "present",
+        "fields": {
+          "allow_plaintext_backup": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "auto_rotate_period": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "deletion_allowed": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "derived": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "exportable": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "min_decryption_version": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+          "min_encryption_version": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+          "supports_decryption": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "supports_derivation": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "supports_encryption": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+          "supports_signing": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "type": "34fa2f84695272ec318f1ddc54b660b64ea70d6129b96a53e37d50a324521ae5"
+        }
+      },
+      "sys/mounts/identity/tune": {
+        "status": "present",
+        "fields": {
+          "allowed_response_headers": "743aacb790358967e754fc338625d748d1e32431b8ef2613acdbb1ee362e2ab6",
+          "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "passthrough_request_headers": "278b44948bebc437f59fb8dd6ed581aea29a5b5476329c52c33dbca2d617de73"
+        }
+      },
+      "sys/mounts/nested/secrets/tune": {
+        "status": "present",
+        "fields": {
+          "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+        }
+      },
+      "nested/secrets/config": {
+        "status": "present",
+        "fields": {
+          "cas_required": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "delete_version_after": "5a6b8ed57886cff8a27d996943486d8873884cb045e38a5b305c953715f83e79",
+          "max_versions": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+        }
+      },
+      "sys/mounts/secret/tune": {
+        "status": "present",
+        "fields": {
+          "default_lease_ttl": "8b34042b7a96b3ba94b27ad723ca8f57787eefbab2083b3098173c444aefbfdf",
+          "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267"
+        }
+      },
+      "secret/config": {
+        "status": "present",
+        "fields": {
+          "cas_required": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "delete_version_after": "5a6b8ed57886cff8a27d996943486d8873884cb045e38a5b305c953715f83e79",
+          "max_versions": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d"
+        }
+      },
+      "sys/mounts/sys/tune": {
+        "status": "present",
+        "fields": {
+          "default_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "force_no_cache": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa",
+          "max_lease_ttl": "e79d3216cb7c099c18c4a902bb6ffbfa5d59fe1ca1981d1d8753716648e19267",
+          "passthrough_request_headers": "18c39ca782c7c884de20a91eff24eb4b060dc596dadfd49951b8894ac7195861"
+        }
+      }
+    },
+    "kv_paths": {
+      "apps/service/config": {
+        "status": "present",
+        "fields": [
+          "connection/host",
+          "connection/port"
+        ],
+        "rotation": {
+          "status": "current",
+          "age_days": 10
+        }
+      },
+      "nested/secrets/service/config": {
+        "status": "present",
+        "fields": [
+          "api_key"
+        ],
+        "rotation": {
+          "status": "current",
+          "age_days": 10
+        }
+      },
+      "secret/example-app/config": {
+        "status": "present",
+        "fields": [
+          "username"
+        ],
+        "rotation": {
+          "status": "overdue",
+          "age_days": 120
+        }
+      },
+      "secret/retired/config": {
+        "status": "present",
+        "fields": [
+          "password"
+        ],
+        "rotation": {
+          "status": "current",
+          "age_days": 10
+        }
+      }
+    },
+    "complete": true,
+    "findings": [
+      {
+        "kind": "rotation_overdue",
+        "path": "secret/example-app/config"
+      }
+    ],
+    "coverage": {
+      "vault_scope": "Vault Community instance; no namespaces",
+      "unsupported_details": [
+        {
+          "category": "secrets_engines",
+          "mount": "agent-registry/",
+          "type": "agent_registry",
+          "note": "Built-in registry does not expose mount tuning"
+        }
+      ],
+      "policy_families": [
+        "acl",
+        "password"
+      ],
+      "excluded": [
+        "KV v1 values",
+        "credentials and secret values",
+        "server storage/seal/TLS configuration",
+        "identity entities/groups",
+        "secret issuance/export endpoints"
+      ],
+      "resource_aliases": {},
+      "comparison_exceptions": []
+    }
+  },
+  "paths": {
+    "apps/service/config": {
+      "status": "present",
+      "fields": [
+        "connection/host",
+        "connection/port"
+      ],
+      "rotation": {
+        "status": "current",
+        "age_days": 10
+      }
+    },
+    "nested/secrets/service/config": {
+      "status": "present",
+      "fields": [
+        "api_key"
+      ],
+      "rotation": {
+        "status": "current",
+        "age_days": 10
+      }
+    },
+    "secret/example-app/config": {
+      "status": "present",
+      "fields": [
+        "username"
+      ],
+      "rotation": {
+        "status": "overdue",
+        "age_days": 120
+      }
+    },
+    "secret/retired/config": {
+      "status": "present",
+      "fields": [
+        "password"
+      ],
+      "rotation": {
+        "status": "current",
+        "age_days": 10
+      }
+    }
+  },
+  "findings": [
+    {
+      "kind": "rotation_overdue",
+      "path": "secret/example-app/config"
+    }
+  ],
+  "complete": true
+}

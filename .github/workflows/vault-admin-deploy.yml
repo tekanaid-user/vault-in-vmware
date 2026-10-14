@@ -1,3 +1,16 @@
+# Workstream 1 configuration deployment: import -> saved plan -> approved apply.
+# Manual main-only plan, gated by VAULT_AUTOMATION_ENABLED=true; choose ENV.
+# ENV-plan obtains admin_plan_role; ENV apply obtains a fresh admin_deploy_role.
+# Both use trusted self-hosted/vault-demo with Terraform, HTTPS/CA and protected
+# backend access. GitHub Environment reviewers are configured outside this YAML.
+# Reads admin-release.json and its pinned catalog/source; never manages KV values.
+# Imports update Terraform state; apply changes policies/mounts/AppRoles. Deletes
+# and replacements are blocked. Prior-environment success is reviewer-enforced.
+# Plan output: summary.json plus saved plan/manifest artifact, retained one day.
+# Manifest digest is a job output: apply verifies target/source/settings/backend
+# and bytes before using that exact plan. Cleanup removes local .admin-run files.
+# Adoption/recovery: Section 13 RUNBOOK.md and SCRIPT-REFERENCE.md.
+
 name: Vault admin deploy
 on:
   workflow_dispatch:
@@ -15,6 +28,7 @@ jobs:
   plan:
     if: github.ref == 'refs/heads/main' && vars.VAULT_AUTOMATION_ENABLED == 'true'
     runs-on: [self-hosted, vault-demo]
+    # Lower-privilege plan identity; import still needs protected state-backend access.
     environment: ${{ inputs.environment }}-plan
     permissions:
       contents: read
@@ -32,6 +46,7 @@ jobs:
         run: python3 13-Vault-Configuration-Promotion/scripts/admin-pipeline.py plan --env "$TARGET_ENV"
       - name: Publish resource action summary
         run: cat 13-Vault-Configuration-Promotion/.admin-run/summary.json >> "$GITHUB_STEP_SUMMARY"
+      # Include the saved plan/manifest; exclude provider cache and retain only one day.
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: vault-admin-plan-${{ github.run_id }}
@@ -42,9 +57,11 @@ jobs:
           retention-days: 1
       - if: always()
         run: rm -rf -- 13-Vault-Configuration-Promotion/.admin-run
+  # Separate job/reviewer boundary; restore the exact plan instead of planning again.
   apply:
     needs: plan
     runs-on: [self-hosted, vault-demo]
+    # Required reviewers must be configured for this Environment outside the workflow.
     environment: ${{ inputs.environment }}
     permissions:
       contents: read
@@ -58,6 +75,7 @@ jobs:
         with:
           name: vault-admin-plan-${{ github.run_id }}
           path: 13-Vault-Configuration-Promotion/.admin-run/
+      # The trusted job output anchors manifest integrity across artifact restoration.
       - name: Apply approved plan with fresh OIDC identity
         env:
           TARGET_ENV: ${{ inputs.environment }}

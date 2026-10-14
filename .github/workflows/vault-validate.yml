@@ -1,3 +1,14 @@
+# Regression CI for Section 13 changes: pull requests, main pushes, manual runs.
+# No OIDC/deployment permission, live Vault endpoint or remote state is needed.
+# Runner: hosted Ubuntu; manual runs may select one self-hosted/vault-pilot.
+# Installs checksum-verified pinned Vault/Terraform, runs disposable synthetic
+# unit/integration fixtures, validates Terraform roots with backend disabled,
+# and checks Bash syntax/CLI help. Tests exercise writes only in their fixtures.
+# Read-only Git permission; untrusted PR jobs must never use deployment runners.
+# Success means regression/static validation, not live environment acceptance.
+# No report artifacts are uploaded; inspect the job log for test/check results.
+# Scope/evidence: Section 13 VALIDATION.md and SCRIPT-REFERENCE.md.
+
 name: Validate Vault promotion and drift
 on:
   pull_request:
@@ -20,6 +31,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      # Use the same reviewed tool versions as the disposable OIDC demonstration.
       - name: Install pinned Vault and Terraform from official releases
         shell: bash
         run: |
@@ -39,8 +51,10 @@ jobs:
             chmod +x "$TOOL"
           done
           echo "$INSTALL_DIR" >> "$GITHUB_PATH"
+      # Test fixtures create/tear down their own synthetic Vaults; no live endpoint login.
       - name: Run tests with isolated local Vault servers
         run: python3 -m unittest discover -s 13-Vault-Configuration-Promotion/tests -v
+      # -backend=false prevents contacting configured remote state during static validation.
       - name: Validate Terraform roots (no remote backend or live deployment)
         shell: bash
         run: |
@@ -51,10 +65,12 @@ jobs:
             terraform -chdir="$TARGET" init -backend=false -input=false -lockfile=readonly
             terraform -chdir="$TARGET" validate
           done
+      # Syntax/help checks are non-executing entry-point checks, not live acceptance.
       - name: Check shell syntax and Python CLI entry points
         run: |
           for SCRIPT in 13-Vault-Configuration-Promotion/scripts/*.sh; do bash -n "$SCRIPT"; done
           python3 13-Vault-Configuration-Promotion/scripts/drift.py --help
+          python3 13-Vault-Configuration-Promotion/scripts/local-demo.py --help
           python3 13-Vault-Configuration-Promotion/scripts/oidc-check.py --help
           python3 13-Vault-Configuration-Promotion/scripts/render-report.py --help
           python3 13-Vault-Configuration-Promotion/scripts/admin-request.py --help

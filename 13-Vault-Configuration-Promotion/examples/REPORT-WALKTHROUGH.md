@@ -1,32 +1,42 @@
-# Read the first report
+# Read the report collected from the local Vault lab
 
-These files are **synthetic examples**, generated with the actual Python comparison, rotation and Markdown-rendering functions. Application names are fictitious. They were not collected from any live Vault.
+These reports were **collected from three running TLS Vault servers on the development machine**, using the actual `drift.py` CLI and read-only tokens. They are not manually assembled inventories. The servers contain deliberately seeded non-production test data; they are not recipient environments.
 
-Start with [the readable report](report.md). The machine-readable equivalents are [comparison.json](comparison.json) and [rotation-report.json](rotation-report.json).
+Start with [the readable report](report.md). Source collector output: [DEV](dev.json), [UAT](uat.json), [PROD](prod.json). Derived outputs: [comparison.json](comparison.json) and [rotation-report.json](rotation-report.json). [evidence.json](evidence.json) records collection time, Vault version, source boundary and checks.
 
-| Example finding | Evidence shown | Security's next step |
+## Observed differences
+
+The complete supported scan found **22 differences** across all five categories. Rotation reported **11 current, 1 overdue, 1 missing, 1 invalid and 1 future date**. Counts describe this captured lab run; regenerating after edits or as dates age can change them.
+
+| Actual local finding | Difference detected | Review interpretation |
 | --- | --- | --- |
-| The example application's `password` field differs | `secret/example-app/config` exists in all three environments. DEV/PROD show `password, username`; UAT shows only `username`. The comparison identifies `password` as the differing field. | Check the application's required fields and approved ticket. Values are not compared or displayed. |
-| Extra DEV path from an old name | `secret/example-app-old/config` exists in DEV and is absent in UAT/PROD. | Investigate rename/project history and application ownership. Query available Splunk audit history before considering cleanup. It is a candidate, not an approved deletion. |
-| Policy difference | `acl/application-reader` exists everywhere but its policy fingerprint differs in UAT. | Have Security inspect and compare the live policies using approved administrative access. Raw policy text is deliberately not exported. |
-| Overdue rotation | UAT example-app metadata reports age 120 days; sample threshold is 90. | Confirm the date represents an actual upstream credential rotation; coordinate with application owners. |
-| Missing rotation date | DEV's old-name path has no usable date. | Identify its owner and record the actual rotation date; do not substitute the last-write timestamp. |
+| ACL policies | UAT `acl/application-reader` differs; `acl/dev-only` exists only in DEV. | Review policy intent; raw text is excluded from reports. |
+| Password policy | `password/application` has a different length in PROD. | Reports configuration without generating passwords. |
+| Auth method | `local-users/` exists only in DEV. | Extra mount, tuning and user settings are visible. |
+| Secrets engine | `prototype/` exists only in DEV. | Mount differences are distinct from secret-path differences. |
+| AppRole | UAT `example-app` token TTL differs. | Field differences without fetching RoleIDs/SecretIDs. |
+| LDAP mapping | PROD developer-group policies differ. | API configuration/mapping inventory, not directory login validation. |
+| KV config/tuning | UAT `max_versions` and PROD lease tuning differ. | Review intended overrides. |
+| PKI/transit | PROD disables subdomains and has an extra transit key. | No key export or certificate issuance by reporting. |
+| Nested fields | PROD adds `connection/region` at `apps/service/config`. | Field names, not values. |
+| Missing field | UAT lacks `password` at `secret/example-app/config`. | Check expected structure/change request. |
+| Extra old path | DEV has `secret/example-app-old/config` without a date. | Investigate owner/audit history before cleanup. |
+| Deleted path | `secret/retired/config` is soft-deleted in PROD. | Deletion is not silently treated as parity. |
+| Rotation | UAT 120 days old; DEV missing/invalid dates; PROD future date. | Metadata quality and rotation timing are separate findings. |
+| JWT subject | `bound_claims/sub` differs per environment. | Intentional scoping remains visible because this lab preapproves no exceptions. |
 
-This sample has `complete: true` and `has_findings: true`; the scheduled workflow would save the report and finish with **exit 2**. The single-environment onboarding collector stays green if it can produce JSON, even when that JSON contains findings.
+`complete: true` plus `has_findings: true` gives the weekly report's **exit 2** classification. An actual denied-token scan and missing-environment comparison were also verified: unknown/incomplete/null parity, never a clean report. Real value GETs returned **403** on default, additional and nested KV mounts in every environment.
 
-If an environment cannot be collected, `missing_environment_reports` names it, `complete` becomes false and parity fields become `null`; the comparison job finishes with **exit 3**. If a policy/listing read is denied, the environment includes an unknown finding with its HTTP status. That is incomplete evidence, not a missing resource or a clean comparison.
+`same_selected_release` and `all_policies_match_selected_git` are `null` in inventory-only mode. Cross-environment comparison is real; this run does not assert catalog-wide Git compliance. Review unsupported/excluded details even with complete supported inventory.
 
-`same_selected_release` and `all_policies_match_selected_git` are `null` in inventory-only mode. Policy/configuration comparisons still occur across environments; an approved Git application baseline was not checked. Review `inventory.coverage.unsupported_details` and `approved_comparison_exceptions` as well as the headline result.
+## Real GitHub OIDC evidence
 
-## Where the files appear in Actions
+A separate [successful GitHub Actions run](https://github.com/tekanaid-user/vault-in-vmware/actions/runs/38474723943) on a local ephemeral container runner exchanged real GitHub JWTs against three disposable TLS Vaults. It verified rejected repository bindings, readable subkeys/denied values, introduced UAT drift and scoped Terraform plan/apply followed by an unchanged plan.
 
-Open the run's **Summary** for the readable tables. Download artifact **vault-drift-comparison** for `report.md`, `comparison.json` and `rotation-report.json`. Download **vault-drift-dev**, **vault-drift-uat** and **vault-drift-prod** for per-environment observed field names and coverage details. Retention is seven days.
+[oidc-evidence.json](oidc-evidence.json) records the run/artifact checksum; [oidc-pilot-report.json](oidc-pilot-report.json) is the actual downloaded artifact. This proves federation against disposable fixtures. The longer-running localhost lab report uses fresh scoped local tokens; it is not the weekly workflow connecting to those endpoints.
 
-To regenerate Markdown from downloaded JSON, from repository root:
+## Reproduce and review
 
-```bash
-python3 13-Vault-Configuration-Promotion/scripts/render-report.py \
-  comparison.json rotation-report.json > report.md
-```
+Follow [LOCAL-LAB.md](../LOCAL-LAB.md) to start the servers, collect twice and run tests. The same collectors/comparison/rendering are used by Actions. Never seed this lab into an existing production Vault.
 
-The renderer only selects reporting fields; it never connects to Vault. No last-access report or cleanup automation is implemented.
+For the weekly workflow, read the Summary and download `vault-drift-comparison` for Markdown/comparison/rotation files; per-environment artifacts contain inventories. Local collection writes equivalent outputs here. Actions retention is seven days. Reporting makes no corrections/deletions and does not implement last-access analysis.
